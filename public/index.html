@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan360 | The Complete Farmer Ecosystem</title>
+    
+    <!-- External Icons (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fas fa-leaf"></i>
+            <span>Kisan360</span>
+        </div>
+
+        <div class="nav-links">
+            <div class="nav-item active" onclick="navigate('dashboard')" data-section="dashboard">
+                <i class="fas fa-th-large"></i> <span data-lang-key="dashboard">Dashboard</span>
+            </div>
+            <div class="nav-item" onclick="navigate('doctor')" data-section="doctor">
+                <i class="fas fa-microscope"></i> <span data-lang-key="doctor">AI Crop Doctor</span>
+            </div>
+            <div class="nav-item" onclick="navigate('market')" data-section="market">
+                <i class="fas fa-chart-line"></i> <span data-lang-key="market">Mandi Rates</span>
+            </div>
+            <div class="nav-item" onclick="navigate('finance')" data-section="finance">
+                <i class="fas fa-calculator"></i> <span data-lang-key="finance">Loans & Schemes</span>
+            </div>
+            <!-- NEW SECTION: EQUIPMENT -->
+            <div class="nav-item" onclick="navigate('equipment')" data-section="equipment">
+                <i class="fas fa-tractor"></i> <span data-lang-key="equipment">Equipments</span>
+            </div>
+            <!-- NEW SECTION: MY SHOP -->
+            <div class="nav-item" onclick="navigate('myshop')" data-section="myshop">
+                <i class="fas fa-store-alt"></i> <span data-lang-key="myshop">Sell Produce</span>
+            </div>
+            <div class="nav-item" onclick="navigate('learn')" data-section="learn">
+                <i class="fas fa-graduation-cap"></i> <span data-lang-key="learn">Learning Hub</span>
+            </div>
+            <div class="nav-item" onclick="navigate('community')" data-section="community">
+                <i class="fas fa-users"></i> <span data-lang-key="community">Community</span>
+            </div>
+        </div>
+
+        <div class="user-profile">
+            <div class="user-avatar">JP</div>
+            <div>
+                <p style="font-size: 14px; font-weight: 600;">Jai Pandey</p>
+                <p style="font-size: 12px; color: rgba(255,255,255,0.7);">Pro Farmer</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        
+        <!-- HEADER -->
+        <header>
+            <div class="header-title">
+                <h2 id="page-title">Dashboard</h2>
+                <p id="page-subtitle">Welcome back, here is your daily farming overview.</p>
+            </div>
+            <!-- UPDATED LANGUAGE SWITCHER -->
+            <div class="lang-switch">
+                <button onclick="setLanguage('en')" id="btn-en" class="active">EN</button>
+                <button onclick="setLanguage('mr')" id="btn-mr">मराठी</button>
+                <button onclick="setLanguage('hi')" id="btn-hi">हिंदी</button>
+            </div>
+        </header>
+
+        <!-- 1. DASHBOARD PAGE -->
+        <section id="dashboard" class="section-page active">
+            <div class="card-grid">
+                <div class="card weather-card">
+                    <div class="card-info">
+                        <h3 id="weatherTemp">--°C</h3>
+                        <p id="weatherDesc" style="color: var(--text-dark); margin-bottom: 5px; font-weight: 500;">--</p>
+                        <p style="font-size: 12px; color: var(--text-light); margin-top: 5px;">
+                            📍 <span id="weatherLocation">Your Location</span>
+                        </p>
+                    </div>
+                    <div class="card-icon c-blue">
+                        <i id="weatherIcon" class="fas fa-cloud-sun"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <h3>₹2,450</h3>
+                        <p>Onion Price / q</p>
+                    </div>
+                    <div class="card-icon c-green"><i class="fas fa-rupee-sign"></i></div>
+                </div>
+                <div class="card">
+                    <div class="card-info">
+                        <h3>Good</h3>
+                        <p>Soil Health</p>
+                    </div>
+                    <div class="card-icon c-blue"><i class="fas fa-seedling"></i></div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 20px; color: var(--text-dark);">Recent Alerts</h3>
+            <div style="background: white; padding: 20px; border-radius: 15px; border-left: 5px solid #e74c3c; box-shadow: var(--shadow);">
+                <h4 style="color: #e74c3c; margin-bottom: 5px;"><i class="fas fa-exclamation-circle"></i> Pest Alert</h4>
+                <p style="color: var(--text-light);">Heavy Locust activity spotted in Nashik district. Ensure crops are covered.</p>
+            </div>
+        </section>
+
+        <!-- 2. UPDATED CROP DOCTOR PAGE -->
+        <section id="doctor" class="section-page">
+            <div class="doctor-layout">
+                <!-- Left: Inputs & Samples -->
+                <div class="doctor-input-col">
+                    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Upload Photo</h3>
+                        <p style="font-size: 13px; color: var(--text-light);">From Gallery or Camera</p>
+                        <input type="file" id="fileInput" accept="image/*" hidden onchange="handleImageUpload(this)">
+                    </div>
+                    
+                    <div>
+                        <h4 style="margin-bottom: 10px; color: var(--text-dark); font-size: 14px;">Or Select Demo Scenario:</h4>
+                        <div class="sample-grid">
+                            <div class="sample-thumb" onclick="selectSample('healthy', this)">
+                                <i class="fas fa-leaf" style="color: #2ecc71;"></i>
+                                <span>Healthy</span>
+                            </div>
+                            <div class="sample-thumb" onclick="selectSample('nitrogen', this)">
+                                <i class="fas fa-leaf" style="color: #f1c40f;"></i>
+                                <span>Yellowing</span>
+                            </div>
+                            <div class="sample-thumb" onclick="selectSample('rust', this)">
+                                <i class="fas fa-leaf" style="color: #e67e22;"></i>
+                                <span>Spots</span>
+                            </div>
+                            <div class="sample-thumb" onclick="selectSample('pest', this)">
+                                <i class="fas fa-bug" style="color: #e74c3c;"></i>
+                                <span>Pest</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Preview & Result -->
+                <div class="doctor-preview-col">
+                    <div class="scan-frame" id="scanFrame">
+                        <div class="scan-line"></div>
+                        <i class="fas fa-leaf big-icon" id="previewIcon"></i>
+                        <p class="placeholder-text" id="previewText">Select a scenario to start</p>
+                    </div>
+
+                    <button class="btn-primary" id="analyzeBtn" onclick="startAnalysis()" style="width: 100%;" disabled>
+                        Run AI Analysis
+                    </button>
+
+                    <!-- Dynamic Result Card -->
+                    <div class="diagnosis-card" id="scanResult">
+                        <div class="result-header" style="margin-top: 25px;">
+                            <div>
+                                <h3 id="resTitle" style="color: var(--text-dark);">Diagnosis Name</h3>
+                                <p id="resSeverity" style="font-size: 13px; color: #e74c3c;">Severity: High</p>
+                            </div>
+                            <span class="confidence-badge" id="resConfidence">98% Match</span>
+                        </div>
+                        <p id="resDesc" style="font-size: 14px; color: var(--text-light); line-height: 1.5;">
+                            Description of the disease goes here.
+                        </p>
+                        <div class="treatment-box">
+                            <h4><i class="fas fa-first-aid"></i> Recommended Treatment</h4>
+                            <ul id="resTreatment">
+                                <li>Treatment 1</li>
+                                <li>Treatment 2</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. MARKET PAGE -->
+        <section id="market" class="section-page">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3>Live Mandi Rates</h3>
+                <button class="btn-primary" onclick="fetchMandiRates()" style="width: auto;"><i class="fas fa-sync"></i> Refresh Rates</button>
+            </div>
+            
+            <!-- Dynamic Mandi Rates Container -->
+            <div id="mandiRatesContainer" style="background: white; border-radius: 20px; box-shadow: var(--shadow); padding: 25px;">
+                <p style="text-align: center; padding: 40px; color: var(--text-light);">
+                    📊 Loading latest market rates...
+                </p>
+            </div>
+        </section>
+
+        <!-- 4. FINANCE PAGE -->
+        <section id="finance" class="section-page">
+            <div class="doctor-layout">
+                <div class="calc-container">
+                    <h3>Loan Eligibility Calculator</h3>
+                    <p style="margin-bottom: 20px; color: var(--text-light);">Based on Scale of Finance 2026</p>
+                    
+                    <div class="form-group">
+                        <label>Land Size (Acres)</label>
+                        <input type="number" id="landInput" placeholder="e.g. 2.5">
+                    </div>
+                    <div class="form-group">
+                        <label>Crop Type</label>
+                        <select id="cropInput">
+                            <option value="35000">Wheat / Gahu</option>
+                            <option value="45000">Onion / Kanda</option>
+                            <option value="120000">Sugarcane / Us</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="calculateLoan()">Check Eligibility</button>
+                    
+                    <div id="loanResult" style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; display: none;">
+                        <strong>Max Loan Amount:</strong> <span id="amountDisplay">₹0</span><br>
+                        <small>Interest: 4% p.a. (Under KCC Scheme)</small>
+                    </div>
+                </div>
+
+                <div>
+                    <h3>Active Gov. Schemes 2026</h3>
+                    <div style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: var(--shadow);">
+                        <h4>PM-Kisan Samman</h4>
+                        <p style="font-size: 13px; color: var(--text-light);">₹6,000 per year income support.</p>
+                        <a href="#" style="color: var(--secondary-color); font-size: 13px; font-weight: bold;">Apply Now →</a>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: var(--shadow);">
+                        <h4>Magel Tyala Shettale</h4>
+                        <p style="font-size: 13px; color: var(--text-light);">Subsidy for farm ponds.</p>
+                        <a href="#" style="color: var(--secondary-color); font-size: 13px; font-weight: bold;">Apply Now →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. NEW: EQUIPMENT STORE -->
+        <section id="equipment" class="section-page">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3>Equipment Hub</h3>
+                <div class="eq-tabs">
+                    <div class="eq-tab active">Rent</div>
+                    <div class="eq-tab">Buy Used</div>
+                </div>
+            </div>
+            
+            <div class="eq-card-grid">
+                <!-- Item 1 -->
+                <div class="eq-card">
+                    <span class="eq-tag">Rent</span>
+                    <div class="eq-img"><i class="fas fa-tractor"></i></div>
+                    <h4>Mahindra 575 DI</h4>
+                    <p class="eq-price">₹600 / hr</p>
+                    <p style="font-size: 12px; color: #777;">45 HP, with Rotavator</p>
+                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;">Book Now</button>
+                </div>
+                <!-- Item 2 -->
+                <div class="eq-card">
+                    <span class="eq-tag">Rent</span>
+                    <div class="eq-img"><i class="fas fa-spray-can"></i></div>
+                    <h4>Agri Drone Sprayer</h4>
+                    <p class="eq-price">₹1000 / acre</p>
+                    <p style="font-size: 12px; color: #777;">10L Capacity, Pilot Incl.</p>
+                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;">Book Now</button>
+                </div>
+                <!-- Item 3 -->
+                <div class="eq-card">
+                    <span class="eq-tag" style="background: var(--primary-color);">Buy</span>
+                    <div class="eq-img"><i class="fas fa-water"></i></div>
+                    <h4>Drip Irrigation Kit</h4>
+                    <p class="eq-price">₹15,000</p>
+                    <p style="font-size: 12px; color: #777;">1 Acre Full Set, Used 1 yr</p>
+                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;">Contact Seller</button>
+                </div>
+                <!-- Item 4 -->
+                <div class="eq-card">
+                    <span class="eq-tag">Rent</span>
+                    <div class="eq-img"><i class="fas fa-truck-pickup"></i></div>
+                    <h4>Pickup Truck</h4>
+                    <p class="eq-price">₹12 / km</p>
+                    <p style="font-size: 12px; color: #777;">Tata Ace, 1 Ton Capacity</p>
+                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;">Book Now</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. NEW: MY SHOP (Direct to Buyer) -->
+        <section id="myshop" class="section-page">
+            <div class="shop-split">
+                <!-- Add Listing Form -->
+                <div class="calc-container">
+                    <h3><i class="fas fa-plus-circle"></i> Add New Listing</h3>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 15px;">Buyers will see this instantly.</p>
+                    
+                    <div class="form-group">
+                        <label>Crop Name</label>
+                        <select>
+                            <option>Onion</option>
+                            <option>Tomato</option>
+                            <option>Wheat</option>
+                            <option>Soybean</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity (Quintals)</label>
+                        <input type="number" placeholder="10">
+                    </div>
+                    <div class="form-group">
+                        <label>Expected Price (per Qtl)</label>
+                        <input type="number" placeholder="2500">
+                    </div>
+                    <div class="form-group">
+                        <label>Photo</label>
+                        <div style="border: 1px dashed #ccc; padding: 20px; text-align: center; border-radius: 10px; cursor: pointer;">
+                            <i class="fas fa-camera"></i> Upload
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="alert('Listing Published Successfully!')">Publish Listing</button>
+                </div>
+
+                <!-- Active Listings -->
+                <div>
+                    <h3>Your Active Listings</h3>
+                    
+                    <div class="listing-card">
+                        <div class="l-img"><i class="fas fa-carrot" style="color: orange; font-size: 30px;"></i></div>
+                        <div style="flex: 1;">
+                            <h4>Red Onion (Nashik)</h4>
+                            <p style="font-size: 13px; color: #555;">50 Quintals • ₹2,400/qtl</p>
+                            <span style="font-size: 11px; color: green; background: #e8f5e9; padding: 2px 6px; border-radius: 4px;">Live</span>
+                        </div>
+                        <button style="border: none; background: #eee; padding: 8px; border-radius: 5px; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                    </div>
+
+                    <div class="listing-card">
+                        <div class="l-img"><i class="fas fa-leaf" style="color: green; font-size: 30px;"></i></div>
+                        <div style="flex: 1;">
+                            <h4>Fenugreek (Methi)</h4>
+                            <p style="font-size: 13px; color: #555;">200 Bundles • ₹15/bundle</p>
+                            <span style="font-size: 11px; color: green; background: #e8f5e9; padding: 2px 6px; border-radius: 4px;">Live</span>
+                        </div>
+                        <button style="border: none; background: #eee; padding: 8px; border-radius: 5px; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                    </div>
+
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; border-left: 4px solid #3498db;">
+                        <strong>Buyer Request:</strong>
+                        <p style="font-size: 13px;">BigBasket agent looking for 100Q Potato. <a href="#">Connect</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. LEARNING HUB -->
+        <section id="learn" class="section-page">
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="vid-thumb" style="background: #2c3e50;"><i class="fas fa-play-circle" style="color: white;"></i></div>
+                    <div class="vid-info">
+                        <span>Organic</span>
+                        <h4>Zero Budget Natural Farming</h4>
+                        <p style="font-size: 12px; color: #888;">By Subhash Palekar • 12 mins</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="vid-thumb" style="background: #34495e;"><i class="fas fa-play-circle" style="color: white;"></i></div>
+                    <div class="vid-info">
+                        <span>Tech</span>
+                        <h4>Drip Irrigation Setup</h4>
+                        <p style="font-size: 12px; color: #888;">Jain Irrigation • 20 mins</p>
+                    </div>
+                </div>
+                <div class="video-card">
+                    <div class="vid-thumb" style="background: #1abc9c;"><i class="fas fa-play-circle" style="color: white;"></i></div>
+                    <div class="vid-info">
+                        <span>Market</span>
+                        <h4>Export Quality Packaging</h4>
+                        <p style="font-size: 12px; color: #888;">APEDA Guide • 15 mins</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. COMMUNITY -->
+        <section id="community" class="section-page">
+            <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; box-shadow: var(--shadow);">
+                <i class="fas fa-comments" style="font-size: 50px; color: var(--secondary-color); margin-bottom: 20px;"></i>
+                <h3>Farmer's Chaupal</h3>
+                <p style="color: var(--text-light); margin-bottom: 20px;">Connect with 5000+ farmers in Pune district.</p>
+                <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+                    <div style="border-bottom: 1px solid #eee; padding: 15px 0;">
+                        <strong>Ramesh P. (Baramati)</strong> asked:
+                        <p>"Best fertilizer for onions in late Kharif season?"</p>
+                        <small style="color: var(--secondary-color);">2 Replies • 10 mins ago</small>
+                    </div>
+                    <div style="padding: 15px 0;">
+                        <strong>Suresh K. (Junnar)</strong> asked:
+                        <p>"Is anyone selling reliable tomato seeds locally?"</p>
+                        <small style="color: var(--secondary-color);">5 Replies • 1 hour ago</small>
+                    </div>
+                </div>
+                <button class="btn-primary" style="margin-top: 20px;">Join Discussion</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>
