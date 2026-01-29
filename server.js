@@ -13,7 +13,12 @@ app.use(cors());
 app.use(express.json());
 
 // 1. Serve Static Files from 'public' folder
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Explicit route for root
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Configure Multer for processing image uploads (in memory)
 const upload = multer({ storage: multer.memoryStorage() });
@@ -142,6 +147,10 @@ app.post('/analyze', upload.single('image'), async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Kisan360 Backend running at http://localhost:${port}`);
-});
+if (require.main === module) {
+    app.listen(port, () => {
+        console.log(`Kisan360 Backend running at http://localhost:${port}`);
+    });
+}
+
+module.exports = app;
