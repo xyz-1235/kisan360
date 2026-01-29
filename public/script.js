@@ -304,41 +304,7 @@ async function fetchWithRetry(url, options, retries = 3) {
 }
 
 // ========== TRANSLATIONS ==========
-const translations = {
-    en: {
-        dashboard: "Dashboard",
-        doctor: "AI Crop Doctor",
-        market: "Mandi Rates",
-        finance: "Loans & Schemes",
-        equipment: "Equipments",
-        myshop: "Sell Produce",
-        learn: "Learning Hub",
-        community: "Community",
-        welcome: "Welcome back, here is your daily farming overview."
-    },
-    mr: {
-        dashboard: "डॅशबोर्ड",
-        doctor: "पीक डॉक्टर",
-        market: "बाजार भाव",
-        finance: "कर्ज आणि योजना",
-        equipment: "शेती अवजारे",
-        myshop: "शेतमाल विक्री",
-        learn: "प्रशिक्षण केंद्र",
-        community: "शेतकरी चर्चा",
-        welcome: "स्वागत आहे, येथे तुमचा दैनंदिन शेतीचा आढावा आहे."
-    },
-    hi: {
-        dashboard: "डैशबोर्ड",
-        doctor: "फसल डॉक्टर",
-        market: "मंडी भाव",
-        finance: "ऋण और योजनाएं",
-        equipment: "कृषि उपकरण",
-        myshop: "उपज बेचें",
-        learn: "शिक्षण केंद्र",
-        community: "किसान समुदाय",
-        welcome: "वापसी पर स्वागत है, यहाँ आपकी दैनिक खेती का अवलोकन है।"
-    }
-};
+/* Translations formerly here are merged into the main object */
 
 // ========== NAVIGATION ==========
 function navigate(sectionId) {

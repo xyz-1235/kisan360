@@ -127,6 +127,11 @@ header {
     margin-bottom: 30px;
 }
 
+/* Hide menu toggle on desktop */
+.menu-toggle {
+    display: none;
+}
+
 .header-title h2 {
     color: var(--text-dark);
     margin-bottom: 5px;
