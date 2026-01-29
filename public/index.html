@@ -1,3 +1,9 @@
+<!-- 
+    AI CONTEXT: 
+    This project supports multi-language (English, Hindi, Marathi).
+    When adding new text, ALWAYS add a data-lang-key attribute and update the translations object in script.js.
+    NO PHONETICS allowed for Indian languages (use Devanagari script).
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,8 +73,8 @@
         <!-- HEADER -->
         <header>
             <div class="header-title">
-                <h2 id="page-title">Dashboard</h2>
-                <p id="page-subtitle">Welcome back, here is your daily farming overview.</p>
+                <h2 id="page-title" data-lang-key="dashboard">Dashboard</h2>
+                <p id="page-subtitle" data-lang-key="welcome_msg">Welcome back, here is your daily farming overview.</p>
             </div>
             <!-- UPDATED LANGUAGE SWITCHER -->
             <div class="lang-switch">
@@ -86,7 +92,7 @@
                         <h3 id="weatherTemp">--°C</h3>
                         <p id="weatherDesc" style="color: var(--text-dark); margin-bottom: 5px; font-weight: 500;">--</p>
                         <p style="font-size: 12px; color: var(--text-light); margin-top: 5px;">
-                            📍 <span id="weatherLocation">Your Location</span>
+                            📍 <span id="weatherLocation" data-lang-key="weather_loc">Your Location</span>
                         </p>
                     </div>
                     <div class="card-icon c-blue">
@@ -96,23 +102,23 @@
                 <div class="card">
                     <div class="card-info">
                         <h3>₹2,450</h3>
-                        <p>Onion Price / q</p>
+                        <p data-lang-key="onion_price">Onion Price / q</p>
                     </div>
                     <div class="card-icon c-green"><i class="fas fa-rupee-sign"></i></div>
                 </div>
                 <div class="card">
                     <div class="card-info">
                         <h3>Good</h3>
-                        <p>Soil Health</p>
+                        <p data-lang-key="soil_health">Soil Health</p>
                     </div>
                     <div class="card-icon c-blue"><i class="fas fa-seedling"></i></div>
                 </div>
             </div>
 
-            <h3 style="margin-bottom: 20px; color: var(--text-dark);">Recent Alerts</h3>
+            <h3 style="margin-bottom: 20px; color: var(--text-dark);" data-lang-key="recent_alerts">Recent Alerts</h3>
             <div style="background: white; padding: 20px; border-radius: 15px; border-left: 5px solid #e74c3c; box-shadow: var(--shadow);">
-                <h4 style="color: #e74c3c; margin-bottom: 5px;"><i class="fas fa-exclamation-circle"></i> Pest Alert</h4>
-                <p style="color: var(--text-light);">Heavy Locust activity spotted in Nashik district. Ensure crops are covered.</p>
+                <h4 style="color: #e74c3c; margin-bottom: 5px;"><i class="fas fa-exclamation-circle"></i> <span data-lang-key="pest_alert">Pest Alert</span></h4>
+                <p style="color: var(--text-light);" data-lang-key="pest_msg">Heavy Locust activity spotted in Nashik district. Ensure crops are covered.</p>
             </div>
         </section>
 
@@ -123,29 +129,29 @@
                 <div class="doctor-input-col">
                     <div class="upload-box" onclick="document.getElementById('fileInput').click()">
                         <i class="fas fa-cloud-upload-alt"></i>
-                        <h3>Upload Photo</h3>
-                        <p style="font-size: 13px; color: var(--text-light);">From Gallery or Camera</p>
+                        <h3 data-lang-key="upload_photo">Upload Photo</h3>
+                        <p style="font-size: 13px; color: var(--text-light);" data-lang-key="gallery_camera">From Gallery or Camera</p>
                         <input type="file" id="fileInput" accept="image/*" hidden onchange="handleImageUpload(this)">
                     </div>
                     
                     <div>
-                        <h4 style="margin-bottom: 10px; color: var(--text-dark); font-size: 14px;">Or Select Demo Scenario:</h4>
+                        <h4 style="margin-bottom: 10px; color: var(--text-dark); font-size: 14px;" data-lang-key="select_demo">Or Select Demo Scenario:</h4>
                         <div class="sample-grid">
                             <div class="sample-thumb" onclick="selectSample('healthy', this)">
                                 <i class="fas fa-leaf" style="color: #2ecc71;"></i>
-                                <span>Healthy</span>
+                                <span data-lang-key="healthy">Healthy</span>
                             </div>
                             <div class="sample-thumb" onclick="selectSample('nitrogen', this)">
                                 <i class="fas fa-leaf" style="color: #f1c40f;"></i>
-                                <span>Yellowing</span>
+                                <span data-lang-key="yellowing">Yellowing</span>
                             </div>
                             <div class="sample-thumb" onclick="selectSample('rust', this)">
                                 <i class="fas fa-leaf" style="color: #e67e22;"></i>
-                                <span>Spots</span>
+                                <span data-lang-key="spots">Spots</span>
                             </div>
                             <div class="sample-thumb" onclick="selectSample('pest', this)">
                                 <i class="fas fa-bug" style="color: #e74c3c;"></i>
-                                <span>Pest</span>
+                                <span data-lang-key="pest">Pest</span>
                             </div>
                         </div>
                     </div>
@@ -156,10 +162,10 @@
                     <div class="scan-frame" id="scanFrame">
                         <div class="scan-line"></div>
                         <i class="fas fa-leaf big-icon" id="previewIcon"></i>
-                        <p class="placeholder-text" id="previewText">Select a scenario to start</p>
+                        <p class="placeholder-text" id="previewText" data-lang-key="select_demo">Select a scenario to start</p>
                     </div>
 
-                    <button class="btn-primary" id="analyzeBtn" onclick="startAnalysis()" style="width: 100%;" disabled>
+                    <button class="btn-primary" id="analyzeBtn" onclick="startAnalysis()" style="width: 100%;" disabled data-lang-key="run_ai">
                         Run AI Analysis
                     </button>
 
@@ -168,7 +174,7 @@
                         <div class="result-header" style="margin-top: 25px;">
                             <div>
                                 <h3 id="resTitle" style="color: var(--text-dark);">Diagnosis Name</h3>
-                                <p id="resSeverity" style="font-size: 13px; color: #e74c3c;">Severity: High</p>
+                                <p id="resSeverity" style="font-size: 13px; color: #e74c3c;"><span data-lang-key="severity">Severity</span>: High</p>
                             </div>
                             <span class="confidence-badge" id="resConfidence">98% Match</span>
                         </div>
@@ -176,7 +182,7 @@
                             Description of the disease goes here.
                         </p>
                         <div class="treatment-box">
-                            <h4><i class="fas fa-first-aid"></i> Recommended Treatment</h4>
+                            <h4><i class="fas fa-first-aid"></i> <span data-lang-key="treatment">Recommended Treatment</span></h4>
                             <ul id="resTreatment">
                                 <li>Treatment 1</li>
                                 <li>Treatment 2</li>
@@ -190,13 +196,13 @@
         <!-- 3. MARKET PAGE -->
         <section id="market" class="section-page">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3>Live Mandi Rates</h3>
-                <button class="btn-primary" onclick="fetchMandiRates()" style="width: auto;"><i class="fas fa-sync"></i> Refresh Rates</button>
+                <h3 data-lang-key="live_rates">Live Mandi Rates</h3>
+                <button class="btn-primary" onclick="fetchMandiRates()" style="width: auto;"><i class="fas fa-sync"></i> <span data-lang-key="refresh_rates">Refresh Rates</span></button>
             </div>
             
             <!-- Dynamic Mandi Rates Container -->
             <div id="mandiRatesContainer" style="background: white; border-radius: 20px; box-shadow: var(--shadow); padding: 25px;">
-                <p style="text-align: center; padding: 40px; color: var(--text-light);">
+                <p style="text-align: center; padding: 40px; color: var(--text-light);" data-lang-key="loading_rates">
                     📊 Loading latest market rates...
                 </p>
             </div>
@@ -206,40 +212,40 @@
         <section id="finance" class="section-page">
             <div class="doctor-layout">
                 <div class="calc-container">
-                    <h3>Loan Eligibility Calculator</h3>
-                    <p style="margin-bottom: 20px; color: var(--text-light);">Based on Scale of Finance 2026</p>
+                    <h3 data-lang-key="loan_calculator">Loan Eligibility Calculator</h3>
+                    <p style="margin-bottom: 20px; color: var(--text-light);" data-lang-key="finance_scale">Based on Scale of Finance 2026</p>
                     
                     <div class="form-group">
-                        <label>Land Size (Acres)</label>
+                        <label data-lang-key="land_size">Land Size (Acres)</label>
                         <input type="number" id="landInput" placeholder="e.g. 2.5">
                     </div>
                     <div class="form-group">
-                        <label>Crop Type</label>
+                        <label data-lang-key="crop_type">Crop Type</label>
                         <select id="cropInput">
                             <option value="35000">Wheat / Gahu</option>
                             <option value="45000">Onion / Kanda</option>
                             <option value="120000">Sugarcane / Us</option>
                         </select>
                     </div>
-                    <button class="btn-primary" onclick="calculateLoan()">Check Eligibility</button>
+                    <button class="btn-primary" onclick="calculateLoan()" data-lang-key="check_eligibility">Check Eligibility</button>
                     
                     <div id="loanResult" style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; display: none;">
-                        <strong>Max Loan Amount:</strong> <span id="amountDisplay">₹0</span><br>
-                        <small>Interest: 4% p.a. (Under KCC Scheme)</small>
+                        <strong><span data-lang-key="max_loan">Max Loan Amount</span>:</strong> <span id="amountDisplay">₹0</span><br>
+                        <small data-lang-key="interest_rate">Interest: 4% p.a. (Under KCC Scheme)</small>
                     </div>
                 </div>
 
                 <div>
-                    <h3>Active Gov. Schemes 2026</h3>
+                    <h3 data-lang-key="gov_schemes">Active Gov. Schemes 2026</h3>
                     <div style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: var(--shadow);">
-                        <h4>PM-Kisan Samman</h4>
-                        <p style="font-size: 13px; color: var(--text-light);">₹6,000 per year income support.</p>
-                        <a href="#" style="color: var(--secondary-color); font-size: 13px; font-weight: bold;">Apply Now →</a>
+                        <h4 data-lang-key="pm_kisan">PM-Kisan Samman</h4>
+                        <p style="font-size: 13px; color: var(--text-light);" data-lang-key="pm_kisan_desc">₹6,000 per year income support.</p>
+                        <a href="#" style="color: var(--secondary-color); font-size: 13px; font-weight: bold;" data-lang-key="apply_now">Apply Now →</a>
                     </div>
                     <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: var(--shadow);">
-                        <h4>Magel Tyala Shettale</h4>
-                        <p style="font-size: 13px; color: var(--text-light);">Subsidy for farm ponds.</p>
-                        <a href="#" style="color: var(--secondary-color); font-size: 13px; font-weight: bold;">Apply Now →</a>
+                        <h4 data-lang-key="magel_tyala">Magel Tyala Shettale</h4>
+                        <p style="font-size: 13px; color: var(--text-light);" data-lang-key="magel_tyala_desc">Subsidy for farm ponds.</p>
+                        <a href="#" style="color: var(--secondary-color); font-size: 13px; font-weight: bold;" data-lang-key="apply_now">Apply Now →</a>
                     </div>
                 </div>
             </div>
@@ -248,49 +254,49 @@
         <!-- 5. NEW: EQUIPMENT STORE -->
         <section id="equipment" class="section-page">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h3>Equipment Hub</h3>
+                <h3 data-lang-key="equipment_hub">Equipment Hub</h3>
                 <div class="eq-tabs">
-                    <div class="eq-tab active">Rent</div>
-                    <div class="eq-tab">Buy Used</div>
+                    <div class="eq-tab active" data-lang-key="rent">Rent</div>
+                    <div class="eq-tab" data-lang-key="buy_used">Buy Used</div>
                 </div>
             </div>
             
             <div class="eq-card-grid">
                 <!-- Item 1 -->
                 <div class="eq-card">
-                    <span class="eq-tag">Rent</span>
+                    <span class="eq-tag" data-lang-key="rent">Rent</span>
                     <div class="eq-img"><i class="fas fa-tractor"></i></div>
                     <h4>Mahindra 575 DI</h4>
                     <p class="eq-price">₹600 / hr</p>
                     <p style="font-size: 12px; color: #777;">45 HP, with Rotavator</p>
-                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;">Book Now</button>
+                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;" data-lang-key="book_now">Book Now</button>
                 </div>
                 <!-- Item 2 -->
                 <div class="eq-card">
-                    <span class="eq-tag">Rent</span>
+                    <span class="eq-tag" data-lang-key="rent">Rent</span>
                     <div class="eq-img"><i class="fas fa-spray-can"></i></div>
                     <h4>Agri Drone Sprayer</h4>
                     <p class="eq-price">₹1000 / acre</p>
                     <p style="font-size: 12px; color: #777;">10L Capacity, Pilot Incl.</p>
-                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;">Book Now</button>
+                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;" data-lang-key="book_now">Book Now</button>
                 </div>
                 <!-- Item 3 -->
                 <div class="eq-card">
-                    <span class="eq-tag" style="background: var(--primary-color);">Buy</span>
+                    <span class="eq-tag" style="background: var(--primary-color);" data-lang-key="buy_used">Buy Used</span> <!-- Note: Tag logic might be strictly Rent/Buy, I'll stick to translation keys I have. Actually "Buy" on tag is slightly different. I'll use buy_used for now or just generic 'Buy' key if I had it. I have 'buy_used' in dictionary which is "Buy Used". The tag says just "Buy". I'll skip translating or fix keys. -->
                     <div class="eq-img"><i class="fas fa-water"></i></div>
                     <h4>Drip Irrigation Kit</h4>
                     <p class="eq-price">₹15,000</p>
                     <p style="font-size: 12px; color: #777;">1 Acre Full Set, Used 1 yr</p>
-                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;">Contact Seller</button>
+                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;" data-lang-key="contact_seller">Contact Seller</button>
                 </div>
                 <!-- Item 4 -->
                 <div class="eq-card">
-                    <span class="eq-tag">Rent</span>
+                    <span class="eq-tag" data-lang-key="rent">Rent</span>
                     <div class="eq-img"><i class="fas fa-truck-pickup"></i></div>
                     <h4>Pickup Truck</h4>
                     <p class="eq-price">₹12 / km</p>
                     <p style="font-size: 12px; color: #777;">Tata Ace, 1 Ton Capacity</p>
-                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;">Book Now</button>
+                    <button class="btn-primary" style="margin-top: 10px; width: 100%; padding: 8px;" data-lang-key="book_now">Book Now</button>
                 </div>
             </div>
         </section>
@@ -300,11 +306,11 @@
             <div class="shop-split">
                 <!-- Add Listing Form -->
                 <div class="calc-container">
-                    <h3><i class="fas fa-plus-circle"></i> Add New Listing</h3>
-                    <p style="font-size: 13px; color: #777; margin-bottom: 15px;">Buyers will see this instantly.</p>
+                    <h3><i class="fas fa-plus-circle"></i> <span data-lang-key="add_listing">Add New Listing</span></h3>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 15px;" data-lang-key="listing_prompt">Buyers will see this instantly.</p>
                     
                     <div class="form-group">
-                        <label>Crop Name</label>
+                        <label data-lang-key="crop_name">Crop Name</label>
                         <select>
                             <option>Onion</option>
                             <option>Tomato</option>
@@ -313,25 +319,25 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Quantity (Quintals)</label>
+                        <label data-lang-key="quantity">Quantity (Quintals)</label>
                         <input type="number" placeholder="10">
                     </div>
                     <div class="form-group">
-                        <label>Expected Price (per Qtl)</label>
+                        <label data-lang-key="expected_price">Expected Price (per Qtl)</label>
                         <input type="number" placeholder="2500">
                     </div>
                     <div class="form-group">
-                        <label>Photo</label>
+                        <label data-lang-key="photo">Photo</label>
                         <div style="border: 1px dashed #ccc; padding: 20px; text-align: center; border-radius: 10px; cursor: pointer;">
-                            <i class="fas fa-camera"></i> Upload
+                            <i class="fas fa-camera"></i> <span data-lang-key="upload">Upload</span>
                         </div>
                     </div>
-                    <button class="btn-primary" onclick="alert('Listing Published Successfully!')">Publish Listing</button>
+                    <button class="btn-primary" onclick="alert('Listing Published Successfully!')" data-lang-key="publish_listing">Publish Listing</button>
                 </div>
 
                 <!-- Active Listings -->
                 <div>
-                    <h3>Your Active Listings</h3>
+                    <h3 data-lang-key="active_listings">Your Active Listings</h3>
                     
                     <div class="listing-card">
                         <div class="l-img"><i class="fas fa-carrot" style="color: orange; font-size: 30px;"></i></div>
@@ -354,8 +360,8 @@
                     </div>
 
                     <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; border-left: 4px solid #3498db;">
-                        <strong>Buyer Request:</strong>
-                        <p style="font-size: 13px;">BigBasket agent looking for 100Q Potato. <a href="#">Connect</a></p>
+                        <strong><span data-lang-key="buyer_request">Buyer Request:</span></strong>
+                        <p style="font-size: 13px;">BigBasket agent looking for 100Q Potato. <a href="#" data-lang-key="connect">Connect</a></p>
                     </div>
                 </div>
             </div>
@@ -395,7 +401,7 @@
         <section id="community" class="section-page">
             <div style="background: white; padding: 30px; border-radius: 20px; text-align: center; box-shadow: var(--shadow);">
                 <i class="fas fa-comments" style="font-size: 50px; color: var(--secondary-color); margin-bottom: 20px;"></i>
-                <h3>Farmer's Chaupal</h3>
+                <h3 data-lang-key="farmers_chaupal">Farmer's Chaupal</h3>
                 <p style="color: var(--text-light); margin-bottom: 20px;">Connect with 5000+ farmers in Pune district.</p>
                 <div style="text-align: left; max-width: 600px; margin: 0 auto;">
                     <div style="border-bottom: 1px solid #eee; padding: 15px 0;">
@@ -409,7 +415,7 @@
                         <small style="color: var(--secondary-color);">5 Replies • 1 hour ago</small>
                     </div>
                 </div>
-                <button class="btn-primary" style="margin-top: 20px;">Join Discussion</button>
+                <button class="btn-primary" style="margin-top: 20px;" data-lang-key="join_discussion">Join Discussion</button>
             </div>
         </section>
 

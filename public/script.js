@@ -5,8 +5,66 @@ let currentSample = null;
 let lastDiagnosisText = '';
 
 // ========== MULTI-LANGUAGE SUPPORT ==========
-const i18n = {
+const translations = {
     en: {
+        dashboard: "Dashboard",
+        doctor: "AI Crop Doctor",
+        market: "Mandi Rates",
+        finance: "Loans & Schemes",
+        equipment: "Equipments",
+        myshop: "Sell Produce",
+        learn: "Learning Hub",
+        community: "Community",
+        welcome_msg: "Welcome back, here is your daily farming overview.",
+        weather_loc: "Your Location",
+        onion_price: "Onion Price / q",
+        soil_health: "Soil Health",
+        recent_alerts: "Recent Alerts",
+        pest_alert: "Pest Alert",
+        pest_msg: "Heavy Locust activity spotted in Nashik district. Ensure crops are covered.",
+        upload_photo: "Upload Photo",
+        gallery_camera: "From Gallery or Camera",
+        select_demo: "Or Select Demo Scenario:",
+        healthy: "Healthy",
+        yellowing: "Yellowing",
+        spots: "Spots",
+        pest: "Pest",
+        run_ai: "Run AI Analysis",
+        severity: "Severity",
+        confidence: "Match",
+        treatment: "Recommended Treatment",
+        live_rates: "Live Mandi Rates",
+        refresh_rates: "Refresh Rates",
+        loading_rates: "📊 Loading latest market rates...",
+        loan_calculator: "Loan Eligibility Calculator",
+        finance_scale: "Based on Scale of Finance 2026",
+        land_size: "Land Size (Acres)",
+        crop_type: "Crop Type",
+        check_eligibility: "Check Eligibility",
+        max_loan: "Max Loan Amount",
+        interest_rate: "Interest: 4% p.a. (Under KCC Scheme)",
+        gov_schemes: "Active Gov. Schemes 2026",
+        pm_kisan_desc: "₹6,000 per year income support.",
+        apply_now: "Apply Now →",
+        magel_tyala_desc: "Subsidy for farm ponds.",
+        equipment_hub: "Equipment Hub",
+        rent: "Rent",
+        buy_used: "Buy Used",
+        book_now: "Book Now",
+        contact_seller: "Contact Seller",
+        add_listing: "Add New Listing",
+        listing_prompt: "Buyers will see this instantly.",
+        crop_name: "Crop Name",
+        quantity: "Quantity (Quintals)",
+        expected_price: "Expected Price (per Qtl)",
+        photo: "Photo",
+        upload: "Upload",
+        publish_listing: "Publish Listing",
+        active_listings: "Your Active Listings",
+        buyer_request: "Buyer Request:",
+        connect: "Connect",
+        farmers_chaupal: "Farmer's Chaupal",
+        join_discussion: "Join Discussion",
         analyzing: "🤖 Analyzing...",
         diagnosisPrompt: `You are an expert agricultural scientist. Analyze this plant/crop image and provide:
 1. Plant disease name or "Healthy Plant"
@@ -23,6 +81,64 @@ Respond ONLY with valid JSON:
 }`
     },
     mr: {
+        dashboard: "डॅशबोर्ड",
+        doctor: "एआय पीक डॉक्टर",
+        market: "बाजार भाव",
+        finance: "कर्ज आणि योजना",
+        equipment: "कृषी साधने",
+        myshop: "शेतमाल विक्री",
+        learn: "शिक्षण केंद्र",
+        community: "समुदाय",
+        welcome_msg: "परत स्वागत आहे, येथे आपला दैनंदिन शेतीचा आढावा आहे.",
+        weather_loc: "आपले स्थान",
+        onion_price: "कांद्याचा भाव / क्विंटल",
+        soil_health: "मातीचे आरोग्य",
+        recent_alerts: "अलीकडील सूचना",
+        pest_alert: "कीटक सूचना",
+        pest_msg: "नाशिक जिल्ह्यात टोळधाडीचा प्रादुर्भाव. पिके झाकून ठेवा.",
+        upload_photo: "फोटो अपलोड करा",
+        gallery_camera: "गॅलरी किंवा कॅमेर्‍यावरून",
+        select_demo: "किंवा डेमो परिस्थिती निवडा:",
+        healthy: "निरोगी",
+        yellowing: "पिवळसर",
+        spots: "डाग",
+        pest: "कीटक",
+        run_ai: "एआय विश्लेषण चालवा",
+        severity: "तीव्रता",
+        confidence: "जुळणी",
+        treatment: "शिफारस केलेले उपचार",
+        live_rates: "थेट बाजार भाव",
+        refresh_rates: "दर रिफ्रेश करा",
+        loading_rates: "📊 नवीनतम बाजार भाव लोड होत आहेत...",
+        loan_calculator: "कर्ज पात्रता कॅल्क्युलेटर",
+        finance_scale: "वित्त प्रमाण २०२६ वर आधारित",
+        land_size: "जमीन आकार (एकर)",
+        crop_type: "पिकाचा प्रकार",
+        check_eligibility: "पात्रता तपासा",
+        max_loan: "कमाल कर्ज रक्कम",
+        interest_rate: "व्याज: ४% प्रतिवर्ष (केसीसी योजनेअंतर्गत)",
+        gov_schemes: "सक्रिय सरकारी योजना २०२६",
+        pm_kisan_desc: "₹६,००० प्रति वर्ष उत्पन्न आधार.",
+        apply_now: "आता अर्ज करा →",
+        magel_tyala_desc: "शेततळ्यांसाठी अनुदान.",
+        equipment_hub: "कृषी अवजारे हब",
+        rent: "भाड्याने",
+        buy_used: "जुने विकत घ्या",
+        book_now: "आता बुक करा",
+        contact_seller: "विक्रेत्याशी संपर्क साधा",
+        add_listing: "नवीन लिस्टिंग जोडा",
+        listing_prompt: "खरेदीदारांना हे त्वरित दिसेल.",
+        crop_name: "पिकाचे नाव",
+        quantity: "प्रमाण (क्विंटल)",
+        expected_price: "अपेक्षित किंमत (प्रति क्विंटल)",
+        photo: "फोटो",
+        upload: "अपलोड करा",
+        publish_listing: "लिस्टिंग प्रकाशित करा",
+        active_listings: "तुमच्या सक्रिय लिस्टिंग्ज",
+        buyer_request: "खरेदीदाराची विनंती:",
+        connect: "जोडा",
+        farmers_chaupal: "शेतकऱ्यांची चौपाल",
+        join_discussion: "चर्चेत सामील व्हा",
         analyzing: "🤖 विश्लेषण करत आहे...",
         diagnosisPrompt: `तुम्ही कृषी तज्ञ आहात. वनस्पती प्रतिमेचे विश्लेषण करा:
 {
@@ -33,6 +149,64 @@ Respond ONLY with valid JSON:
 }`
     },
     hi: {
+        dashboard: "डैशबोर्ड",
+        doctor: "एआई फसल डॉक्टर",
+        market: "मंडी भाव",
+        finance: "ऋण और योजनाएं",
+        equipment: "कृषि उपकरण",
+        myshop: "उपज बेचें",
+        learn: "सीखने का केंद्र",
+        community: "समुदाय",
+        welcome_msg: "वापसी पर स्वागत है, यहाँ आपका दैनिक खेती अवलोकन है।",
+        weather_loc: "आपका स्थान",
+        onion_price: "प्याज का भाव / क्विंटल",
+        soil_health: "मिट्टी का स्वास्थ्य",
+        recent_alerts: "हालिया सूचनाएं",
+        pest_alert: "कीट सूचना",
+        pest_msg: "नाशिक जिले में टिड्डी दल की गतिविधि देखी गई। फसलें ढक कर रखें।",
+        upload_photo: "फोटो अपलोड करें",
+        gallery_camera: "गैलरी या कैमरे से",
+        select_demo: "या डेमो परिदृश्य चुनें:",
+        healthy: "स्वस्थ",
+        yellowing: "पीलापन",
+        spots: "धब्बे",
+        pest: "कीट",
+        run_ai: "एआई विश्लेषण चलाएं",
+        severity: "गंभीरता",
+        confidence: "मेल",
+        treatment: "अनुशंसित उपचार",
+        live_rates: "लाइव मंडी भाव",
+        refresh_rates: "दर रिफ्रेश करें",
+        loading_rates: "📊 नवीनतम बाजार भाव लोड हो रहे हैं...",
+        loan_calculator: "ऋण पात्रता कैलकुलेटर",
+        finance_scale: "वित्त पैमाना 2026 पर आधारित",
+        land_size: "जमीन का आकार (एकड़)",
+        crop_type: "फसल का प्रकार",
+        check_eligibility: "पात्रता जांचें",
+        max_loan: "अधिकतम ऋण राशि",
+        interest_rate: "ब्याज: 4% प्रति वर्ष (केसीसी योजना के तहत)",
+        gov_schemes: "सक्रिय सरकारी योजनाएं 2026",
+        pm_kisan_desc: "₹6,000 प्रति वर्ष आय सहायता।",
+        apply_now: "अभी आवेदन करें →",
+        magel_tyala_desc: "खेत तालाबों के लिए सब्सिडी।",
+        equipment_hub: "उपकरण हब",
+        rent: "किराये पर",
+        buy_used: "पुराना खरीदें",
+        book_now: "अभी बुक करें",
+        contact_seller: "विक्रेता से संपर्क करें",
+        add_listing: "नई लिस्टिंग जोड़ें",
+        listing_prompt: "खरीदारों को यह तुरंत दिखाई देगा।",
+        crop_name: "फसल का नाम",
+        quantity: "मात्रा (क्विंटल)",
+        expected_price: "अपेक्षित मूल्य (प्रति क्विंटल)",
+        photo: "फोटो",
+        upload: "अपलोड करें",
+        publish_listing: "लिस्टिंग प्रकाशित करें",
+        active_listings: "आपकी सक्रिय लिस्टिंग",
+        buyer_request: "खरीदार का अनुरोध:",
+        connect: "जोड़ें",
+        farmers_chaupal: "किसानों की चौपाल",
+        join_discussion: "चर्चा में शामिल हों",
         analyzing: "🤖 विश्लेषण कर रहे हैं...",
         diagnosisPrompt: `आप कृषि विशेषज्ञ हैं। पौधे की तस्वीर का विश्लेषण करें:
 {
@@ -43,6 +217,45 @@ Respond ONLY with valid JSON:
 }`
     }
 };
+
+let currentLang = 'en';
+
+function setLanguage(lang) {
+    if (!translations[lang]) return;
+    currentLang = lang;
+    
+    // Update active button state
+    document.querySelectorAll('.lang-switch button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    const activeBtn = document.getElementById(`btn-${lang}`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    // Update text content
+    document.querySelectorAll('[data-lang-key]').forEach(element => {
+        const key = element.getAttribute('data-lang-key');
+        if (translations[lang][key]) {
+            // Check if element is an input with placeholder
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = translations[lang][key];
+            } else {
+                element.textContent = translations[lang][key];
+            }
+        }
+    });
+
+    // Save preference
+    localStorage.setItem('kisan360_lang', lang);
+}
+
+// Initialize Language on Load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('kisan360_lang') || 'en';
+    setLanguage(savedLang);
+});
+
+// Alias for AI Crop Doctor to use current translation
+const i18n = translations;
 
 // ========== HELPER FUNCTIONS ==========
 // Retry failed API calls
@@ -297,37 +510,107 @@ function handleImageUpload(input) {
 
 // ========== CROP DOCTOR - DEMO SAMPLES ==========
 const diseaseDB = {
-    'healthy': {
-        title: 'Healthy Crop',
-        severity: 'None',
-        severityColor: '#27ae60',
-        confidence: '99%',
-        desc: 'The plant shows no signs of disease or nutrient deficiency. Leaves are vibrant green with healthy veins.',
-        treatments: ['Continue regular watering.', 'Maintain current fertilizer schedule.', 'Monitor for any changes.']
+    en: {
+        'healthy': {
+            title: 'Healthy Crop',
+            severity: 'None',
+            severityColor: '#27ae60',
+            confidence: '99%',
+            desc: 'The plant shows no signs of disease or nutrient deficiency. Leaves are vibrant green with healthy veins.',
+            treatments: ['Continue regular watering.', 'Maintain current fertilizer schedule.', 'Monitor for any changes.']
+        },
+        'nitrogen': {
+            title: 'Nitrogen Deficiency',
+            severity: 'Moderate',
+            severityColor: '#f1c40f',
+            confidence: '94%',
+            desc: 'Leaves are turning yellow (chlorosis) starting from the tips and moving down the midrib. Older leaves are affected first.',
+            treatments: ['Apply Nitrogen-rich fertilizer (Urea or Ammonium Sulfate).', 'Add composted manure to the soil.', 'Ensure soil is not waterlogged.']
+        },
+        'rust': {
+            title: 'Leaf Rust (Fungal)',
+            severity: 'High',
+            severityColor: '#e67e22',
+            confidence: '91%',
+            desc: 'Orange-brown pustules (spots) are visible on the underside of leaves. Can cause leaf drop and yield loss.',
+            treatments: ['Spray Propiconazole or Mancozeb fungicide.', 'Remove and burn infected leaves.', 'Avoid overhead watering to keep leaves dry.']
+        },
+        'pest': {
+            title: 'Aphid Infestation',
+            severity: 'Critical',
+            severityColor: '#e74c3c',
+            confidence: '88%',
+            desc: 'Small insects visible on leaf undersides. Leaves may curl or become distorted. Sticky residue (honeydew) present.',
+            treatments: ['Spray Neem Oil or Insecticidal Soap.', 'Introduce beneficial insects like Ladybugs.', 'Use yellow sticky traps.']
+        }
     },
-    'nitrogen': {
-        title: 'Nitrogen Deficiency',
-        severity: 'Moderate',
-        severityColor: '#f1c40f',
-        confidence: '94%',
-        desc: 'Leaves are turning yellow (chlorosis) starting from the tips and moving down the midrib. Older leaves are affected first.',
-        treatments: ['Apply Nitrogen-rich fertilizer (Urea or Ammonium Sulfate).', 'Add composted manure to the soil.', 'Ensure soil is not waterlogged.']
+    mr: {
+        'healthy': {
+            title: 'निरोगी पीक',
+            severity: 'काहीही नाही',
+            severityColor: '#27ae60',
+            confidence: '९९%',
+            desc: 'वनस्पतीवर कोणताही रोग किंवा कमतरता दिसत नाही. पाने हिरवीगार आणि तजेलदार आहेत.',
+            treatments: ['नियमित पाणी देणे चालू ठेवा.', 'सध्याचे खत नियोजन सुरू ठेवा.', 'पिकाचे निरीक्षण करा.']
+        },
+        'nitrogen': {
+            title: 'नायट्रोजनची कमतरता',
+            severity: 'मध्यम',
+            severityColor: '#f1c40f',
+            confidence: '९४%',
+            desc: 'पाने पिवळी पडत आहेत (क्लोरोसिस), शेंड्यापासून सुरुवात होऊन मध्य शिरेपर्यंत पसरत आहे. जुनी पाने आधी प्रभावित होतात.',
+            treatments: ['नायट्रोजनयुक्त खत (युरिया) द्या.', 'शेणखत / कंपोस्ट खत टाका.', 'जमिनीत पाणी साचणार नाही याची काळजी घ्या.']
+        },
+        'rust': {
+            title: 'पानांवरील तांबेरा (बुरशी)',
+            severity: 'जास्त',
+            severityColor: '#e67e22',
+            confidence: '९१%',
+            desc: 'पानांच्या खालच्या बाजूला नारंगी-तपकिरी ठिपके दिसत आहेत.',
+            treatments: ['प्रोपिकोनाझोल (Propiconazole) फवारणी करा.', 'संसर्ग झालेली पाने नष्ट करा.', 'पाने कोरडी ठेवा.']
+        },
+        'pest': {
+            title: 'मावा / तुडतुडे',
+            severity: 'गंभीर',
+            severityColor: '#e74c3c',
+            confidence: '८८%',
+            desc: 'पानांच्या खाली लहान कीटक दिसत आहेत. पाने वाकडी होऊ शकतात. चिकट पदार्थ जमा झाला आहे.',
+            treatments: ['कडुनिंब तेल किंवा कीटकनाशक साबण फवारणी करा.', 'पिवळे चिकट सापळे वापरा.']
+        }
     },
-    'rust': {
-        title: 'Leaf Rust (Fungal)',
-        severity: 'High',
-        severityColor: '#e67e22',
-        confidence: '91%',
-        desc: 'Orange-brown pustules (spots) are visible on the underside of leaves. Can cause leaf drop and yield loss.',
-        treatments: ['Spray Propiconazole or Mancozeb fungicide.', 'Remove and burn infected leaves.', 'Avoid overhead watering to keep leaves dry.']
-    },
-    'pest': {
-        title: 'Aphid Infestation',
-        severity: 'Critical',
-        severityColor: '#e74c3c',
-        confidence: '88%',
-        desc: 'Small insects visible on leaf undersides. Leaves may curl or become distorted. Sticky residue (honeydew) present.',
-        treatments: ['Spray Neem Oil or Insecticidal Soap.', 'Introduce beneficial insects like Ladybugs.', 'Use yellow sticky traps.']
+    hi: {
+        'healthy': {
+            title: 'स्वस्थ फसल',
+            severity: 'कोई नहीं',
+            severityColor: '#27ae60',
+            confidence: '99%',
+            desc: 'पौधे में बीमारी या पोषक तत्वों की कमी के कोई संकेत नहीं हैं। पत्तियां हरी-भरी हैं।',
+            treatments: ['नियमित पानी देना जारी रखें।', 'वर्तमान खाद अनुसूची बनाए रखें।', 'निगरानी करते रहें।']
+        },
+        'nitrogen': {
+            title: 'नाइट्रोजन की कमी',
+            severity: 'मध्यम',
+            severityColor: '#f1c40f',
+            confidence: '94%',
+            desc: 'पत्तियां पीली पड़ रही हैं (क्लोरोसिस)। पुरानी पत्तियां पहले प्रभावित होती हैं।',
+            treatments: ['नाइट्रोजन युक्त उर्वरक (यूरिया) डालें।', 'मिट्टी में खाद डालें।', 'सुनिश्चित करें कि जल जमाव न हो।']
+        },
+        'rust': {
+            title: 'रतुआ रोग (फंगल)',
+            severity: 'उच्च',
+            severityColor: '#e67e22',
+            confidence: '91%',
+            desc: 'पत्तियों के नीचे नारंगी-भूरे रंग के धब्बे दिखाई देते हैं।',
+            treatments: ['प्रोपिकोनाज़ोल (Propiconazole) का छिड़काव करें।', 'संक्रमित पत्तियों को हटा दें।', 'पत्तियों को सूखा रखें।']
+        },
+        'pest': {
+            title: 'एफिड संक्रमण (कीट)',
+            severity: 'गंभीर',
+            severityColor: '#e74c3c',
+            confidence: '88%',
+            desc: 'पत्तियों के नीचे छोटे कीड़े दिखाई दे रहे हैं। पत्तियां मुड़ सकती हैं।',
+            treatments: ['नीम का तेल छिड़कें।', 'पीले चिपचिपे जाल का प्रयोग करें।']
+        }
     }
 };
 
@@ -359,7 +642,13 @@ function selectSample(type, el) {
     prevIcon.style.color = iconMap[type][1];
     prevIcon.style.fontSize = '80px';
     
-    document.getElementById('previewText').innerText = "Demo Sample Loaded. Ready to Analyze.";
+    const readyMsg = {
+        en: "Demo Sample Loaded. Ready to Analyze.",
+        mr: "डेमो सॅम्पल लोड झाले. विश्लेषणासाठी तयार.",
+        hi: "डेमो नमूना लोड किया गया। विश्लेषण के लिए तैयार।"
+    };
+    
+    document.getElementById('previewText').innerText = readyMsg[currentLang] || readyMsg['en'];
     document.getElementById('analyzeBtn').disabled = false;
     document.getElementById('scanResult').style.display = 'none';
 }
@@ -373,10 +662,10 @@ async function startAnalysis() {
     
     const btn = document.getElementById('analyzeBtn');
     const frame = document.getElementById('scanFrame');
-    const currentLangCode = document.querySelector('.lang-switch button.active').id.replace('btn-', '');
+    const currentLangCode = currentLang; // Use global variable set by setLanguage
     
     btn.disabled = true;
-    btn.innerText = i18n[currentLangCode]?.analyzing || "🤖 Analyzing...";
+    btn.innerText = translations[currentLangCode]?.analyzing || "🤖 Analyzing...";
     frame.classList.add('scanning');
     
     if (currentImageBase64) {
@@ -389,7 +678,7 @@ async function startAnalysis() {
     
     frame.classList.remove('scanning');
     btn.disabled = false;
-    btn.innerText = "Start AI Diagnosis";
+    btn.innerText = translations[currentLangCode]?.run_ai || "Run AI Analysis";
 }
 
 // Run Groq AI Analysis
@@ -442,10 +731,14 @@ async function runGroqAnalysis() {
 async function runDemoAnalysis() {
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    const demoData = diseaseDB[currentSample];
+    // Select language db, fallback to 'en'
+    const langDB = diseaseDB[currentLang] || diseaseDB['en'];
+    const demoData = langDB[currentSample];
+    
     const data = {
         name: demoData.title,
         severity: demoData.severity,
+        severityColor: demoData.severityColor, // Pass color from DB
         description: demoData.desc,
         treatments: demoData.treatments,
         confidence: demoData.confidence
@@ -461,12 +754,23 @@ function displayDiagnosisResults(data) {
         'Low': '#27ae60',
         'Moderate': '#f1c40f',
         'High': '#e67e22',
-        'Critical': '#e74c3c'
+        'Critical': '#e74c3c',
+        // Localized Keys
+        'काहीही नाही': '#27ae60', 'मध्यम': '#f1c40f', 'जास्त': '#e67e22', 'गंभीर': '#e74c3c',
+        'कोई नहीं': '#27ae60', 'उच्च': '#e67e22'
     };
     
     document.getElementById('resTitle').innerText = data.name;
-    document.getElementById('resSeverity').innerText = `Severity: ${data.severity}`;
-    document.getElementById('resSeverity').style.color = severityColors[data.severity] || '#f1c40f';
+    
+    const sevLabel = translations[currentLang]?.severity || 'Severity';
+    document.getElementById('resSeverity').innerText = `${sevLabel}: ${data.severity}`;
+    
+    if (data.severityColor) {
+         document.getElementById('resSeverity').style.color = data.severityColor;
+    } else {
+         document.getElementById('resSeverity').style.color = severityColors[data.severity] || '#f1c40f';
+    }
+
     document.getElementById('resDesc').innerText = data.description;
     
     const list = document.getElementById('resTreatment');
@@ -478,8 +782,9 @@ function displayDiagnosisResults(data) {
         list.appendChild(li);
     });
     
+    const matchLabel = translations[currentLang]?.confidence || 'Match';
     if (data.confidence) {
-        document.getElementById('resConfidence').innerText = `${data.confidence} Match`;
+        document.getElementById('resConfidence').innerText = `${data.confidence} ${matchLabel}`;
     } else {
         document.getElementById('resConfidence').innerText = 'AI Analysis';
     }
