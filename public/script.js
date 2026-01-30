@@ -732,8 +732,9 @@ async function runGroqAnalysis() {
 
     // 2. Prepare the data to send to your local server
     const formData = new FormData();
-    formData.append("image", file); // This MUST match upload.single("image") in server.js
-    formData.append("language", currentLang || "en"); // Pass current language to backend
+    formData.append("image", file); 
+    // Explicitly send current language (default 'en')
+    formData.append("language", currentLang || "en"); 
 
     try {
         console.log('Sending request to /analyze...');

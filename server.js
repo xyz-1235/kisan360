@@ -187,7 +187,8 @@ app.post('/analyze', upload.single('image'), async (req, res) => {
                             1. Use very simple, easy-to-understand language.
                             2. Avoid complex scientific jargon.
                             3. Focus on practical, actionable advice.
-                            4. Translate the output (name, description, treatments) to this Language: ${userLang}.
+                            4. TRULY TRANSLATE the VALUES (name, description, treatments) into: ${userLang}.
+                            5. KEEP all JSON KEYS (name, severity, severityColor, confidence, description, treatments) in English.
                             
                             Return a strictly valid JSON object.
                             Do not accept markdown formatting like \`\`\`json. Just the raw JSON.

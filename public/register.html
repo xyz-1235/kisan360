@@ -74,11 +74,15 @@
     <input id="name" placeholder="Full Name" />
     <input id="email" type="email" placeholder="Email" />
     <input id="password" type="password" placeholder="Password" />
-    <input id="village" placeholder="Village" />
+    
+    <select id="role" style="width: 100%; padding: 13px; margin-bottom: 14px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 14px; background: white;">
+        <option value="farmer">I am a Farmer</option>
+        <option value="buyer">I am a Buyer</option>
+    </select>
+
+    <input id="village" placeholder="Village / City" />
     <input id="state" placeholder="State" />
 
-    <!-- Role is hidden/defaulted to Farmer -->
-    
     <!-- ✅ IMPORTANT FIX -->
     <button type="button" onclick="register()">Register</button>
 
@@ -102,7 +106,7 @@ async function register() {
       password: document.getElementById("password").value,
       village: document.getElementById("village").value.trim(),
       state: document.getElementById("state").value.trim(),
-      role: "farmer" // Default role
+      role: document.getElementById("role").value
     };
 
     if (!data.name || !data.email || !data.password) {
@@ -119,8 +123,9 @@ async function register() {
     const result = await res.json();
 
     if (res.ok) {
-      alert("Registration successful! Redirecting to login page...");
-      window.location.replace("login.html");
+        alert("Registration successful! Click OK to go to Login.");
+        // Use href instead of replace to ensure history push, and wait for alert to close
+        window.location.href = "login.html";
     } else {
       alert(result.error || "Registration failed");
     }
