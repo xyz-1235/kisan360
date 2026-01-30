@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kisan360 | Register</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #eef2f7);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #fff;
+      width: 390px;
+      padding: 34px;
+      border-radius: 14px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      text-align: center;
+      color: #15803d;
+      margin-bottom: 22px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .link {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .link a {
+      color: #16a34a;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h2>Create Account</h2>
+
+    <!-- ❌ NO FORM TAG -->
+    <input id="name" placeholder="Full Name" />
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <input id="village" placeholder="Village" />
+    <input id="state" placeholder="State" />
+
+    <select id="role">
+      <option value="farmer">Farmer</option>
+      <option value="admin">Admin</option>
+    </select>
+
+    <!-- ✅ IMPORTANT FIX -->
+    <button type="button" onclick="register()">Register</button>
+
+    <div class="link">
+      Already have an account?
+      <a href="login.html">Login</a>
+    </div>
+  </div>
+
+<script>
+async function register() {
+  const data = {
+    name: document.getElementById("name").value.trim(),
+    email: document.getElementById("email").value.trim(),
+    password: document.getElementById("password").value,
+    village: document.getElementById("village").value.trim(),
+    state: document.getElementById("state").value.trim(),
+    role: document.getElementById("role").value
+  };
+
+  if (!data.name || !data.email || !data.password) {
+    alert("Name, email and password are required");
+    return;
+  }
+
+  const res = await fetch("/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await res.json();
+
+  if (res.ok) {
+    alert("Registration successful!");
+    window.location.href = "login.html";
+  } else {
+    alert(result.error);
+  }
+}
+</script>
+</body>
+</html>

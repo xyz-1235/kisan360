@@ -4,6 +4,8 @@ const multer = require('multer');
 const cors = require('cors');
 const Groq = require('groq-sdk');
 const path = require('path');
+const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 3000;
@@ -14,6 +16,28 @@ app.use(express.json());
 
 // 1. Serve Static Files from 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Initialize SQLite Database
+const db = new sqlite3.Database('./kisan360.db', (err) => {
+    if (err) {
+        console.error("Error opening database " + err.message);
+    } else {
+        console.log("Connected to the SQLite database.");
+        db.run(`CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT UNIQUE,
+            password TEXT,
+            village TEXT,
+            state TEXT,
+            role TEXT
+        )`, (err) => {
+            if (err) {
+                console.error("Error creating table: " + err.message);
+            }
+        });
+    }
+});
 
 // Explicit route for root
 app.get('/', (req, res) => {
@@ -34,6 +58,47 @@ if (process.env.GROQ_API_KEY) {
 }
 
 // --- ROUTES ---
+
+// AUTH ROUTES
+app.post('/register', async (req, res) => {
+    const { name, email, password, village, state, role } = req.body;
+    if (!name || !email || !password) {
+        return res.status(400).json({ error: "Name, email and password are required" });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const sql = `INSERT INTO users (name, email, password, village, state, role) VALUES (?, ?, ?, ?, ?, ?)`;
+        db.run(sql, [name, email, hashedPassword, village, state, role], function(err) {
+            if (err) {
+                return res.status(400).json({ error: "Email already exists or database error" });
+            }
+            res.json({ message: "User registered successfully", userId: this.lastID });
+        });
+    } catch (e) {
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    const sql = `SELECT * FROM users WHERE email = ?`;
+    
+    db.get(sql, [email], async (err, user) => {
+        if (err) return res.status(500).json({ error: "Database error" });
+        if (!user) return res.status(400).json({ error: "User not found" });
+
+        const match = await bcrypt.compare(password, user.password);
+        if (match) {
+            res.json({ 
+                message: "Login successful", 
+                user: { id: user.id, name: user.name, email: user.email, role: user.role } 
+            });
+        } else {
+            res.status(400).json({ error: "Invalid password" });
+        }
+    });
+});
 
 // --- REALISTIC MOCK DATA FOR DEMO ---
 const MOCK_MANDI_DATA = {
@@ -115,22 +180,26 @@ app.post('/analyze', upload.single('image'), async (req, res) => {
                     content: [
                         {
                             type: "text",
-                            text: `You are an expert agricultural scientist named 'Kisan360 Doctor'. 
+                            text: `You are 'Kisan360 Doctor', a friendly agricultural expert helping a farmer. 
                             Analyze this plant image for diseases. 
+                            
+                            Instructions:
+                            1. Use very simple, easy-to-understand language.
+                            2. Avoid complex scientific jargon.
+                            3. Focus on practical, actionable advice.
+                            4. Translate the output (name, description, treatments) to this Language: ${userLang}.
                             
                             Return a strictly valid JSON object.
                             Do not accept markdown formatting like \`\`\`json. Just the raw JSON.
                             
-                            Output Language: ${userLang} (Translate the name, description, and treatments to this language).
-                            
                             The JSON schema must be:
                             {
-                                "name": "Name of disease or 'Healthy'",
+                                "name": "Simple Name of disease (e.g., 'Leaf Rust')",
                                 "severity": "Low, Moderate, High, or Critical",
                                 "severityColor": "Hex color code (e.g., #27ae60 for healthy, #e74c3c for critical)",
                                 "confidence": "Percentage string (e.g., '95%')",
-                                "description": "Short description of symptoms observed.",
-                                "treatments": ["Step 1", "Step 2", "Step 3"]
+                                "description": "1-2 simple sentences explaining what is wrong.",
+                                "treatments": ["Simple Step 1", "Simple Step 2", "Simple Step 3"]
                             }`
                         },
                         {
