@@ -3,6 +3,45 @@ let currentImageBase64 = null;
 let uploadedImageData = null;
 let currentSample = null;
 let lastDiagnosisText = '';
+const currentUser = JSON.parse(localStorage.getItem("user"));
+
+// ========== AUTHENTICATION CHECK ==========
+function checkAuth() {
+    const loggedInDiv = document.getElementById('userLoggedIn');
+    const loggedOutDiv = document.getElementById('userLoggedOut');
+    const userNameEl = document.getElementById('userName');
+    const userRoleEl = document.getElementById('userRole');
+    const userAvatarEl = document.getElementById('userAvatar');
+
+    if (currentUser) {
+        loggedInDiv.style.display = 'block';
+        loggedOutDiv.style.display = 'none';
+        userNameEl.innerText = currentUser.name;
+        userRoleEl.innerText = currentUser.role || 'Farmer';
+        userAvatarEl.innerText = currentUser.name.charAt(0).toUpperCase();
+
+        // Update welcome message if element exists
+        const subtitle = document.getElementById('page-subtitle');
+        if (subtitle) {
+             // Keep translation logic but append name
+             // (Translating first, then updating might be tricky, checking structure)
+        }
+    } else {
+        loggedInDiv.style.display = 'none';
+        loggedOutDiv.style.display = 'block';
+    }
+}
+
+// Call on startup
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuth();
+    fetchWeatherData(); // Load weather on startup
+});
+
+function logout() {
+    localStorage.removeItem("user");
+    window.location.reload();
+}
 
 // ========== API CONFIGURATION ==========
 // If running on Live Server (ports 5500-5510), point to Node backend on port 3000.
@@ -401,7 +440,13 @@ async function fetchWeatherData() {
     }
 }
 
-// Helper: Fetch for a specific default location
+// Call on startup
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuth();
+    // fetchWeatherData(); // Removed duplicative call as it overrides DOMContentLoaded below
+});
+
+// Helper: Fetch for a specific default default location
 async function fetchWeatherDataByCoords(lat, lon, cityName) {
     try {
         const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
@@ -1264,5 +1309,5 @@ function fireConfetti() {
 // ========== INITIALIZATION ==========
 document.addEventListener('DOMContentLoaded', () => {
     navigate('dashboard');
-    fetchWeatherData(); // Load weather on startup
+    // Weather is already called in the top auth listener, no need to duplicate
 });

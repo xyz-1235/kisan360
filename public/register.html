@@ -77,11 +77,8 @@
     <input id="village" placeholder="Village" />
     <input id="state" placeholder="State" />
 
-    <select id="role">
-      <option value="farmer">Farmer</option>
-      <option value="admin">Admin</option>
-    </select>
-
+    <!-- Role is hidden/defaulted to Farmer -->
+    
     <!-- ✅ IMPORTANT FIX -->
     <button type="button" onclick="register()">Register</button>
 
@@ -92,34 +89,44 @@
   </div>
 
 <script>
+// If running on Live Server (ports 5500-5510), point to Node backend on port 3000.
+const API_BASE_URL = (window.location.port && parseInt(window.location.port) >= 5500 && parseInt(window.location.port) <= 5510)
+    ? 'http://localhost:3000'
+    : '';
+
 async function register() {
-  const data = {
-    name: document.getElementById("name").value.trim(),
-    email: document.getElementById("email").value.trim(),
-    password: document.getElementById("password").value,
-    village: document.getElementById("village").value.trim(),
-    state: document.getElementById("state").value.trim(),
-    role: document.getElementById("role").value
-  };
+  try {
+    const data = {
+      name: document.getElementById("name").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      password: document.getElementById("password").value,
+      village: document.getElementById("village").value.trim(),
+      state: document.getElementById("state").value.trim(),
+      role: "farmer" // Default role
+    };
 
-  if (!data.name || !data.email || !data.password) {
-    alert("Name, email and password are required");
-    return;
-  }
+    if (!data.name || !data.email || !data.password) {
+      alert("Name, email and password are required");
+      return;
+    }
 
-  const res = await fetch("/register", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
+    const res = await fetch(`${API_BASE_URL}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
 
-  const result = await res.json();
+    const result = await res.json();
 
-  if (res.ok) {
-    alert("Registration successful!");
-    window.location.href = "login.html";
-  } else {
-    alert(result.error);
+    if (res.ok) {
+      alert("Registration successful! Redirecting to login page...");
+      window.location.replace("login.html");
+    } else {
+      alert(result.error || "Registration failed");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error: Could not connect to server. Make sure it is running!");
   }
 }
 </script>

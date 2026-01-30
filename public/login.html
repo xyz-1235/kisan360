@@ -125,6 +125,11 @@
   </div>
 
   <script>
+    // If running on Live Server (ports 5500-5510), point to Node backend on port 3000.
+    const API_BASE_URL = (window.location.port && parseInt(window.location.port) >= 5500 && parseInt(window.location.port) <= 5510)
+        ? 'http://localhost:3000'
+        : '';
+
     document.getElementById("loginBtn").addEventListener("click", login);
 
     async function login() {
@@ -137,7 +142,7 @@
       }
 
       try {
-        const res = await fetch("/login", {
+        const res = await fetch(`${API_BASE_URL}/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password })
