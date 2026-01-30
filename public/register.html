@@ -88,7 +88,7 @@
 
     <div class="link">
       Already have an account?
-      <a href="login.html">Login</a>
+      <a href="index.html">Login</a>
     </div>
   </div>
 
@@ -125,7 +125,7 @@ async function register() {
     if (res.ok) {
         alert("Registration successful! Click OK to go to Login.");
         // Use href instead of replace to ensure history push, and wait for alert to close
-        window.location.href = "login.html";
+        window.location.href = "index.html";
     } else {
       alert(result.error || "Registration failed");
     }

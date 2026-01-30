@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function logout() {
     localStorage.removeItem("user");
-    window.location.reload();
+    window.location.href = "index.html";
 }
 
 // ========== API CONFIGURATION ==========

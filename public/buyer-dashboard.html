@@ -213,7 +213,7 @@
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user || user.role !== 'buyer') {
            // Basic protection - uncomment to enforce
-           // window.location.href = 'login.html';
+           // window.location.href = 'index.html';
         } else {
             document.getElementById('userName').innerText = user.name;
             document.getElementById('avatar').innerText = user.name.charAt(0).toUpperCase();
@@ -221,7 +221,7 @@
 
         function logout() {
             localStorage.removeItem('user');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
     </script>
 </body>
