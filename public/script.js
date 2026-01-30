@@ -4,26 +4,6 @@ let uploadedImageData = null;
 let currentSample = null;
 let lastDiagnosisText = '';
 
-// ========== MOBILE SIDEBAR TOGGLE ==========
-function toggleSidebar() {
-    const sidebar = document.querySelector('.sidebar');
-    if (sidebar) {
-        sidebar.classList.toggle('active');
-    }
-}
-
-// Close sidebar when clicking on nav items on mobile
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const sidebar = document.querySelector('.sidebar');
-            if (window.innerWidth <= 768 && sidebar) {
-                sidebar.classList.remove('active');
-            }
-        });
-    });
-});
-
 // ========== MULTI-LANGUAGE SUPPORT ==========
 const translations = {
     en: {
