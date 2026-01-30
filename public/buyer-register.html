@@ -86,7 +86,7 @@
 
     <div class="link">
       Already have an account?
-      <a href="login.html">Login</a>
+      <a href="index.html">Login</a>
     </div>
   </div>
 
@@ -123,8 +123,8 @@ async function register() {
     const result = await res.json();
 
     if (res.ok) {
-      alert("Registration successful! Redirecting to login page...");
-      window.location.replace("login.html");
+        alert("Registration successful! Click OK to go to Login.");
+        window.location.href = "index.html";
     } else {
       alert(result.error || "Registration failed");
     }
