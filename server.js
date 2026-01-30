@@ -17,8 +17,14 @@ app.use(express.json());
 // 1. Serve Static Files from 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize SQLite Database
-const db = new sqlite3.Database('./kisan360.db', (err) => {
+// Initialize SQLite Database (Handle Vercel/Read-Only Filesystem)
+const dbPath = process.env.VERCEL || process.env.NODE_ENV === 'production' 
+    ? path.join('/tmp', 'kisan360.db') 
+    : './kisan360.db';
+
+console.log(`Using SQLite database at: ${dbPath}`);
+
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error("Error opening database " + err.message);
     } else {
