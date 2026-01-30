@@ -4,6 +4,13 @@ let uploadedImageData = null;
 let currentSample = null;
 let lastDiagnosisText = '';
 
+// ========== API CONFIGURATION ==========
+// If running on Live Server (ports 5500-5510), point to Node backend on port 3000.
+// Otherwise, assume backend is serving the frontend (same origin).
+const API_BASE_URL = (window.location.port && parseInt(window.location.port) >= 5500 && parseInt(window.location.port) <= 5510)
+    ? 'http://localhost:3000'
+    : '';
+
 // ========== MULTI-LANGUAGE SUPPORT ==========
 const translations = {
     en: {
@@ -311,6 +318,8 @@ function navigate(sectionId) {
         setTimeout(() => fetchWeatherData(), 500);
     } else if (sectionId === 'market') {
         setTimeout(() => fetchMandiRates(), 500);
+    } else if (sectionId === 'equipment') {
+        setTimeout(() => initEquipment(), 100);
     }
 }
 
@@ -604,6 +613,7 @@ function selectSample(type, el) {
     };
     
     const prevIcon = document.getElementById('previewIcon');
+    prevIcon.innerHTML = ''; // Clear any uploaded image from file upload
     prevIcon.className = `fas ${iconMap[type][0]} big-icon`;
     prevIcon.style.color = iconMap[type][1];
     prevIcon.style.fontSize = '80px';
@@ -649,9 +659,25 @@ async function startAnalysis() {
 
 // Run Groq AI Analysis
 async function runGroqAnalysis() {
-// 1. Get the actual file from the input element
+    // 1. Get the actual file from the input element OR from memory (fragility fix)
     const fileInput = document.getElementById('fileInput');
-    const file = fileInput.files[0];
+    let file = fileInput.files[0];
+
+    // Fallback if fileInput is empty but we have an image in memory (e.g. via drag-and-drop or other UI flow)
+    if (!file && currentImageBase64) {
+        try {
+            // Convert base64 back to a binary blob
+            const byteCharacters = atob(currentImageBase64);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            file = new Blob([byteArray], { type: 'image/jpeg' });
+        } catch (e) {
+            console.error("Failed to convert base64 to blob:", e);
+        }
+    }
 
     // Check if a file actually exists
     if (!file) {
@@ -662,11 +688,12 @@ async function runGroqAnalysis() {
     // 2. Prepare the data to send to your local server
     const formData = new FormData();
     formData.append("image", file); // This MUST match upload.single("image") in server.js
+    formData.append("language", currentLang || "en"); // Pass current language to backend
 
     try {
         console.log('Sending request to /analyze...');
         // 3. Send to your Node.js backend
-        const response = await fetch("/analyze", {
+        const response = await fetch(`${API_BASE_URL}/analyze`, {
             method: "POST",
             body: formData
             // Note: Do NOT set headers manually; the browser handles it for FormData
@@ -765,7 +792,7 @@ async function fetchMandiRates() {
     
     try {
         // Fetch from our local proxy which connects to data.gov.in
-        const response = await fetch('/api/mandi');
+        const response = await fetch(`${API_BASE_URL}/api/mandi`);
         
         if (!response.ok) {
            throw new Error("Failed to fetch from API");
@@ -977,6 +1004,261 @@ function calculateLoan() {
     const totalLoan = acres * scaleOfFinance;
     amountDisplay.innerText = "₹" + totalLoan.toLocaleString('en-IN');
     resultDisplay.style.display = 'block';
+}
+
+// ========== EQUIPMENT HUB FUNCTIONS ==========
+const equipmentData = [
+    { id: 1, name: 'Mahindra 575 DI', type: 'rent', icon: 'fa-tractor', price: 600, unit: '/hr', specs: '45 HP • Rotavator Included • Diesel' },
+    { id: 2, name: 'Agri Drone Sprayer', type: 'rent', icon: 'fa-plane-departure', price: 1200, unit: '/acre', specs: '10L Capacity • Pilot Included • Precision Spraying' },
+    { id: 3, name: 'Drip Irrigation Kit', type: 'buy', icon: 'fa-water', price: 15000, unit: '', specs: '1 Acre Full Set • Used 1 year • Good Condition' },
+    { id: 4, name: 'Harvest Pickup', type: 'rent', icon: 'fa-truck-pickup', price: 25, unit: '/km', specs: 'Tata Ace • 1 Ton Capacity • Driver Included' },
+    { id: 5, name: 'Rotavator 6ft', type: 'buy', icon: 'fa-fan', price: 35000, unit: '', specs: 'Heavy Duty • 42 Blades • 2 Years Old' },
+    { id: 6, name: 'Power Tiller', type: 'rent', icon: 'fa-dharmachakra', price: 400, unit: '/hr', specs: 'Petrol Engine • Easy Handling • With Attachments' }
+];
+
+let selectedItem = null;
+let bookings = [];
+
+function initEquipment() {
+    renderCards('all');
+    setupTabs();
+    
+    // Set min date to today
+    const dateInput = document.getElementById('date');
+    if(dateInput) {
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.min = today;
+        dateInput.value = today;
+    }
+}
+
+function renderCards(filter) {
+    const container = document.getElementById('cardsContainer');
+    if(!container) return;
+    
+    const items = filter === 'all' ? equipmentData : equipmentData.filter(e => e.type === filter);
+    
+    container.innerHTML = items.map(item => `
+        <div class="card">
+            <div class="card-header">
+                <i class="fas ${item.icon}"></i>
+                <span class="tag ${item.type}">${item.type === 'buy' ? 'Buy Used' : 'Rent'}</span>
+            </div>
+            <div class="card-content">
+                <h3>${item.name}</h3>
+                <div class="price">₹${item.price.toLocaleString()}<span style="font-size:14px; font-weight:500; color:#7f8c8d">${item.unit}</span></div>
+                <div class="specs">${item.specs}</div>
+                <button class="btn-primary" style="width:100%; margin-top:10px" onclick="openModal(${item.id})">
+                    <i class="fas ${item.type === 'buy' ? 'fa-phone' : 'fa-calendar-check'}"></i>
+                    ${item.type === 'buy' ? 'Contact Seller' : 'Book Now'}
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function setupTabs() {
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+            renderCards(e.target.dataset.filter);
+        });
+    });
+}
+
+function openModal(id) {
+    selectedItem = equipmentData.find(e => e.id === id);
+    const modal = document.getElementById('modal');
+    const formView = document.getElementById('formView');
+    const confirmView = document.getElementById('confirmView');
+    const rentFields = document.getElementById('rentFields');
+    const title = document.getElementById('modalTitle');
+    const btn = document.getElementById('confirmBtn');
+
+    if(!modal) return;
+
+    if(formView) formView.style.display = 'block';
+    if(confirmView) confirmView.classList.remove('show');
+    
+    const bookingForm = document.getElementById('bookingForm');
+    if(bookingForm) bookingForm.reset();
+    
+    if(document.getElementById('date')) {
+        document.getElementById('date').value = new Date().toISOString().split('T')[0];
+    }
+
+    if (selectedItem.type === 'buy') {
+        if(title) title.innerHTML = `<i class="fas fa-phone"></i> Contact Seller`;
+        if(rentFields) rentFields.style.display = 'none';
+        if(btn) btn.innerHTML = `Request Callback`;
+    } else {
+        if(title) title.innerHTML = `<i class="fas fa-calendar-check"></i> Book ${selectedItem.name}`;
+        if(rentFields) rentFields.style.display = 'block';
+        if(btn) btn.innerHTML = `Confirm Booking`;
+        if(document.getElementById('unitPrice')) document.getElementById('unitPrice').textContent = `₹${selectedItem.price} ${selectedItem.unit}`;
+        updatePrice();
+    }
+
+    modal.classList.add('active');
+}
+
+function closeModal() {
+    const modal = document.getElementById('modal');
+    if(modal) modal.classList.remove('active');
+}
+
+function updatePrice() {
+    if (!selectedItem || selectedItem.type === 'buy') return;
+    const qtyInput = document.getElementById('quantity');
+    const qty = qtyInput ? qtyInput.value : 1;
+    const total = selectedItem.price * qty;
+    const totalEl = document.getElementById('totalPrice');
+    if(totalEl) totalEl.textContent = `₹${total.toLocaleString()}`;
+}
+
+function submitForm(e) {
+    if(e) e.preventDefault();
+    const btn = document.getElementById('confirmBtn');
+    
+    if(btn) {
+        btn.classList.add('loading');
+        btn.textContent = 'Processing...';
+    }
+
+    setTimeout(() => {
+        const nameInput = document.getElementById('name');
+        const dateInput = document.getElementById('date');
+        const qtyInput = document.getElementById('quantity');
+        const phoneInput = document.getElementById('phone');
+        
+        const formData = {
+            id: Date.now(),
+            itemId: selectedItem.id,
+            itemName: selectedItem.name,
+            icon: selectedItem.icon,
+            type: selectedItem.type,
+            customer: nameInput ? nameInput.value : 'Customer',
+            date: dateInput ? dateInput.value : '',
+            quantity: qtyInput ? qtyInput.value : 1,
+            total: selectedItem.type === 'buy' ? selectedItem.price : (selectedItem.price * (qtyInput ? qtyInput.value : 1))
+        };
+
+        bookings.push(formData);
+        updateBookedList();
+        showSuccessView(formData);
+        fireConfetti();
+        
+        if(btn) btn.classList.remove('loading');
+    }, 800);
+}
+
+function showSuccessView(data) {
+    const formView = document.getElementById('formView');
+    const confirmView = document.getElementById('confirmView');
+    const details = document.getElementById('confDetails');
+    const title = document.getElementById('confHead');
+    const sub = document.getElementById('confSub');
+
+    if(formView) formView.style.display = 'none';
+    if(confirmView) confirmView.classList.add('show');
+
+    if (data.type === 'buy') {
+        if(title) title.textContent = 'Interest Registered!';
+        if(sub) sub.textContent = 'The seller has been notified and will call you shortly.';
+        if(details) {
+            const phoneInput = document.getElementById('phone');
+            details.innerHTML = `
+                <div class="detail-item"><span>Equipment</span><span>${data.itemName}</span></div>
+                <div class="detail-item"><span>Price</span><span>₹${data.total.toLocaleString()}</span></div>
+                <div class="detail-item"><span>Your Number</span><span>${phoneInput ? phoneInput.value : 'N/A'}</span></div>
+            `;
+        }
+    } else {
+        if(title) title.textContent = 'Booking Confirmed!';
+        if(sub) sub.textContent = 'Your equipment has been reserved successfully.';
+        if(details) {
+            details.innerHTML = `
+                <div class="detail-item"><span>Equipment</span><span>${data.itemName}</span></div>
+                <div class="detail-item"><span>Date</span><span>${data.date}</span></div>
+                <div class="detail-item"><span>Duration</span><span>${data.quantity} ${selectedItem.unit.replace('/','')}</span></div>
+                <div class="detail-item"><span>Total Cost</span><span>₹${data.total.toLocaleString()}</span></div>
+            `;
+        }
+    }
+}
+
+function updateBookedList() {
+    const container = document.getElementById('bookedContainer');
+    if(!container) return;
+    
+    if (bookings.length === 0) {
+        container.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--light); background: var(--white); border-radius: 12px; border: 2px dashed var(--border);">
+            <i class="fas fa-tractor" style="font-size: 40px; margin-bottom: 15px; opacity: 0.5;"></i>
+            <p>You haven't booked any equipment yet.</p>
+        </div>`;
+        return;
+    }
+
+    container.innerHTML = bookings.map(b => `
+        <div class="booked-card ${b.type === 'buy' ? 'buy-type' : ''}">
+            <div class="booked-content">
+                <div class="booked-icon" style="color: ${b.type === 'buy' ? 'var(--accent)' : 'var(--primary)'}">
+                    <i class="fas ${b.icon}"></i>
+                </div>
+                <div class="booked-info">
+                    <h4>${b.itemName}</h4>
+                    <p><strong>Ref:</strong> #${b.id.toString().slice(-6)}</p>
+                    <p><strong>Date:</strong> ${b.date}</p>
+                    <p><strong>Status:</strong> ${b.type === 'buy' ? 'Seller Contacted' : 'Reserved'}</p>
+                    <p style="color:var(--text-dark); font-weight:700; margin-top:4px">₹${b.total.toLocaleString()}</p>
+                </div>
+            </div>
+            <div class="booked-actions">
+                <button class="cancel-btn" onclick="cancelBooking(${b.id})">
+                    <i class="fas fa-times-circle"></i> Cancel Booking
+                </button>
+            </div>
+        </div>
+    `).join('');
+
+    const bookedSection = document.getElementById('bookedSection');
+    if(bookedSection) bookedSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+function cancelBooking(id) {
+    if(confirm("Are you sure you want to cancel this booking?")) {
+        bookings = bookings.filter(b => b.id !== id);
+        updateBookedList();
+        showToast("Booking cancelled successfully");
+    }
+}
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    const msg = document.getElementById('toastMsg');
+    if(toast && msg) {
+        msg.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+}
+
+function fireConfetti() {
+    const container = document.getElementById('confetti');
+    if(!container) return;
+    
+    const colors = ['#2ecc71', '#3498db', '#f1c40f', '#e74c3c'];
+    
+    for(let i=0; i<50; i++) {
+        const conf = document.createElement('div');
+        conf.classList.add('confetti-piece');
+        conf.style.left = Math.random() * 100 + 'vw';
+        conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+        container.appendChild(conf);
+    }
 }
 
 // ========== INITIALIZATION ==========

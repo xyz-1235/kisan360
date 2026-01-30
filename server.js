@@ -23,10 +23,15 @@ app.get('/', (req, res) => {
 // Configure Multer for processing image uploads (in memory)
 const upload = multer({ storage: multer.memoryStorage() });
 
-// Initialize Groq Client
-const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY
-});
+// Initialize Groq Client (Conditionally)
+let groq;
+if (process.env.GROQ_API_KEY) {
+    groq = new Groq({
+        apiKey: process.env.GROQ_API_KEY
+    });
+} else {
+    console.warn("WARNING: GROQ_API_KEY is missing. AI features will not work locally.");
+}
 
 // --- ROUTES ---
 
@@ -86,14 +91,22 @@ app.get('/api/mandi', async (req, res) => {
 // 3. Plant Analysis Route (Groq AI)
 app.post('/analyze', upload.single('image'), async (req, res) => {
     try {
+        if (!groq) {
+            return res.status(503).json({ 
+                error: "AI Service Unavailable", 
+                details: "Server is running without GROQ_API_KEY. Configure .env file to enable this feature." 
+            });
+        }
+
         if (!req.file) {
             return res.status(400).json({ error: "No image file provided" });
         }
 
+        const userLang = req.body.language || "en";
         const base64Image = req.file.buffer.toString('base64');
         const dataUrl = `data:${req.file.mimetype};base64,${base64Image}`;
 
-        console.log("Processing image for analysis...");
+        console.log(`Processing image for analysis (Language: ${userLang})...`);
 
         const completion = await groq.chat.completions.create({
             messages: [
@@ -108,10 +121,13 @@ app.post('/analyze', upload.single('image'), async (req, res) => {
                             Return a strictly valid JSON object.
                             Do not accept markdown formatting like \`\`\`json. Just the raw JSON.
                             
+                            Output Language: ${userLang} (Translate the name, description, and treatments to this language).
+                            
                             The JSON schema must be:
                             {
                                 "name": "Name of disease or 'Healthy'",
                                 "severity": "Low, Moderate, High, or Critical",
+                                "severityColor": "Hex color code (e.g., #27ae60 for healthy, #e74c3c for critical)",
                                 "confidence": "Percentage string (e.g., '95%')",
                                 "description": "Short description of symptoms observed.",
                                 "treatments": ["Step 1", "Step 2", "Step 3"]
