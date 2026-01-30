@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan360 | Buyer Dashboard</title>
+    <!-- External Icons (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #0284c7;
+            --bg-light: #f0f9ff;
+            --text-dark: #334155;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 30px;
+            width: 100%;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 150px;
+            background: #eee;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            object-fit: cover;
+        }
+
+        .price-tag {
+            color: var(--primary-blue);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .btn-buy {
+            width: 100%;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .user-profile {
+            position: absolute;
+            bottom: 20px;
+            width: 85%;
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fas fa-shopping-basket"></i>
+            <span>Kisan360 Buyer</span>
+        </div>
+        
+        <div class="nav-item active">
+            <i class="fas fa-store"></i> Marketplace
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-box-open"></i> My Orders
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-envelope"></i> Messages
+        </div>
+
+        <div class="user-profile">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+                <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;" id="avatar">B</div>
+                <div>
+                    <div style="font-weight: 600;" id="userName">Buyer</div>
+                    <div style="font-size: 12px; opacity: 0.8;">Verified Buyer</div>
+                </div>
+            </div>
+            <button onclick="logout()" style="width: 100%; background: white; color: var(--primary-blue); border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: 600;">Logout</button>
+        </div>
+    </aside>
+
+    <div class="content">
+        <div class="header">
+            <div>
+                <h2>Fresh Produce Marketplace</h2>
+                <p style="color: #64748b;">Connect directly with verified farmers</p>
+            </div>
+            <button style="background: white; border: 1px solid #cbd5e1; padding: 10px 20px; border-radius: 8px;">
+                <i class="fas fa-filter"></i> Filter
+            </button>
+        </div>
+
+        <div class="card-grid" id="marketplace-grid">
+            <!-- Mock Data -->
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=400" class="product-img">
+                <h3>Fresh Tomatoes</h3>
+                <p style="font-size: 13px; color: #64748b;">Farmer: Ramesh Patil (Nashik)</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="price-tag">₹1,200/q</span>
+                    <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 4px 8px; border-radius: 4px;">50 Quintals</span>
+                </div>
+                <button class="btn-buy" onclick="alert('Contact Request Sent to Farmer!')">Contact Farmer</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=400" class="product-img">
+                <h3>Organic Potatoes</h3>
+                <p style="font-size: 13px; color: #64748b;">Farmer: Suresh Deshmukh (Pune)</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="price-tag">₹1,800/q</span>
+                    <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 4px 8px; border-radius: 4px;">20 Quintals</span>
+                </div>
+                <button class="btn-buy" onclick="alert('Contact Request Sent to Farmer!')">Contact Farmer</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=400" class="product-img">
+                <h3>Premium Wheat</h3>
+                <p style="font-size: 13px; color: #64748b;">Farmer: Amar Singh (Punjab)</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="price-tag">₹2,200/q</span>
+                    <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 4px 8px; border-radius: 4px;">100 Quintals</span>
+                </div>
+                <button class="btn-buy" onclick="alert('Contact Request Sent to Farmer!')">Contact Farmer</button>
+            </div>
+            
+             <div class="product-card">
+                <img src="https://plus.unsplash.com/premium_photo-1664302152990-264b4cda9ce9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="product-img">
+                <h3>Soyabeans</h3>
+                <p style="font-size: 13px; color: #64748b;">Farmer: Omkar Patil (Beed)</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="price-tag">₹4,200/q</span>
+                    <span style="font-size: 12px; background: #e0f2fe; color: #0284c7; padding: 4px 8px; border-radius: 4px;">10 Quintals</span>
+                </div>
+                <button class="btn-buy" onclick="alert('Contact Request Sent to Farmer!')">Contact Farmer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || user.role !== 'buyer') {
+           // Basic protection - uncomment to enforce
+           // window.location.href = 'login.html';
+        } else {
+            document.getElementById('userName').innerText = user.name;
+            document.getElementById('avatar').innerText = user.name.charAt(0).toUpperCase();
+        }
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

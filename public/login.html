@@ -120,7 +120,7 @@
 
     <div class="link">
       Don’t have an account?
-      <a href="register.html">Create one</a>
+      <a href="register.html">Farmer Join</a> | <a href="buyer-register.html">Buyer Join</a>
     </div>
   </div>
 
@@ -158,8 +158,12 @@
         // Save logged-in user
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        // ✅ Redirect to dashboard
-        window.location.href = "index.html";
+        // ✅ Redirect based on Role
+        if (data.user.role === 'buyer') {
+            window.location.href = "buyer-dashboard.html";
+        } else {
+            window.location.href = "index.html";
+        }
 
       } catch (err) {
         console.error("Login error:", err);
