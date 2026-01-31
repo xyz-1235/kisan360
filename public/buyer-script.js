@@ -14,20 +14,20 @@ const PRODUCTS = [
     // CROPS
     { id: 1, name: 'Sona Masuri Rice', category: 'crops', sub: 'Grains', price: 4500, unit: 'Quintal', rating: 4.8, location: 'Andhra Pradesh', img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Premium aged white rice with delicate aroma and high culinary yield.' },
     { id: 101, name: 'Alphonso Mangoes', category: 'crops', sub: 'Fruits', price: 1200, unit: 'Crate (12kg)', rating: 5.0, location: 'Ratnagiri', img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'GI-tagged Ratnagiri Hapus. Known for its rich, creamy texture and unique flavor.' },
-    { id: 102, name: 'Byadgi Red Chillies', category: 'crops', sub: 'Spices', price: 3200, unit: 'Quintal', rating: 4.7, location: 'Karnataka', img: 'https://images.unsplash.com/photo-1563630423918-b58f07336ac9?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'High oleoresin content chillies, famous for deep red color and low pungency.' },
+    { id: 102, name: 'Byadgi Red Chillies', category: 'crops', sub: 'Spices', price: 3200, unit: 'Quintal', rating: 4.7, location: 'Karnataka', img: 'https://i.pinimg.com/1200x/11/fe/e7/11fee7bd6db305e2a54f990040d23586.jpg', bulk: true, desc: 'High oleoresin content chillies, famous for deep red color and low pungency.' },
     
     // ANIMAL-BASED
-    { id: 2, name: 'A2 Desi Cow Ghee', category: 'animal', sub: 'Dairy', price: 1800, unit: 'Litre', rating: 4.9, location: 'Haryana', img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Traditional bilona method ghee from grass-fed Gir cows. Pure nutritional gold.' },
-    { id: 3, name: 'Raw Himalayan Honey', category: 'animal', sub: 'Honey', price: 320, unit: 'Kg', rating: 4.7, location: 'Himachal', img: 'https://images.unsplash.com/photo-1587049633562-ad38220fd04c?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Unfiltered, enzyme-rich honey harvested from wild forest blooms.' },
-    { id: 201, name: 'Organic Buffalo Milk', category: 'animal', sub: 'Dairy', price: 85, unit: 'Litre', rating: 4.6, location: 'Punjab', img: 'https://images.unsplash.com/photo-1550583724-b2692b25a968?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Full-fat fresh buffalo milk. Direct-from-farm collection with cold chain support.' },
+    { id: 2, name: 'A2 Desi Cow Ghee', category: 'animal', sub: 'Dairy', price: 1800, unit: 'Litre', rating: 4.9, location: 'Haryana', img: 'https://i.pinimg.com/1200x/c6/ae/4b/c6ae4bf564feb7410b9a6e5ce1673244.jpg', bulk: false, desc: 'Traditional bilona method ghee from grass-fed Gir cows. Pure nutritional gold.' },
+    { id: 3, name: 'Raw Himalayan Honey', category: 'animal', sub: 'Honey', price: 320, unit: 'Kg', rating: 4.7, location: 'Himachal', img: 'https://i.pinimg.com/1200x/f9/1b/74/f91b745881f4101c75c6e0172698f054.jpg', bulk: true, desc: 'Unfiltered, enzyme-rich honey harvested from wild forest blooms.' },
+    { id: 201, name: 'Organic Buffalo Milk', category: 'animal', sub: 'Dairy', price: 85, unit: 'Litre', rating: 4.6, location: 'Punjab', img: 'https://i.pinimg.com/736x/83/70/f7/8370f7797b90fc938329da38ef4cd6f4.jpg', bulk: true, desc: 'Full-fat fresh buffalo milk. Direct-from-farm collection with cold chain support.' },
 
     // PROCESSED GOODS
     { id: 4, name: 'Cold Pressed Mustard Oil', category: 'processed', sub: 'Oils', price: 210, unit: 'Litre', rating: 4.5, location: 'Rajasthan', img: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Traditionally extracted yellow mustard oil with high pungency and omega-3.' },
-    { id: 301, name: 'Organic Jaggery Blocks', category: 'processed', sub: 'Sweeteners', price: 85, unit: 'Kg', rating: 4.8, location: 'Gujarat', img: 'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Chemical-free jaggery made from fresh sugarcane juice. Rich in iron and minerals.' },
-    { id: 302, name: 'Sun-dried Tomatoes', category: 'processed', sub: 'Dried Goods', price: 650, unit: 'Kg', rating: 4.4, location: 'Maharashtra', img: 'https://images.unsplash.com/photo-1582284539751-44d440642117?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Intense flavor preserved through natural sun-drying. No artificial preservatives.' },
+    { id: 301, name: 'Organic Jaggery Blocks', category: 'processed', sub: 'Sweeteners', price: 85, unit: 'Kg', rating: 4.8, location: 'Gujarat', img: 'https://i.pinimg.com/1200x/2b/e7/02/2be7022cc2d314253a9efa594ced97ed.jpg', bulk: true, desc: 'Chemical-free jaggery made from fresh sugarcane juice. Rich in iron and minerals.' },
+    { id: 302, name: 'Sun-dried Tomatoes', category: 'processed', sub: 'Dried Goods', price: 650, unit: 'Kg', rating: 4.4, location: 'Maharashtra', img: 'https://www.daringgourmet.com/wp-content/uploads/2019/09/Dried-Tomatoes-3-square-500x375.jpg', bulk: false, desc: 'Intense flavor preserved through natural sun-drying. No artificial preservatives.' },
 
     // SEEDS & PLANTING
-    { id: 7, name: 'Hybrid Corn Seeds', category: 'seeds', sub: 'Certified', price: 1200, unit: '25Kg Bag', rating: 4.7, location: 'Punjab', img: 'https://images.unsplash.com/photo-1523348830342-d01f9fc11339?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'High-germination drought-resistant hybrid seeds for commercial cropping.' },
+    { id: 7, name: 'Hybrid Corn Seeds', category: 'seeds', sub: 'Certified', price: 1200, unit: '25Kg Bag', rating: 4.7, location: 'Punjab', img: 'https://i.pinimg.com/736x/79/7c/fb/797cfb95b1c8ea0f3e3d136db8326edb.jpg', bulk: false, desc: 'High-germination drought-resistant hybrid seeds for commercial cropping.' },
     { id: 401, name: 'Kesar Mango Saplings', category: 'seeds', sub: 'Saplings', price: 250, unit: 'Per Sapling', rating: 4.9, location: 'Gujarat', img: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Grafted Kesar mango plants. 2 years old, hardened and ready for transplantation.' },
 
     // BY-PRODUCTS
@@ -36,12 +36,12 @@ const PRODUCTS = [
     { id: 502, name: 'Premium Wheat Straw', category: 'byproducts', sub: 'Fodder', price: 450, unit: 'Quintal', rating: 4.5, location: 'Haryana', img: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Clean, dry wheat straw bales. High fiber content, ideal for cattle feed.' },
 
     // MEDICINAL
-    { id: 601, name: 'Ashwagandha Root', category: 'medicinal', sub: 'Herbs', price: 950, unit: 'Kg', rating: 4.9, location: 'Madhya Pradesh', img: 'https://images.unsplash.com/photo-1585518419759-5ed1d1a98f9e?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Dried whole roots of Withania somnifera. High withanolide content.' },
-    { id: 602, name: 'Dried Tulsi Leaves', category: 'medicinal', sub: 'Herbs', price: 420, unit: 'Kg', rating: 4.8, location: 'Uttarakhand', img: 'https://images.unsplash.com/photo-1615485925763-867862780c14?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Organic holy basil leaves, shade-dried to preserve essential oils.' },
+    { id: 601, name: 'Ashwagandha Root', category: 'medicinal', sub: 'Herbs', price: 950, unit: 'Kg', rating: 4.9, location: 'Madhya Pradesh', img: 'https://i.pinimg.com/1200x/bc/64/d7/bc64d7ea84288f9df56e87f60f7a7c9f.jpg', bulk: true, desc: 'Dried whole roots of Withania somnifera. High withanolide content.' },
+    { id: 602, name: 'Dried Tulsi Leaves', category: 'medicinal', sub: 'Herbs', price: 420, unit: 'Kg', rating: 4.8, location: 'Uttarakhand', img: 'https://cpimg.tistatic.com/06914941/b/4/Dried-Tulsi-Leaves.jpg', bulk: false, desc: 'Organic holy basil leaves, shade-dried to preserve essential oils.' },
 
     // FORESTRY
-    { id: 6, name: 'Bamboo Construction Poles', category: 'forestry', sub: 'Timber', price: 2800, unit: '100 Poles', rating: 4.9, location: 'Assam', img: 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'A-grade seasoned bamboo poles, straight and treated for durability.' },
-    { id: 701, name: 'Wild Oyster Mushrooms', category: 'forestry', sub: 'Wild Produce', price: 850, unit: '500g Dried', rating: 4.7, location: 'Meghalaya', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Forest-harvested oyster mushrooms, naturally dried and umami-rich.' },
+    { id: 6, name: 'Bamboo Construction Poles', category: 'forestry', sub: 'Timber', price: 2800, unit: '100 Poles', rating: 4.9, location: 'Assam', img: 'https://i.pinimg.com/1200x/30/a2/6a/30a26acb5e4e8d10a7d7324f7fd7aed6.jpg', bulk: true, desc: 'A-grade seasoned bamboo poles, straight and treated for durability.' },
+    { id: 701, name: 'Wild Oyster Mushrooms', category: 'forestry', sub: 'Wild Produce', price: 850, unit: '500g Dried', rating: 4.7, location: 'Meghalaya', img: 'https://planetmushroom.co.in/cdn/shop/files/oyster-mushroom-1296x728-header.webp?v=1729848602', bulk: false, desc: 'Forest-harvested oyster mushrooms, naturally dried and umami-rich.' },
 
    
 ];
@@ -56,7 +56,7 @@ let state = {
 };
 
 // --- CORE FUNCTIONS ---
-async function navigate(view) {
+async function navigateTo(view) {
     state.view = view;
     // Scroll top
     window.scrollTo(0, 0);
@@ -357,7 +357,7 @@ function handleCheckout(e) {
     localStorage.setItem('kisan360_orders', JSON.stringify(state.orderHistory));
     state.cart = [];
     updateCartCounter();
-    navigate('confirmation');
+    navigateTo('confirmation');
 }
 
 // --- CONFIRMATION & HISTORY ---
@@ -436,13 +436,13 @@ function initHistory() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    navigate('marketplace');
+    navigateTo('marketplace');
     updateCartCounter();
     checkAuth();
 
     // Listen for language changes to re-render the current view
     window.addEventListener('languageChanged', (e) => {
-        navigate(state.view);
+        navigateTo(state.view);
     });
 });
 
