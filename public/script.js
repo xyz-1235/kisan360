@@ -113,9 +113,10 @@ function navigate(sectionId) {
                 target.classList.add('loaded');
 
                 // Re-apply translations
-                const currentLangBtn = document.querySelector('.lang-switch button.active');
-                const currentLang = currentLangBtn ? (currentLangBtn.innerText === 'मराठी' ? 'mr' : (currentLangBtn.innerText === 'हिंदी' ? 'hi' : 'en')) : 'en';
-                setLanguage(currentLang);
+                const currentLang = localStorage.getItem('kisan360_lang') || 'en';
+                if (typeof setLanguage === 'function') {
+                    setLanguage(currentLang);
+                }
 
                 // Initialize Section Specific Logic
                 if (sectionId === 'dashboard') {
@@ -149,24 +150,7 @@ function navigate(sectionId) {
 }
 
 // ========== LANGUAGE SWITCHING ==========
-function setLanguage(lang) {
-    document.querySelectorAll('.lang-switch button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById('btn-' + lang).classList.add('active');
-
-    document.querySelectorAll('[data-lang-key]').forEach(el => {
-        const key = el.getAttribute('data-lang-key');
-        if (translations[lang][key]) {
-            el.innerText = translations[lang][key];
-        }
-    });
-
-    document.getElementById('page-subtitle').innerText = translations[lang].welcome;
-
-    const activeSection = document.querySelector('.section-page.active').id;
-    if (translations[lang][activeSection]) {
-        document.getElementById('page-title').innerText = translations[lang][activeSection];
-    }
-}
+// Handled by lang.js
 
 // ========== WEATHER API (Open-Meteo: Free, No Key Required) ==========
 async function fetchWeatherData() {
