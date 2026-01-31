@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Kisan360 | Buyer Registration</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
   <style>
     * { box-sizing: border-box; }
@@ -108,6 +109,30 @@
       color: white;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
+
+    .password-container {
+      position: relative;
+      margin-bottom: 16px;
+    }
+    
+    .password-container input {
+      margin-bottom: 0;
+      padding-right: 40px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #94a3b8;
+      z-index: 10;
+    }
+
+    .toggle-password:hover {
+      color: #3b82f6;
+    }
   </style>
 </head>
 
@@ -128,7 +153,11 @@
     <!-- Common Fields -->
     <input id="name" placeholder="Full Name" data-lang-key="name_placeholder" />
     <input id="email" type="email" placeholder="Email" data-lang-key="email_placeholder" />
-    <input id="password" type="password" placeholder="Password" data-lang-key="password_placeholder" />
+    
+    <div class="password-container">
+        <input id="password" type="password" placeholder="Password" data-lang-key="password_placeholder" />
+        <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility()"></i>
+    </div>
     
     <!-- Buyer Specific Fields -->
     <div id="dynamic-fields">
@@ -146,6 +175,21 @@
 
 <script src="lang.js"></script>
 <script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const icon = document.querySelector('.toggle-password');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+
 // If running on Live Server (ports 5500-5510), point to Node backend on port 3000.
 const API_BASE_URL = (window.location.port && parseInt(window.location.port) >= 5500 && parseInt(window.location.port) <= 5510)
     ? 'http://localhost:3000'
