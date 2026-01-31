@@ -52,15 +52,15 @@
 
             <div class="flex items-center gap-2 sm:gap-6">
                 <!-- Language Switcher -->
-                <div class="hidden sm:flex bg-slate-100 p-1 rounded-xl">
-                    <button data-lang="en" class="lang-btn px-3 py-1 text-xs font-bold rounded-lg transition-all active bg-emerald-600 text-white">EN</button>
-                    <button data-lang="mr" class="lang-btn px-3 py-1 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800">MR</button>
-                    <button data-lang="hi" class="lang-btn px-3 py-1 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800">HI</button>
+                <div class="flex bg-slate-100 p-1 rounded-xl">
+                    <button data-lang="en" class="lang-btn px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-bold rounded-lg transition-all active bg-emerald-600 text-white">EN</button>
+                    <button data-lang="mr" class="lang-btn px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800">MR</button>
+                    <button data-lang="hi" class="lang-btn px-2 sm:px-3 py-1 text-[10px] sm:text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800">HI</button>
                 </div>
 
-                <button onclick="navigateTo('history')" class="hidden sm:flex items-center gap-2 text-slate-600 hover:text-emerald-600 font-semibold text-sm transition-colors">
+                <button onclick="navigateTo('history')" class="flex items-center gap-2 text-slate-600 hover:text-emerald-600 font-semibold text-sm transition-colors">
                     <i data-lucide="package" class="w-5 h-5"></i>
-                    <span data-lang-key="buyer_orders">My Orders</span>
+                    <span class="hidden sm:inline" data-lang-key="buyer_orders">My Orders</span>
                 </button>
                 <button onclick="navigateTo('cart')" class="relative p-2.5 bg-slate-100 rounded-2xl text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition-all">
                     <i data-lucide="shopping-cart" class="w-6 h-6"></i>
@@ -92,8 +92,16 @@
         </div>
     </nav>
 
-    <!-- Main Content Area -->
     <main id="appContent" class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Mobile Search Bar (Visible only on mobile) -->
+        <div class="md:hidden mb-6 -mt-4 sticky top-24 z-40">
+            <div class="relative">
+                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
+                <input id="mobileSearchInput" type="text" placeholder="Search..." data-lang-key="buyer_search_placeholder" 
+                    class="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 transition-all outline-none text-sm shadow-lg shadow-slate-200/50">
+            </div>
+        </div>
+
         <!-- Content injected by JS -->
     </main>
 

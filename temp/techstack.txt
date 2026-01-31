@@ -1,0 +1,34 @@
+# Kisan360 Tech Stack Analysis
+
+## Backend
+- **Runtime Environment:** Node.js
+- **Framework:** Express.js
+- **Database:** SQLite (Note: Ephemeral storage behavior detected for Vercel deployment)
+- **Authentication:** bcrypt (Password hashing)
+- **AI/ML:** Groq SDK (AI integration)
+- **Utilities:**
+  - `multer` (File handling/uploads)
+  - `cors` (Cross-Origin Resource Sharing)
+  - `dotenv` (Environment configuration)
+  - `path` (File path management)
+
+## Frontend
+- **Core:** HTML5, CSS3, Vanilla JavaScript
+- **Styling:** 
+  - Custom CSS properties (Variables)
+  - Font Awesome 6.4.0 (Icons via CDN)
+- **Typography:** Google Fonts (Plus Jakarta Sans)
+- **Architecture:** Client-side rendering with static assets served by Express
+
+## Deployment & Infrastructure
+- **Platform:** Vercel
+- **Configuration:** `vercel.json` for build and routing
+- **Database Strategy:** 
+  - Local: Persistent SQLite file (`kisan360.db`)
+  - Vercel/Cloud: Fallback to `/tmp` (In-memory/Ephemeral)
+
+## Key Features Inferred
+- Farmer & Buyer distinct workflows (Dashboards, Login/Register)
+- Marketplace functionality
+- Community/Learning sections for farmers
+- AI Integration (using Groq)

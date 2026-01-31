@@ -1082,3 +1082,23 @@ document.addEventListener('DOMContentLoaded', () => {
     navigate('dashboard');
     // Weather is already called in the top auth listener, no need to duplicate
 });
+
+// --- MOBILE SIDEBAR TOGGLE ---
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) {
+        sidebar.classList.toggle('active');
+    }
+}
+
+// Close sidebar when clicking a nav element on mobile
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                const sidebar = document.querySelector('.sidebar');
+                if (sidebar) sidebar.classList.remove('active');
+            }
+        });
+    });
+});

@@ -446,3 +446,78 @@ header {
 @keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 1; } }
 @keyframes popIn { 0% { transform: scale(0); } 80% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    /* Sidebar */
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        width: 100%; 
+        max-width: 300px;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    /* Main Content */
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 15px;
+    }
+
+    /* Mobile Header/Toggle */
+    .mobile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background: white;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .menu-toggle {
+        display: block; 
+        font-size: 24px;
+        cursor: pointer;
+        color: var(--primary-color);
+    }
+
+    /* Adjust grids */
+    .dashboard-grid, .card-grid, .cards-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .weather-widget {
+        flex-direction: column;
+    }
+    
+    .doctor-layout {
+        grid-template-columns: 1fr;
+    }
+
+    /* Modals */
+    .modal-box {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .shop-split {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Hide toggle on desktop */
+@media (min-width: 769px) {
+    .menu-toggle {
+        display: none;
+    }
+    .mobile-header {
+        display: none;
+    }
+}

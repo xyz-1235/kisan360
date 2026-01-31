@@ -102,12 +102,26 @@ function initMarketplace() {
     renderCategories();
     renderMarketplaceProducts();
     
-    // Search listener
+    // Search listener (Desktop)
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.value = state.search;
         searchInput.oninput = (e) => {
             state.search = e.target.value;
+            const mobileInput = document.getElementById('mobileSearchInput');
+            if (mobileInput) mobileInput.value = state.search;
+            renderMarketplaceProducts();
+        };
+    }
+
+    // Search listener (Mobile)
+    const mobileSearchInput = document.getElementById('mobileSearchInput');
+    if (mobileSearchInput) {
+        mobileSearchInput.value = state.search;
+        mobileSearchInput.oninput = (e) => {
+            state.search = e.target.value;
+            const desktopInput = document.getElementById('searchInput');
+            if (desktopInput) desktopInput.value = state.search;
             renderMarketplaceProducts();
         };
     }
