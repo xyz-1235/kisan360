@@ -17,16 +17,26 @@ app.use(express.json());
 // 1. Serve Static Files from 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Initialize SQLite Database (Handle Vercel/Read-Only Filesystem)
-const dbPath = process.env.VERCEL || process.env.NODE_ENV === 'production' 
-    ? path.join('/tmp', 'kisan360.db') 
-    : path.join(__dirname, 'kisan360.db');
+// Initialize SQLite Database
+// Strategy: Try persistent path first. If readonly (Vercel/Lambda), fallback to /tmp.
+let dbPath = path.join(__dirname, 'kisan360.db');
+
+// If explicitly forced or known readonly environment
+if (process.env.DB_PATH) {
+    dbPath = process.env.DB_PATH;
+} else if (process.env.VERCEL) {
+    console.warn("⚠️  VERCEL DETECTED: SQLite will be ephemeral (reset on deployment). Use an external DB for persistence.");
+    dbPath = path.join('/tmp', 'kisan360.db');
+}
 
 console.log(`Using SQLite database at: ${dbPath}`);
 
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error("Error opening database " + err.message);
+        if (err.message.includes('ReadOnly') || err.code === 'SQLITE_CANTOPEN') {
+            console.error("⚠️  Database path is Read-Only. Falling back to in-memory database.");
+        }
     } else {
         console.log("Connected to the SQLite database.");
         
