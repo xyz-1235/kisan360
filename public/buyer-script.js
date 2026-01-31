@@ -14,30 +14,30 @@ const PRODUCTS = [
     // CROPS
     { id: 1, name: 'Sona Masuri Rice', category: 'crops', sub: 'Grains', price: 4500, unit: 'Quintal', rating: 4.8, location: 'Andhra Pradesh', img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Premium aged white rice with delicate aroma and high culinary yield.' },
     { id: 101, name: 'Alphonso Mangoes', category: 'crops', sub: 'Fruits', price: 1200, unit: 'Crate (12kg)', rating: 5.0, location: 'Ratnagiri', img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'GI-tagged Ratnagiri Hapus. Known for its rich, creamy texture and unique flavor.' },
-    { id: 102, name: 'Byadgi Red Chillies', category: 'crops', sub: 'Spices', price: 3200, unit: 'Quintal', rating: 4.7, location: 'Karnataka', img: 'https://images.unsplash.com/photo-1599599810694-b5ac4dd7c4c7?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'High oleoresin content chillies, famous for deep red color and low pungency.' },
+    { id: 102, name: 'Byadgi Red Chillies', category: 'crops', sub: 'Spices', price: 3200, unit: 'Quintal', rating: 4.7, location: 'Karnataka', img: 'https://images.unsplash.com/photo-1563630423918-b58f07336ac9?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'High oleoresin content chillies, famous for deep red color and low pungency.' },
     
     // ANIMAL-BASED
-    { id: 2, name: 'A2 Desi Cow Ghee', category: 'animal', sub: 'Dairy', price: 1800, unit: 'Litre', rating: 4.9, location: 'Haryana', img: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Traditional bilona method ghee from grass-fed Gir cows. Pure nutritional gold.' },
+    { id: 2, name: 'A2 Desi Cow Ghee', category: 'animal', sub: 'Dairy', price: 1800, unit: 'Litre', rating: 4.9, location: 'Haryana', img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Traditional bilona method ghee from grass-fed Gir cows. Pure nutritional gold.' },
     { id: 3, name: 'Raw Himalayan Honey', category: 'animal', sub: 'Honey', price: 320, unit: 'Kg', rating: 4.7, location: 'Himachal', img: 'https://images.unsplash.com/photo-1587049633562-ad38220fd04c?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Unfiltered, enzyme-rich honey harvested from wild forest blooms.' },
     { id: 201, name: 'Organic Buffalo Milk', category: 'animal', sub: 'Dairy', price: 85, unit: 'Litre', rating: 4.6, location: 'Punjab', img: 'https://images.unsplash.com/photo-1550583724-b2692b25a968?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Full-fat fresh buffalo milk. Direct-from-farm collection with cold chain support.' },
 
     // PROCESSED GOODS
     { id: 4, name: 'Cold Pressed Mustard Oil', category: 'processed', sub: 'Oils', price: 210, unit: 'Litre', rating: 4.5, location: 'Rajasthan', img: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Traditionally extracted yellow mustard oil with high pungency and omega-3.' },
-    { id: 301, name: 'Organic Jaggery Blocks', category: 'processed', sub: 'Sweeteners', price: 85, unit: 'Kg', rating: 4.8, location: 'Gujarat', img: 'https://images.unsplash.com/photo-1599599810694-b5ac4dd7c4c7?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Chemical-free jaggery made from fresh sugarcane juice. Rich in iron and minerals.' },
+    { id: 301, name: 'Organic Jaggery Blocks', category: 'processed', sub: 'Sweeteners', price: 85, unit: 'Kg', rating: 4.8, location: 'Gujarat', img: 'https://images.unsplash.com/photo-1610725664285-7c57e6eeac3f?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Chemical-free jaggery made from fresh sugarcane juice. Rich in iron and minerals.' },
     { id: 302, name: 'Sun-dried Tomatoes', category: 'processed', sub: 'Dried Goods', price: 650, unit: 'Kg', rating: 4.4, location: 'Maharashtra', img: 'https://images.unsplash.com/photo-1582284539751-44d440642117?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Intense flavor preserved through natural sun-drying. No artificial preservatives.' },
 
     // SEEDS & PLANTING
     { id: 7, name: 'Hybrid Corn Seeds', category: 'seeds', sub: 'Certified', price: 1200, unit: '25Kg Bag', rating: 4.7, location: 'Punjab', img: 'https://images.unsplash.com/photo-1523348830342-d01f9fc11339?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'High-germination drought-resistant hybrid seeds for commercial cropping.' },
-    { id: 401, name: 'Kesar Mango Saplings', category: 'seeds', sub: 'Saplings', price: 250, unit: 'Per Sapling', rating: 4.9, location: 'Gujarat', img: 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Grafted Kesar mango plants. 2 years old, hardened and ready for transplantation.' },
+    { id: 401, name: 'Kesar Mango Saplings', category: 'seeds', sub: 'Saplings', price: 250, unit: 'Per Sapling', rating: 4.9, location: 'Gujarat', img: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Grafted Kesar mango plants. 2 years old, hardened and ready for transplantation.' },
 
     // BY-PRODUCTS
     { id: 5, name: 'Vermicompost Gold', category: 'byproducts', sub: 'Compost', price: 320, unit: '50Kg Bag', rating: 4.6, location: 'Maharashtra', img: 'https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Premium worm-casted organic fertilizer for intensive high-yield farming.' },
-    { id: 501, name: 'Neem Bio-Pesticide', category: 'byproducts', sub: 'Organic Inputs', price: 450, unit: '5L Can', rating: 4.7, location: 'Tamil Nadu', img: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Neem oil extract with high Azadirachtin content for natural pest control.' },
+    { id: 501, name: 'Neem Bio-Pesticide', category: 'byproducts', sub: 'Organic Inputs', price: 450, unit: '5L Can', rating: 4.7, location: 'Tamil Nadu', img: 'https://plus.unsplash.com/premium_photo-1664302148512-d5e6b063d835?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Neem oil extract with high Azadirachtin content for natural pest control.' },
     { id: 502, name: 'Premium Wheat Straw', category: 'byproducts', sub: 'Fodder', price: 450, unit: 'Quintal', rating: 4.5, location: 'Haryana', img: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Clean, dry wheat straw bales. High fiber content, ideal for cattle feed.' },
 
     // MEDICINAL
     { id: 601, name: 'Ashwagandha Root', category: 'medicinal', sub: 'Herbs', price: 950, unit: 'Kg', rating: 4.9, location: 'Madhya Pradesh', img: 'https://images.unsplash.com/photo-1585518419759-5ed1d1a98f9e?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Dried whole roots of Withania somnifera. High withanolide content.' },
-    { id: 602, name: 'Dried Tulsi Leaves', category: 'medicinal', sub: 'Herbs', price: 420, unit: 'Kg', rating: 4.8, location: 'Uttarakhand', img: 'https://images.unsplash.com/photo-1585518419759-5ed1d1a98f9e?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Organic holy basil leaves, shade-dried to preserve essential oils.' },
+    { id: 602, name: 'Dried Tulsi Leaves', category: 'medicinal', sub: 'Herbs', price: 420, unit: 'Kg', rating: 4.8, location: 'Uttarakhand', img: 'https://images.unsplash.com/photo-1615485925763-867862780c14?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Organic holy basil leaves, shade-dried to preserve essential oils.' },
 
     // FORESTRY
     { id: 6, name: 'Bamboo Construction Poles', category: 'forestry', sub: 'Timber', price: 2800, unit: '100 Poles', rating: 4.9, location: 'Assam', img: 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'A-grade seasoned bamboo poles, straight and treated for durability.' },
@@ -45,7 +45,7 @@ const PRODUCTS = [
 
     // AQUACULTURE
     { id: 8, name: 'Fresh Catla Seeds', category: 'aquaculture', sub: 'Fish Seed', price: 950, unit: '1000 Count', rating: 4.8, location: 'Bengal', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Laboratory certified disease-free fingerlings for intensive aquaculture.' },
-    { id: 801, name: 'Seaweed Extract (Liquid)', category: 'aquaculture', sub: 'Bio-stimulant', price: 680, unit: '5L Can', rating: 4.6, location: 'Tamil Nadu', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Concentrated seaweed extract from Sargassum. Boosts crop growth and immunity.' }
+    { id: 801, name: 'Seaweed Extract (Liquid)', category: 'aquaculture', sub: 'Bio-stimulant', price: 680, unit: '5L Can', rating: 4.6, location: 'Tamil Nadu', img: 'https://images.unsplash.com/photo-1629196911514-cfd8d63a19b8?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Concentrated seaweed extract from Sargassum. Boosts crop growth and immunity.' }
 ];
 
 // --- STATE ---
@@ -77,6 +77,12 @@ async function navigate(view) {
         
         // Refresh icons
         lucide.createIcons();
+        
+        // Re-apply translations
+        if (typeof setLanguage === 'function') {
+            const currentLang = localStorage.getItem('kisan360_lang') || 'en';
+            setLanguage(currentLang);
+        }
     } catch (err) {
         console.error('Navigation failed:', err);
         container.innerHTML = '<p class="p-10 text-center text-red-500">Failed to load section.</p>';
@@ -119,7 +125,7 @@ function renderCategories() {
 
     let html = `
         <button onclick="filterCategory('all')" class="flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all ${allBtnClass}">
-            <i data-lucide="layout-grid" class="w-5 h-5"></i> All Sectors
+            <i data-lucide="layout-grid" class="w-5 h-5"></i> <span data-lang-key="buyer_all_sectors">All Sectors</span>
         </button>
     `;
 
@@ -177,9 +183,9 @@ function renderMarketplaceProducts() {
             <div class="relative aspect-[16/11] overflow-hidden bg-slate-100">
                 <img src="${product.img}" class="product-image w-full h-full object-cover transition-transform duration-700">
                 <div class="absolute top-4 left-4 flex gap-2">
-                    ${product.bulk ? `<span class="bg-orange-500 text-white text-[9px] font-black uppercase px-2 py-1 rounded-lg shadow-lg">Bulk Lot</span>` : ''}
+                    ${product.bulk ? `<span class="bg-orange-500 text-white text-[9px] font-black uppercase px-2 py-1 rounded-lg shadow-lg"><span data-lang-key="buyer_bulk">Bulk Lot</span></span>` : ''}
                     <span class="bg-white/90 backdrop-blur text-slate-800 text-[9px] font-bold px-2 py-1 rounded-lg shadow-sm border border-white/40 flex items-center gap-1">
-                        <i data-lucide="check-circle-2" class="w-2.5 h-2.5 text-emerald-600"></i> Quality Verified
+                        <i data-lucide="check-circle-2" class="w-2.5 h-2.5 text-emerald-600"></i> <span data-lang-key="buyer_quality_verified">Quality Verified</span>
                     </span>
                 </div>
             </div>
@@ -313,7 +319,7 @@ function initCart() {
             <div class="flex justify-between"><span>Platform Fee (2%)</span><span class="text-slate-900">₹${fee.toLocaleString()}</span></div>
             <div class="flex justify-between"><span>Logistics Estimate</span><span class="text-emerald-600">₹${logistics.toLocaleString()}</span></div>
             <div class="h-px bg-slate-100 my-2"></div>
-            <div class="flex justify-between text-xl font-black text-slate-900"><span>Grand Total</span><span>₹${total.toLocaleString()}</span></div>
+            <div class="flex justify-between text-xl font-black text-slate-900"><span><span data-lang-key="buyer_total">Total</span></span><span>₹${total.toLocaleString()}</span></div>
         `;
     }
     
@@ -396,12 +402,12 @@ function initHistory() {
             <div class="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm overflow-hidden relative">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                     <div>
-                        <p class="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Confimed Order</p>
+                        <p class="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1" data-lang-key="buyer_confirmed_order_label">${translations[currentLang].buyer_confirmed_order_label}</p>
                         <h3 class="text-xl font-black text-slate-900">${order.id}</h3>
                         <p class="text-xs text-slate-500 font-medium">${order.date}</p>
                     </div>
                     <div class="text-right">
-                        <p class="text-xs text-slate-400 font-bold mb-1 uppercase tracking-tighter">Total Amount Paid</p>
+                        <p class="text-xs text-slate-400 font-bold mb-1 uppercase tracking-tighter" data-lang-key="buyer_total_paid">${translations[currentLang].buyer_total_paid}</p>
                         <p class="text-2xl font-black text-slate-900">₹${Math.round(order.total).toLocaleString()}</p>
                     </div>
                 </div>
@@ -419,9 +425,9 @@ function initHistory() {
                 <div class="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
                     <div class="flex items-center gap-2 text-emerald-600">
                         <i data-lucide="truck" class="w-4 h-4"></i>
-                        <span class="text-xs font-bold">Shipped to ${order.buyer.city}</span>
+                        <span class="text-xs font-bold"><span data-lang-key="buyer_shipped_to">${translations[currentLang].buyer_shipped_to}</span> ${order.buyer.city}</span>
                     </div>
-                    <button class="text-emerald-600 text-xs font-black uppercase tracking-widest hover:underline">Download Invoice</button>
+                    <button class="text-emerald-600 text-xs font-black uppercase tracking-widest hover:underline" data-lang-key="buyer_download_invoice">${translations[currentLang].buyer_download_invoice}</button>
                 </div>
             </div>
         `).join('');
@@ -435,6 +441,11 @@ document.addEventListener('DOMContentLoaded', () => {
     navigate('marketplace');
     updateCartCounter();
     checkAuth();
+
+    // Listen for language changes to re-render the current view
+    window.addEventListener('languageChanged', (e) => {
+        navigate(state.view);
+    });
 });
 
 // --- AUTH & SYSTEM FUNCTIONS ---

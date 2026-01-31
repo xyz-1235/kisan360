@@ -39,14 +39,21 @@
 
             <div class="hidden md:flex flex-1 max-w-lg mx-8 relative">
                 <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
-                <input id="searchInput" type="text" placeholder="Search crops, fertilizers, or logistics..." 
+                <input id="searchInput" type="text" placeholder="Search crops, fertilizers, or logistics..." data-lang-key="buyer_search_placeholder" 
                     class="w-full pl-12 pr-4 py-3 bg-slate-100/50 border-none rounded-2xl focus:ring-2 focus:ring-emerald-500 transition-all outline-none text-sm">
             </div>
 
             <div class="flex items-center gap-2 sm:gap-6">
+                <!-- Language Switcher -->
+                <div class="hidden sm:flex bg-slate-100 p-1 rounded-xl">
+                    <button data-lang="en" class="lang-btn px-3 py-1 text-xs font-bold rounded-lg transition-all active bg-emerald-600 text-white">EN</button>
+                    <button data-lang="mr" class="lang-btn px-3 py-1 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800">MR</button>
+                    <button data-lang="hi" class="lang-btn px-3 py-1 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-800">HI</button>
+                </div>
+
                 <button onclick="navigateTo('history')" class="hidden sm:flex items-center gap-2 text-slate-600 hover:text-emerald-600 font-semibold text-sm transition-colors">
                     <i data-lucide="package" class="w-5 h-5"></i>
-                    My Orders
+                    <span data-lang-key="buyer_orders">My Orders</span>
                 </button>
                 <button onclick="navigateTo('cart')" class="relative p-2.5 bg-slate-100 rounded-2xl text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 transition-all">
                     <i data-lucide="shopping-cart" class="w-6 h-6"></i>
@@ -56,7 +63,7 @@
                 <!-- Auth Section -->
                 <div id="authSection">
                     <!-- Login Button (Default) -->
-                    <button id="loginBtn" onclick="window.location.href='index.html'" class="bg-slate-900 text-white px-6 py-3 rounded-2xl text-sm font-bold hover:bg-slate-800 transition-all shadow-xl shadow-slate-200">
+                    <button id="loginBtn" onclick="window.location.href='index.html'" class="bg-slate-900 text-white px-6 py-3 rounded-2xl text-sm font-bold hover:bg-slate-800 transition-all shadow-xl shadow-slate-200" data-lang-key="login_btn">
                         Login
                     </button>
 
@@ -135,8 +142,7 @@
         </div>
     </footer>
 
+    <script src="lang.js"></script>
     <script src="buyer-script.js"></script>
-</body>
-</html>
 </body>
 </html>

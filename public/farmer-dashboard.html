@@ -97,9 +97,9 @@
             </div>
             <!-- UPDATED LANGUAGE SWITCHER -->
             <div class="lang-switch">
-                <button onclick="setLanguage('en')" id="btn-en" class="active">EN</button>
-                <button onclick="setLanguage('mr')" id="btn-mr">मराठी</button>
-                <button onclick="setLanguage('hi')" id="btn-hi">हिंदी</button>
+                <button data-lang="en" class="lang-btn active">EN</button>
+                <button data-lang="mr" class="lang-btn">मराठी</button>
+                <button data-lang="hi" class="lang-btn">हिंदी</button>
             </div>
         </header>
 
@@ -130,6 +130,7 @@
     </main>
 
     <!-- Custom Script -->
+    <script src="lang.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

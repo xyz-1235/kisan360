@@ -170,13 +170,56 @@
         
         .role-card:hover .btn-arrow { gap: 8px; }
 
+        /* Language Switcher */
+        .lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn.active {
+            background: #16a34a;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
         @media (max-width: 768px) {
             h1 { font-size: 36px; }
             .cards-container { flex-direction: column; }
+            .lang-switcher { top: 10px; right: 10px; }
         }
     </style>
 </head>
 <body>
+
+    <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="mr">मरा</button>
+        <button class="lang-btn" data-lang="hi">हिं</button>
+    </div>
 
     <section class="hero">
         <div class="brand">
@@ -184,8 +227,8 @@
             <span>Kisan360</span>
         </div>
         
-        <h1>One Platform.<br>Two Worlds.</h1>
-        <p>Connecting India's primary producers directly with global commercial markets through AI-driven insights.</p>
+        <h1 data-lang-key="hero_title">One Platform.<br>Two Worlds.</h1>
+        <p data-lang-key="hero_subtitle">Connecting India's primary producers directly with global commercial markets through AI-driven insights.</p>
 
         <div class="cards-container">
             <!-- Farmer Card -->
@@ -193,10 +236,10 @@
                 <div class="icon-box">
                     <i class="fas fa-tractor"></i>
                 </div>
-                <span class="role-title">For Farmers</span>
-                <span class="role-desc">Access Crop Doctor, Mandi Rates, Weather, and Government Schemes.</span>
+                <span class="role-title" data-lang-key="farmer_card_title">For Farmers</span>
+                <span class="role-desc" data-lang-key="farmer_card_desc">Access Crop Doctor, Mandi Rates, Weather, and Government Schemes.</span>
                 <div class="btn-arrow">
-                    Login as Farmer <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                    <span data-lang-key="login_as_farmer">Login as Farmer</span> <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
                 </div>
             </a>
 
@@ -205,14 +248,15 @@
                 <div class="icon-box">
                     <i class="fas fa-shopping-basket"></i>
                 </div>
-                <span class="role-title">For Buyers</span>
-                <span class="role-desc">Source verified produce directly from farms with Quality Labs.</span>
+                <span class="role-title" data-lang-key="buyer_card_title">For Buyers</span>
+                <span class="role-desc" data-lang-key="buyer_card_desc">Source verified produce directly from farms with Quality Labs.</span>
                 <div class="btn-arrow">
-                    Login as Buyer <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                    <span data-lang-key="login_as_buyer">Login as Buyer</span> <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
                 </div>
             </a>
         </div>
     </section>
 
+    <script src="lang.js"></script>
 </body>
 </html>

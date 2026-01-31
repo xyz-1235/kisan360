@@ -69,35 +69,82 @@
       font-weight: 600;
       text-decoration: none;
     }
+
+    /* Language Switcher */
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      padding: 4px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      width: auto;
+      transition: all 0.2s;
+    }
+
+    .lang-btn:hover {
+      background: #f1f5f9;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .lang-btn.active {
+      background: #16a34a;
+      color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 
 <body>
+  
+  <div class="lang-switcher">
+    <button class="lang-btn active" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="mr">मरा</button>
+    <button class="lang-btn" data-lang="hi">हिं</button>
+  </div>
+
   <div class="card">
-    <h2 id="pageTitle">Farmer Registration</h2>
+    <h2 id="pageTitle" data-lang-key="register_as_farmer">Farmer Registration</h2>
 
     <!-- Hidden Input for Logic -->
     <input type="hidden" id="role" value="farmer">
 
     <!-- Common Fields -->
-    <input id="name" placeholder="Full Name" />
-    <input id="email" type="email" placeholder="Email" />
-    <input id="password" type="password" placeholder="Password" />
+    <input id="name" placeholder="Full Name" data-lang-key="name_placeholder" />
+    <input id="email" type="email" placeholder="Email" data-lang-key="email_placeholder" />
+    <input id="password" type="password" placeholder="Password" data-lang-key="password_placeholder" />
     
     <!-- Farmer Specific Fields -->
     <div id="dynamic-fields">
-        <input id="field1" placeholder="Village / Town" />
-        <input id="field2" placeholder="State" />
+        <input id="field1" placeholder="Village / Town" data-lang-key="village_placeholder" />
+        <input id="field2" placeholder="State" data-lang-key="state_placeholder" />
     </div>
 
-    <button type="button" class="register-btn" id="regBtn" onclick="register()">Register as Farmer</button>
+    <button type="button" class="register-btn" id="regBtn" onclick="register()" data-lang-key="register_as_farmer">Register as Farmer</button>
 
     <div class="link">
-      Already have an account?
-      <a href="login-farmer.html">Login</a>
+      <span data-lang-key="already_account">Already have an account?</span>
+      <a href="login-farmer.html" data-lang-key="login_btn">Login</a>
     </div>
   </div>
 
+<script src="lang.js"></script>
 <script>
 // If running on Live Server (ports 5500-5510), point to Node backend on port 3000.
 const API_BASE_URL = (window.location.port && parseInt(window.location.port) >= 5500 && parseInt(window.location.port) <= 5510)
