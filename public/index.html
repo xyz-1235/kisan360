@@ -32,7 +32,12 @@
             justify-content: center;
             text-align: center;
             padding: 20px;
-            background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+            /* Added Farmland Background Image with Dark Overlay */
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('asset/farmland.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
         }
 
         .brand {
@@ -44,31 +49,34 @@
 
         .brand i {
             font-size: 32px;
-            color: var(--primary);
+            color: #4ade80; /* Brighter Green */
         }
 
         .brand span {
             font-size: 32px;
             font-weight: 800;
             letter-spacing: -1px;
+            color: white;
         }
 
         h1 {
-            font-size: 48px;
+            font-size: 56px;
             font-weight: 800;
-            margin: 0 0 20px 0;
+            margin: 0 0 24px 0;
             line-height: 1.1;
-            background: linear-gradient(to right, #16a34a, #0ea5e9);
+            /* Lighter Gradient for Dark Background */
+            background: linear-gradient(to right, #4ade80, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         p {
-            font-size: 18px;
-            color: #64748b;
-            max-width: 600px;
+            font-size: 20px;
+            color: #cbd5e1; /* Light Slate */
+            max-width: 640px;
             margin: 0 auto 50px auto;
             line-height: 1.6;
+            font-weight: 500;
         }
 
         /* Cards Container */
@@ -88,10 +96,12 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.05);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            color: inherit;
+            /* Fixed: Ensure text is dark inside the white card */
+            color: var(--dark);
             border: 2px solid transparent;
             position: relative;
             overflow: hidden;
+            text-align: left; /* Reset text alignment for card content */
         }
 
         .role-card:hover {
