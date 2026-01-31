@@ -502,7 +502,7 @@ Respond ONLY with valid JSON:
 
 let currentLang = 'en';
 
-function setLanguage(lang) {
+function setLanguage(lang, suppressEvent = false) {
     if (!translations[lang]) return;
     currentLang = lang;
     
@@ -533,7 +533,9 @@ function setLanguage(lang) {
     localStorage.setItem('kisan360_lang', lang);
     
     // Dispatch event for other scripts to react
-    window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+    if (!suppressEvent) {
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+    }
 }
 
 // Initialize Language on Load

@@ -79,7 +79,7 @@ async function navigateTo(view) {
         // Re-apply translations
         if (typeof setLanguage === 'function') {
             const currentLang = localStorage.getItem('kisan360_lang') || 'en';
-            setLanguage(currentLang);
+            setLanguage(currentLang, true); // Suppress event to prevent infinite loop
         }
     } catch (err) {
         console.error('Navigation failed:', err);
