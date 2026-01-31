@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kisan360 | Buyer Registration</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: linear-gradient(135deg, #f8fafc, #eef2f7);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: #fff;
+      width: 420px;
+      padding: 34px;
+      border-radius: 14px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+      max-height: 90vh; /* Better for mobile/small screens */
+      overflow-y: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1e40af; /* Buyer Blue */
+      margin-bottom: 22px;
+    }
+
+    button.register-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb); /* Buyer Blue */
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.1s;
+    }
+    button.register-btn:active { transform: scale(0.98); }
+
+    input, select {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+    }
+
+    .link {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .link a {
+      color: #2563eb;
+      font-weight: 600;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h2 id="pageTitle">Buyer Registration</h2>
+
+    <!-- Hidden Input for Logic -->
+    <input type="hidden" id="role" value="buyer">
+
+    <!-- Common Fields -->
+    <input id="name" placeholder="Full Name" />
+    <input id="email" type="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    
+    <!-- Buyer Specific Fields -->
+    <div id="dynamic-fields">
+        <input id="field1" placeholder="City" />
+        <input id="field2" placeholder="Phone Number" />
+    </div>
+
+    <button type="button" class="register-btn" id="regBtn" onclick="register()">Register as Buyer</button>
+
+    <div class="link">
+      Already have an account?
+      <a href="login-buyer.html">Login</a>
+    </div>
+  </div>
+
+<script>
+// If running on Live Server (ports 5500-5510), point to Node backend on port 3000.
+const API_BASE_URL = (window.location.port && parseInt(window.location.port) >= 5500 && parseInt(window.location.port) <= 5510)
+    ? 'http://localhost:3000'
+    : '';
+
+async function register() {
+  try {
+    const role = 'buyer';
+    const commonData = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        password: document.getElementById("password").value,
+        role: role
+    };
+
+    // Buyer Data
+    const specificData = {
+        city: document.getElementById('field1').value.trim(),
+        phone: document.getElementById('field2').value.trim()
+    };
+
+    // Merge
+    const data = { ...commonData, ...specificData };
+
+    if (!data.name || !data.email || !data.password) {
+      alert("Name, email and password are required");
+      return;
+    }
+
+    const res = await fetch(`${API_BASE_URL}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    if (res.ok) {
+        // Show success state on button
+        const btn = document.getElementById("regBtn");
+        btn.innerText = "Registration Successful! Redirecting...";
+        
+        // Redirect automatically after short delay
+        setTimeout(() => {
+             window.location.href = "login-buyer.html"; 
+        }, 1000);
+    } else {
+      alert(result.error || "Registration failed");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Error: Could not connect to server. Make sure it is running!");
+  }
+}
+</script>
+</body>
+</html>
