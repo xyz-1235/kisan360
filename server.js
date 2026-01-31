@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Initialize SQLite Database (Handle Vercel/Read-Only Filesystem)
 const dbPath = process.env.VERCEL || process.env.NODE_ENV === 'production' 
     ? path.join('/tmp', 'kisan360.db') 
-    : './kisan360.db';
+    : path.join(__dirname, 'kisan360.db');
 
 console.log(`Using SQLite database at: ${dbPath}`);
 
@@ -30,28 +30,34 @@ const db = new sqlite3.Database(dbPath, (err) => {
     } else {
         console.log("Connected to the SQLite database.");
         
-        // 1. Create Farmers Table
-        db.run(`CREATE TABLE IF NOT EXISTS farmers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            village TEXT,
-            state TEXT
-        )`, (err) => {
-            if (err) console.error("Error creating farmers table: " + err.message);
-        });
+        // Enable WAL mode for better concurrency and reliability
+        db.run("PRAGMA journal_mode = WAL;");
+        db.run("PRAGMA busy_timeout = 5000;");
 
-        // 2. Create Buyers Table
-        db.run(`CREATE TABLE IF NOT EXISTS buyers (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            city TEXT,
-            phone TEXT
-        )`, (err) => {
-            if (err) console.error("Error creating buyers table: " + err.message);
+        db.serialize(() => {
+            // 1. Create Farmers Table
+            db.run(`CREATE TABLE IF NOT EXISTS farmers (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                village TEXT,
+                state TEXT
+            )`, (err) => {
+                if (err) console.error("Error creating farmers table: " + err.message);
+            });
+
+            // 2. Create Buyers Table
+            db.run(`CREATE TABLE IF NOT EXISTS buyers (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                city TEXT,
+                phone TEXT
+            )`, (err) => {
+                if (err) console.error("Error creating buyers table: " + err.message);
+            });
         });
     }
 });

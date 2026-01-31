@@ -43,9 +43,7 @@ const PRODUCTS = [
     { id: 6, name: 'Bamboo Construction Poles', category: 'forestry', sub: 'Timber', price: 2800, unit: '100 Poles', rating: 4.9, location: 'Assam', img: 'https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'A-grade seasoned bamboo poles, straight and treated for durability.' },
     { id: 701, name: 'Wild Oyster Mushrooms', category: 'forestry', sub: 'Wild Produce', price: 850, unit: '500g Dried', rating: 4.7, location: 'Meghalaya', img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Forest-harvested oyster mushrooms, naturally dried and umami-rich.' },
 
-    // AQUACULTURE
-    { id: 8, name: 'Fresh Catla Seeds', category: 'aquaculture', sub: 'Fish Seed', price: 950, unit: '1000 Count', rating: 4.8, location: 'Bengal', img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Laboratory certified disease-free fingerlings for intensive aquaculture.' },
-    { id: 801, name: 'Seaweed Extract (Liquid)', category: 'aquaculture', sub: 'Bio-stimulant', price: 680, unit: '5L Can', rating: 4.6, location: 'Tamil Nadu', img: 'https://images.unsplash.com/photo-1629196911514-cfd8d63a19b8?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Concentrated seaweed extract from Sargassum. Boosts crop growth and immunity.' }
+   
 ];
 
 // --- STATE ---
