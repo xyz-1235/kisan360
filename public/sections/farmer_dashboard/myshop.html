@@ -1,0 +1,62 @@
+            <div class="shop-split">
+                <!-- Add Listing Form -->
+                <div class="calc-container">
+                    <h3><i class="fas fa-plus-circle"></i> <span data-lang-key="add_listing">Add New Listing</span></h3>
+                    <p style="font-size: 13px; color: #777; margin-bottom: 15px;" data-lang-key="listing_prompt">Buyers will see this instantly.</p>
+                    
+                    <div class="form-group">
+                        <label data-lang-key="crop_name">Crop Name</label>
+                        <select>
+                            <option>Onion</option>
+                            <option>Tomato</option>
+                            <option>Wheat</option>
+                            <option>Soybean</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-lang-key="quantity">Quantity (Quintals)</label>
+                        <input type="number" placeholder="10">
+                    </div>
+                    <div class="form-group">
+                        <label data-lang-key="expected_price">Expected Price (per Qtl)</label>
+                        <input type="number" placeholder="2500">
+                    </div>
+                    <div class="form-group">
+                        <label data-lang-key="photo">Photo</label>
+                        <div style="border: 1px dashed #ccc; padding: 20px; text-align: center; border-radius: 10px; cursor: pointer;">
+                            <i class="fas fa-camera"></i> <span data-lang-key="upload">Upload</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="alert('Listing Published Successfully!')" data-lang-key="publish_listing">Publish Listing</button>
+                </div>
+
+                <!-- Active Listings -->
+                <div>
+                    <h3 data-lang-key="active_listings">Your Active Listings</h3>
+                    
+                    <div class="listing-card">
+                        <div class="l-img"><i class="fas fa-carrot" style="color: orange; font-size: 30px;"></i></div>
+                        <div style="flex: 1;">
+                            <h4>Red Onion (Nashik)</h4>
+                            <p style="font-size: 13px; color: #555;">50 Quintals • ₹2,400/qtl</p>
+                            <span style="font-size: 11px; color: green; background: #e8f5e9; padding: 2px 6px; border-radius: 4px;">Live</span>
+                        </div>
+                        <button style="border: none; background: #eee; padding: 8px; border-radius: 5px; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                    </div>
+
+                    <div class="listing-card">
+                        <div class="l-img"><i class="fas fa-leaf" style="color: green; font-size: 30px;"></i></div>
+                        <div style="flex: 1;">
+                            <h4>Fenugreek (Methi)</h4>
+                            <p style="font-size: 13px; color: #555;">200 Bundles • ₹15/bundle</p>
+                            <span style="font-size: 11px; color: green; background: #e8f5e9; padding: 2px 6px; border-radius: 4px;">Live</span>
+                        </div>
+                        <button style="border: none; background: #eee; padding: 8px; border-radius: 5px; cursor: pointer;"><i class="fas fa-trash"></i></button>
+                    </div>
+
+                    <div style="background: #e3f2fd; padding: 15px; border-radius: 10px; border-left: 4px solid #3498db;">
+                        <strong><span data-lang-key="buyer_request">Buyer Request:</span></strong>
+                        <p style="font-size: 13px;">BigBasket agent looking for 100Q Potato. <a href="#" data-lang-key="connect">Connect</a></p>
+                    </div>
+                </div>
+            </div>

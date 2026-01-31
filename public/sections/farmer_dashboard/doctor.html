@@ -1,0 +1,67 @@
+            <div class="doctor-layout">
+                <!-- Left: Inputs & Samples -->
+                <div class="doctor-input-col">
+                    <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3 data-lang-key="upload_photo">Upload Photo</h3>
+                        <p style="font-size: 13px; color: var(--text-light);" data-lang-key="gallery_camera">From Gallery or Camera</p>
+                        <input type="file" id="fileInput" accept="image/*" hidden onchange="handleImageUpload(this)">
+                    </div>
+                    
+                    <div>
+                        <h4 style="margin-bottom: 10px; color: var(--text-dark); font-size: 14px;" data-lang-key="select_demo">Or Select Demo Scenario:</h4>
+                        <div class="sample-grid">
+                            <div class="sample-thumb" onclick="selectSample('healthy', this)">
+                                <i class="fas fa-leaf" style="color: #2ecc71;"></i>
+                                <span data-lang-key="healthy">Healthy</span>
+                            </div>
+                            <div class="sample-thumb" onclick="selectSample('nitrogen', this)">
+                                <i class="fas fa-leaf" style="color: #f1c40f;"></i>
+                                <span data-lang-key="yellowing">Yellowing</span>
+                            </div>
+                            <div class="sample-thumb" onclick="selectSample('rust', this)">
+                                <i class="fas fa-leaf" style="color: #e67e22;"></i>
+                                <span data-lang-key="spots">Spots</span>
+                            </div>
+                            <div class="sample-thumb" onclick="selectSample('pest', this)">
+                                <i class="fas fa-bug" style="color: #e74c3c;"></i>
+                                <span data-lang-key="pest">Pest</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Preview & Result -->
+                <div class="doctor-preview-col">
+                    <div class="scan-frame" id="scanFrame">
+                        <div class="scan-line"></div>
+                        <i class="fas fa-leaf big-icon" id="previewIcon"></i>
+                        <p class="placeholder-text" id="previewText" data-lang-key="select_demo">Select a scenario to start</p>
+                    </div>
+
+                    <button class="btn-primary" id="analyzeBtn" onclick="startAnalysis()" style="width: 100%;" disabled data-lang-key="run_ai">
+                        Run AI Analysis
+                    </button>
+
+                    <!-- Dynamic Result Card -->
+                    <div class="diagnosis-card" id="scanResult">
+                        <div class="result-header" style="margin-top: 25px;">
+                            <div>
+                                <h3 id="resTitle" style="color: var(--text-dark);">Diagnosis Name</h3>
+                                <p id="resSeverity" style="font-size: 13px; color: #e74c3c;"><span data-lang-key="severity">Severity</span>: High</p>
+                            </div>
+                            <span class="confidence-badge" id="resConfidence">98% Match</span>
+                        </div>
+                        <p id="resDesc" style="font-size: 14px; color: var(--text-light); line-height: 1.5;">
+                            Description of the disease goes here.
+                        </p>
+                        <div class="treatment-box">
+                            <h4><i class="fas fa-first-aid"></i> <span data-lang-key="treatment">Recommended Treatment</span></h4>
+                            <ul id="resTreatment">
+                                <li>Treatment 1</li>
+                                <li>Treatment 2</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>

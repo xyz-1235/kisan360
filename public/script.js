@@ -35,7 +35,8 @@ function checkAuth() {
 // Call on startup
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
-    fetchWeatherData(); // Load weather on startup
+    // Start with Dashboard
+    navigate('dashboard');
 });
 
 function logout() {
@@ -335,10 +336,49 @@ async function fetchWithRetry(url, options, retries = 3) {
 // ========== NAVIGATION ==========
 function navigate(sectionId) {
     const sections = document.querySelectorAll('.section-page');
-    sections.forEach(sec => sec.classList.remove('active'));
+    sections.forEach(sec => {
+        sec.classList.remove('active');
+        sec.style.display = 'none';
+    });
 
     const target = document.getElementById(sectionId);
-    if(target) target.classList.add('active');
+    if(target) {
+        target.classList.add('active');
+        target.style.display = 'block';
+
+        // Load Content Dynamically if not already loaded
+        if (!target.classList.contains('loaded')) {
+            target.innerHTML = '<div style="text-align:center; padding:50px; color:#666;"><i class="fas fa-spinner fa-spin fa-2x"></i><p>Loading Section...</p></div>';
+            
+            fetch(`sections/farmer_dashboard/${sectionId}.html`)
+            .then(res => {
+                if(!res.ok) throw new Error("Section not found");
+                return res.text();
+            })
+            .then(html => {
+                target.innerHTML = html;
+                target.classList.add('loaded');
+
+                // Re-apply translations
+                const currentLangBtn = document.querySelector('.lang-switch button.active');
+                const currentLang = currentLangBtn ? (currentLangBtn.innerText === 'मराठी' ? 'mr' : (currentLangBtn.innerText === 'हिंदी' ? 'hi' : 'en')) : 'en';
+                setLanguage(currentLang);
+
+                // Initialize Section Specific Logic
+                if (sectionId === 'dashboard') {
+                    fetchWeatherData();
+                } else if (sectionId === 'market') {
+                    fetchMandiRates();
+                } else if (sectionId === 'equipment') {
+                    initEquipment(); 
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                target.innerHTML = '<div style="text-align:center; padding:50px; color:red;"><i class="fas fa-exclamation-triangle fa-2x"></i><p>Error Loading Section</p></div>';
+            });
+        }
+    }
 
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
@@ -348,18 +388,11 @@ function navigate(sectionId) {
         }
     });
 
-    const currentLang = document.querySelector('.lang-switch button.active').innerText === 'मराठी' ? 'mr' : 
-                        (document.querySelector('.lang-switch button.active').innerText === 'हिंदी' ? 'hi' : 'en');
+    const currentLang = document.querySelector('.lang-switch button.active') ? 
+                        (document.querySelector('.lang-switch button.active').innerText === 'मराठी' ? 'mr' : 
+                        (document.querySelector('.lang-switch button.active').innerText === 'हिंदी' ? 'hi' : 'en')) 
+                        : 'en';
     setLanguage(currentLang);
-    
-    // Auto-load data based on page
-    if (sectionId === 'dashboard') {
-        setTimeout(() => fetchWeatherData(), 500);
-    } else if (sectionId === 'market') {
-        setTimeout(() => fetchMandiRates(), 500);
-    } else if (sectionId === 'equipment') {
-        setTimeout(() => initEquipment(), 100);
-    }
 }
 
 // ========== LANGUAGE SWITCHING ==========

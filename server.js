@@ -29,18 +29,29 @@ const db = new sqlite3.Database(dbPath, (err) => {
         console.error("Error opening database " + err.message);
     } else {
         console.log("Connected to the SQLite database.");
-        db.run(`CREATE TABLE IF NOT EXISTS users (
+        
+        // 1. Create Farmers Table
+        db.run(`CREATE TABLE IF NOT EXISTS farmers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            email TEXT UNIQUE,
-            password TEXT,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
             village TEXT,
-            state TEXT,
-            role TEXT
+            state TEXT
         )`, (err) => {
-            if (err) {
-                console.error("Error creating table: " + err.message);
-            }
+            if (err) console.error("Error creating farmers table: " + err.message);
+        });
+
+        // 2. Create Buyers Table
+        db.run(`CREATE TABLE IF NOT EXISTS buyers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            city TEXT,
+            phone TEXT
+        )`, (err) => {
+            if (err) console.error("Error creating buyers table: " + err.message);
         });
     }
 });
@@ -67,42 +78,118 @@ if (process.env.GROQ_API_KEY) {
 
 // AUTH ROUTES
 app.post('/register', async (req, res) => {
-    const { name, email, password, village, state, role } = req.body;
-    if (!name || !email || !password) {
-        return res.status(400).json({ error: "Name, email and password are required" });
+    // Extract everything, including potential buyer fields (city, phone) or farmer fields (village, state)
+    const { name, email, password, role, village, state, city, phone } = req.body;
+
+    if (!name || !email || !password || !role) {
+        return res.status(400).json({ error: "Name, email, password and role are required" });
     }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const sql = `INSERT INTO users (name, email, password, village, state, role) VALUES (?, ?, ?, ?, ?, ?)`;
-        db.run(sql, [name, email, hashedPassword, village, state, role], function(err) {
+        
+        let sql;
+        let params;
+        let tableName;
+
+        if (role === 'farmer') {
+            tableName = 'farmers';
+            sql = `INSERT INTO farmers (name, email, password, village, state) VALUES (?, ?, ?, ?, ?)`;
+            params = [name, email, hashedPassword, village, state];
+        } else if (role === 'buyer') {
+            tableName = 'buyers';
+            sql = `INSERT INTO buyers (name, email, password, city, phone) VALUES (?, ?, ?, ?, ?)`;
+            // Note: Map state -> phone if using existing frontend logic, or ensure frontend sends correct keys
+            params = [name, email, hashedPassword, city, phone];
+        } else {
+            return res.status(400).json({ error: "Invalid role" });
+        }
+
+        db.run(sql, params, function(err) {
             if (err) {
-                return res.status(400).json({ error: "Email already exists or database error" });
+                console.error("Registration DB Error:", err);
+                return res.status(400).json({ error: `${role} with this email already exists` });
             }
-            res.json({ message: "User registered successfully", userId: this.lastID });
+            res.json({ message: "Registered successfully", userId: this.lastID });
         });
     } catch (e) {
+        console.error("Registration Server Error:", e);
         res.status(500).json({ error: "Server error" });
     }
 });
 
 app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-    const sql = `SELECT * FROM users WHERE email = ?`;
-    
-    db.get(sql, [email], async (err, user) => {
-        if (err) return res.status(500).json({ error: "Database error" });
-        if (!user) return res.status(400).json({ error: "User not found" });
+    const { email, password, role } = req.body; // Role is optional but recommended
 
-        const match = await bcrypt.compare(password, user.password);
-        if (match) {
-            res.json({ 
-                message: "Login successful", 
-                user: { id: user.id, name: user.name, email: user.email, role: user.role } 
-            });
-        } else {
-            res.status(400).json({ error: "Invalid password" });
+    // If role is provided, only check that specific table
+    if (role === 'farmer') {
+         db.get(`SELECT * FROM farmers WHERE email = ?`, [email], async (err, user) => {
+            if (err) return res.status(500).json({ error: "Database error" });
+            if (!user) return res.status(400).json({ error: "Farmer account not found" });
+
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                res.json({ message: "Login successful", user: { ...user, role: 'farmer' } });
+            } else {
+                res.status(400).json({ error: "Invalid password" });
+            }
+        });
+        return;
+    } 
+    
+    if (role === 'buyer') {
+         db.get(`SELECT * FROM buyers WHERE email = ?`, [email], async (err, user) => {
+            if (err) return res.status(500).json({ error: "Database error" });
+            if (!user) return res.status(400).json({ error: "Buyer account not found" });
+
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                res.json({ message: "Login successful", user: { ...user, role: 'buyer' } });
+            } else {
+                res.status(400).json({ error: "Invalid password" });
+            }
+        });
+        return;
+    }
+
+    // Fallback: Check farmers table first if no role specified (Legacy support)
+    const sqlFarmer = `SELECT * FROM farmers WHERE email = ?`;
+    
+    db.get(sqlFarmer, [email], async (err, farmer) => {
+        if (err) return res.status(500).json({ error: "Database error" });
+        
+        if (farmer) {
+            const match = await bcrypt.compare(password, farmer.password);
+            if (match) {
+                return res.json({ 
+                    message: "Login successful", 
+                    user: { ...farmer, role: 'farmer' } 
+                });
+            } else {
+                return res.status(400).json({ error: "Invalid password" });
+            }
         }
+
+        // If not found in farmers, check buyers
+        const sqlBuyer = `SELECT * FROM buyers WHERE email = ?`;
+        db.get(sqlBuyer, [email], async (err, buyer) => {
+            if (err) return res.status(500).json({ error: "Database error" });
+            
+            if (buyer) {
+                const match = await bcrypt.compare(password, buyer.password);
+                if (match) {
+                    return res.json({ 
+                        message: "Login successful", 
+                        user: { ...buyer, role: 'buyer' } 
+                    });
+                } else {
+                    return res.status(400).json({ error: "Invalid password" });
+                }
+            }
+
+            // Not found in either
+            res.status(400).json({ error: "User not found" });
+        });
     });
 });
 

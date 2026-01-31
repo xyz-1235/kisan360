@@ -1,0 +1,11 @@
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 data-lang-key="live_rates">Live Mandi Rates</h3>
+                <button class="btn-primary" onclick="fetchMandiRates()" style="width: auto;"><i class="fas fa-sync"></i> <span data-lang-key="refresh_rates">Refresh Rates</span></button>
+            </div>
+            
+            <!-- Dynamic Mandi Rates Container -->
+            <div id="mandiRatesContainer" style="background: white; border-radius: 20px; box-shadow: var(--shadow); padding: 25px;">
+                <p style="text-align: center; padding: 40px; color: var(--text-light);" data-lang-key="loading_rates">
+                    📊 Loading latest market rates...
+                </p>
+            </div>

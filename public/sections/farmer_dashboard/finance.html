@@ -1,0 +1,39 @@
+            <div class="doctor-layout">
+                <div class="calc-container">
+                    <h3 data-lang-key="loan_calculator">Loan Eligibility Calculator</h3>
+                    <p style="margin-bottom: 20px; color: var(--text-light);" data-lang-key="finance_scale">Based on Scale of Finance 2026</p>
+                    
+                    <div class="form-group">
+                        <label data-lang-key="land_size">Land Size (Acres)</label>
+                        <input type="number" id="landInput" placeholder="e.g. 2.5">
+                    </div>
+                    <div class="form-group">
+                        <label data-lang-key="crop_type">Crop Type</label>
+                        <select id="cropInput">
+                            <option value="35000">Wheat / Gahu</option>
+                            <option value="45000">Onion / Kanda</option>
+                            <option value="120000">Sugarcane / Us</option>
+                        </select>
+                    </div>
+                    <button class="btn-primary" onclick="calculateLoan()" data-lang-key="check_eligibility">Check Eligibility</button>
+                    
+                    <div id="loanResult" style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px; display: none;">
+                        <strong><span data-lang-key="max_loan">Max Loan Amount</span>:</strong> <span id="amountDisplay">₹0</span><br>
+                        <small data-lang-key="interest_rate">Interest: 4% p.a. (Under KCC Scheme)</small>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 data-lang-key="gov_schemes">Active Gov. Schemes 2026</h3>
+                    <div style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 15px; box-shadow: var(--shadow);">
+                        <h4 data-lang-key="pm_kisan">PM-Kisan Samman</h4>
+                        <p style="font-size: 13px; color: var(--text-light);" data-lang-key="pm_kisan_desc">₹6,000 per year income support.</p>
+                        <a href="#" style="color: var(--secondary-color); font-size: 13px; font-weight: bold;" data-lang-key="apply_now">Apply Now →</a>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 15px; box-shadow: var(--shadow);">
+                        <h4 data-lang-key="magel_tyala">Magel Tyala Shettale</h4>
+                        <p style="font-size: 13px; color: var(--text-light);" data-lang-key="magel_tyala_desc">Subsidy for farm ponds.</p>
+                        <a href="#" style="color: var(--secondary-color); font-size: 13px; font-weight: bold;" data-lang-key="apply_now">Apply Now →</a>
+                    </div>
+                </div>
+            </div>

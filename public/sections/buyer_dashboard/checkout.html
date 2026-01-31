@@ -1,0 +1,55 @@
+<div class="max-w-4xl mx-auto animate-fade-in">
+    <div class="flex items-center gap-4 mb-10">
+        <button onclick="navigate('cart')" class="p-3 bg-white rounded-2xl hover:bg-slate-100 transition-colors shadow-sm">
+            <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+        <h1 class="text-3xl font-black">Checkout</h1>
+    </div>
+
+    <form id="checkoutForm" onsubmit="handleCheckout(event)" class="grid md:grid-cols-2 gap-8">
+        <div class="space-y-6">
+            <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+                <h3 class="font-black text-xl mb-6 flex items-center gap-2"><i data-lucide="user" class="text-emerald-600"></i> Buyer Details</h3>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" name="fname" placeholder="First Name" required class="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 ring-emerald-500 outline-none w-full">
+                        <input type="text" name="lname" placeholder="Last Name" required class="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 ring-emerald-500 outline-none w-full">
+                    </div>
+                    <input type="email" name="email" placeholder="Work Email" required class="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 ring-emerald-500 outline-none w-full">
+                    <input type="tel" name="phone" placeholder="Phone Number" required class="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 ring-emerald-500 outline-none w-full">
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+                <h3 class="font-black text-xl mb-6 flex items-center gap-2"><i data-lucide="map-pin" class="text-emerald-600"></i> Delivery</h3>
+                <div class="space-y-4">
+                    <input type="text" name="address" placeholder="Warehouse / Site Address" required class="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 ring-emerald-500 outline-none w-full">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" name="city" placeholder="City" required class="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 ring-emerald-500 outline-none w-full">
+                        <input type="text" name="pincode" placeholder="Pincode" required class="bg-slate-50 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 ring-emerald-500 outline-none w-full">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+                <h3 class="font-black text-xl mb-6 flex items-center gap-2"><i data-lucide="credit-card" class="text-emerald-600"></i> Payment</h3>
+                <div class="space-y-3">
+                    <label class="flex items-center p-4 border-2 border-emerald-500 bg-emerald-50 rounded-2xl cursor-pointer">
+                        <input type="radio" name="pay" value="bank" checked class="w-4 h-4 text-emerald-600">
+                        <div class="ml-4"><p class="font-bold text-sm">RTGS / Bank Transfer</p><p class="text-[10px] text-slate-500">Commercial standard</p></div>
+                    </label>
+                    <label class="flex items-center p-4 border border-slate-100 rounded-2xl cursor-pointer hover:bg-slate-50">
+                        <input type="radio" name="pay" value="lc" class="w-4 h-4 text-emerald-600">
+                        <div class="ml-4"><p class="font-bold text-sm">Letter of Credit</p><p class="text-[10px] text-slate-500">For institutional orders</p></div>
+                    </label>
+                </div>
+                <div class="mt-8 pt-8 border-t border-slate-100">
+                    <div class="flex justify-between text-xl font-black mb-6"><span>Total Amount</span><span id="checkoutTotal">₹0</span></div>
+                    <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black hover:bg-slate-800 transition-all">Submit Procurement Order</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

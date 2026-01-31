@@ -19,10 +19,12 @@
 
     .card {
       background: #fff;
-      width: 390px;
+      width: 420px;
       padding: 34px;
       border-radius: 14px;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+      max-height: 90vh; /* Better for mobile/small screens */
+      overflow-y: auto;
     }
 
     h2 {
@@ -30,6 +32,57 @@
       color: #15803d;
       margin-bottom: 22px;
     }
+
+    /* --- NEW STYLES START --- */
+    .role-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    
+    .role-btn {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      background: #f8fafc;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #64748b;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .role-btn.active {
+      border-color: #16a34a;
+      background: #dcfce7;
+      color: #16a34a;
+    }
+    
+    .role-btn.active[data-role="buyer"] {
+      border-color: #2563eb;
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    button.register-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.1s;
+    }
+    button.register-btn:active { transform: scale(0.98); }
+    /* --- NEW STYLES END --- */
 
     input, select {
       width: 100%;
@@ -40,18 +93,9 @@
       font-size: 14px;
     }
 
-    button {
-      width: 100%;
-      padding: 13px;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
+    /* Remove old button style to avoid conflict */
+    /* button { ... } replaced by specific class */
+    
     .link {
       margin-top: 18px;
       text-align: center;
@@ -68,23 +112,34 @@
 
 <body>
   <div class="card">
-    <h2>Create Account</h2>
+    <h2 id="pageTitle">Create Account</h2>
 
-    <!-- ❌ NO FORM TAG -->
+    <!-- Role Selection Buttons -->
+    <div class="role-buttons">
+        <button type="button" class="role-btn active" data-role="farmer" onclick="selectRole('farmer')">
+             I am a Farmer
+        </button>
+        <button type="button" class="role-btn" data-role="buyer" onclick="selectRole('buyer')">
+             I am a Buyer
+        </button>
+    </div>
+
+    <!-- Hidden Input for Logic -->
+    <input type="hidden" id="role" value="farmer">
+
+    <!-- Common Fields -->
     <input id="name" placeholder="Full Name" />
     <input id="email" type="email" placeholder="Email" />
     <input id="password" type="password" placeholder="Password" />
     
-    <select id="role" style="width: 100%; padding: 13px; margin-bottom: 14px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 14px; background: white;">
-        <option value="farmer">I am a Farmer</option>
-        <option value="buyer">I am a Buyer</option>
-    </select>
+    <!-- Dynamic Fields Area -->
+    <div id="dynamic-fields">
+        <!-- Default Farmer Fields -->
+        <input id="field1" placeholder="Village / Town" />
+        <input id="field2" placeholder="State" />
+    </div>
 
-    <input id="village" placeholder="Village / City" />
-    <input id="state" placeholder="State" />
-
-    <!-- ✅ IMPORTANT FIX -->
-    <button type="button" onclick="register()">Register</button>
+    <button type="button" class="register-btn" id="regBtn" onclick="register()">Register as Farmer</button>
 
     <div class="link">
       Already have an account?
@@ -98,16 +153,68 @@ const API_BASE_URL = (window.location.port && parseInt(window.location.port) >= 
     ? 'http://localhost:3000'
     : '';
 
+let currentRole = 'farmer';
+
+function selectRole(role) {
+    currentRole = role;
+    document.getElementById('role').value = role;
+
+    // Update Buttons
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.dataset.role === role) btn.classList.add('active');
+    });
+
+    const dynamicDiv = document.getElementById('dynamic-fields');
+    const regBtn = document.getElementById('regBtn');
+    const title = document.getElementById('pageTitle');
+
+    // Update Fields & Text
+    if (role === 'farmer') {
+        dynamicDiv.innerHTML = `
+            <input id="field1" placeholder="Village / Town" />
+            <input id="field2" placeholder="State" />
+        `;
+        regBtn.innerText = "Register as Farmer";
+        regBtn.style.background = "linear-gradient(135deg, #22c55e, #16a34a)"; // Green
+        title.style.color = "#15803d";
+    } else {
+        dynamicDiv.innerHTML = `
+            <input id="field1" placeholder="City" />
+            <input id="field2" placeholder="Phone Number" />
+        `;
+        regBtn.innerText = "Register as Buyer";
+        regBtn.style.background = "linear-gradient(135deg, #3b82f6, #2563eb)"; // Blue
+        title.style.color = "#1e40af";
+    }
+}
+
 async function register() {
   try {
-    const data = {
-      name: document.getElementById("name").value.trim(),
-      email: document.getElementById("email").value.trim(),
-      password: document.getElementById("password").value,
-      village: document.getElementById("village").value.trim(),
-      state: document.getElementById("state").value.trim(),
-      role: document.getElementById("role").value
+    const role = document.getElementById('role').value;
+    const commonData = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        password: document.getElementById("password").value,
+        role: role
     };
+
+    // Extract Dynamic Data
+    let specificData = {};
+    if (role === 'farmer') {
+        specificData = {
+            village: document.getElementById('field1').value.trim(),
+            state: document.getElementById('field2').value.trim()
+        };
+    } else {
+        specificData = {
+            city: document.getElementById('field1').value.trim(),
+            phone: document.getElementById('field2').value.trim()
+        };
+    }
+
+    // Merge
+    const data = { ...commonData, ...specificData };
 
     if (!data.name || !data.email || !data.password) {
       alert("Name, email and password are required");
@@ -123,9 +230,14 @@ async function register() {
     const result = await res.json();
 
     if (res.ok) {
-        alert("Registration successful! Click OK to go to Login.");
-        // Use href instead of replace to ensure history push, and wait for alert to close
-        window.location.href = "index.html";
+        // Show success state on button
+        const btn = document.getElementById("regBtn");
+        btn.innerText = "Registration Successful! Redirecting...";
+        
+        // Redirect automatically after short delay
+        setTimeout(() => {
+             window.location.href = "index.html"; 
+        }, 1000);
     } else {
       alert(result.error || "Registration failed");
     }
