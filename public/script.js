@@ -88,6 +88,34 @@ async function fetchWithRetry(url, options, retries = 3) {
 
 // ========== NAVIGATION ==========
 function navigate(sectionId) {
+    // Update Header dynamic text
+    const pageTitle = document.getElementById('page-title');
+    const pageSubtitle = document.getElementById('page-subtitle');
+
+    if (pageTitle) {
+        pageTitle.setAttribute('data-lang-key', sectionId);
+    }
+
+    if (pageSubtitle) {
+        const subtitleMap = {
+            'dashboard': 'welcome_msg',
+            'doctor': 'doctor_subtitle',
+            'market': 'market_subtitle',
+            'finance': 'finance_subtitle',
+            'equipment': 'equipment_subtitle',
+            'myshop': 'myshop_subtitle',
+            'learn': 'learn_subtitle',
+            'community': 'community_subtitle'
+        };
+        const subKey = subtitleMap[sectionId];
+        if (subKey) {
+            pageSubtitle.setAttribute('data-lang-key', subKey);
+            pageSubtitle.style.display = 'block';
+        } else {
+            pageSubtitle.style.display = 'none'; // Hide if no subtitle defined
+        }
+    }
+
     const sections = document.querySelectorAll('.section-page');
     sections.forEach(sec => {
         sec.classList.remove('active');

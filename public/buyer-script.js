@@ -32,7 +32,7 @@ const PRODUCTS = [
 
     // BY-PRODUCTS
     { id: 5, name: 'Vermicompost Gold', category: 'byproducts', sub: 'Compost', price: 320, unit: '50Kg Bag', rating: 4.6, location: 'Maharashtra', img: 'https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Premium worm-casted organic fertilizer for intensive high-yield farming.' },
-    { id: 501, name: 'Neem Bio-Pesticide', category: 'byproducts', sub: 'Organic Inputs', price: 450, unit: '5L Can', rating: 4.7, location: 'Tamil Nadu', img: 'https://plus.unsplash.com/premium_photo-1664302148512-d5e6b063d835?auto=format&fit=crop&q=80&w=600', bulk: false, desc: 'Neem oil extract with high Azadirachtin content for natural pest control.' },
+    { id: 501, name: 'Neem Bio-Pesticide', category: 'byproducts', sub: 'Organic Inputs', price: 450, unit: '5L Can', rating: 4.7, location: 'Tamil Nadu', img: 'https://as1.ftcdn.net/jpg/08/13/12/84/1000_F_813128474_ooP9a59aXh24jhCIfIvsLCLzRFR894mN.jpg', bulk: false, desc: 'Neem oil extract with high Azadirachtin content for natural pest control.' },
     { id: 502, name: 'Premium Wheat Straw', category: 'byproducts', sub: 'Fodder', price: 450, unit: 'Quintal', rating: 4.5, location: 'Haryana', img: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&q=80&w=600', bulk: true, desc: 'Clean, dry wheat straw bales. High fiber content, ideal for cattle feed.' },
 
     // MEDICINAL
