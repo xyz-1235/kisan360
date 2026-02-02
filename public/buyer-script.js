@@ -338,7 +338,128 @@ function initCart() {
     lucide.createIcons();
 }
 
+function generateReceipt(orderId) {
+    const order = state.orderHistory.find(o => o.id === orderId);
+    if (!order) return;
+
+    const receiptHTML = `
+        <html>
+        <head>
+            <title>Receipt - ${order.id}</title>
+            <style>
+                body { font-family: 'Helvetica Neue', Arial, sans-serif; padding: 40px; color: #333; max-width: 800px; mx-auto; }
+                .header { text-align: center; margin-bottom: 40px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
+                .logo { font-size: 24px; font-weight: bold; color: #059669; }
+                .meta { display: flex; justify-content: space-between; margin-bottom: 40px; }
+                .meta-col h3 { font-size: 14px; text-transform: uppercase; color: #999; margin-bottom: 5px; }
+                .meta-col p { font-size: 16px; font-weight: bold; margin: 0; }
+                table { w-full; border-collapse: collapse; margin-bottom: 40px; width: 100%; }
+                th { text-align: left; padding: 15px 0; border-bottom: 2px solid #333; }
+                td { padding: 15px 0; border-bottom: 1px solid #eee; }
+                .total-row td { border-top: 2px solid #333; font-weight: bold; font-size: 18px; padding-top: 20px; }
+                .footer { text-align: center; color: #999; font-size: 12px; margin-top: 60px; }
+            </style>
+        </head>
+        <body>
+            <div class="header">
+                <div class="logo">KISAN360</div>
+                <p>Commercial Portal Receipt</p>
+            </div>
+            
+            <div class="meta">
+                <div class="meta-col">
+                    <h3>Billed To</h3>
+                    <p>${order.buyer.name}</p>
+                    <p style="font-size:14px; font-weight:normal; color:#666">${order.buyer.address}, ${order.buyer.city}</p>
+                </div>
+                <div class="meta-col" style="text-align:right">
+                    <h3>Invoice Number</h3>
+                    <p>${order.id}</p>
+                    <h3 style="margin-top:20px">Date</h3>
+                    <p>${order.date}</p>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Description</th>
+                        <th style="text-align:center">Qty</th>
+                        <th style="text-align:right">Price</th>
+                        <th style="text-align:right">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${order.items.map(item => `
+                        <tr>
+                            <td>
+                                <b>${item.name}</b><br>
+                                <span style="font-size:12px; color:#666">${item.sub}</span>
+                            </td>
+                            <td style="text-align:center">${item.qty} ${item.unit}</td>
+                            <td style="text-align:right">₹${item.price.toLocaleString()}</td>
+                            <td style="text-align:right">₹${(item.price * item.qty).toLocaleString()}</td>
+                        </tr>
+                    `).join('')}
+                    <tr>
+                        <td colspan="3" style="text-align:right; padding-top:20px; border-bottom:none">Subtotal</td>
+                        <td style="text-align:right; padding-top:20px; border-bottom:none">₹${order.subtotal.toLocaleString()}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align:right; border-bottom:none">Platform Fee & Logistics</td>
+                        <td style="text-align:right; border-bottom:none">₹${(order.total - order.subtotal).toLocaleString()}</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="3" style="text-align:right">Total Paid</td>
+                        <td style="text-align:right; color: #059669">₹${Math.round(order.total).toLocaleString()}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="footer">
+                <p>Thank you for doing business with Kisan360.</p>
+                <p>This is a computer generated receipt.</p>
+            </div>
+            <script>window.print();</script>
+        </body>
+        </html>
+    `;
+
+    const win = window.open('', '_blank');
+    win.document.write(receiptHTML);
+    win.document.close();
+}
+
 // --- CHECKOUT LOGIC ---
+function handleQuickCheckout() {
+    const currentUser = JSON.parse(localStorage.getItem('user')) || { name: 'Neeraj Kudale' };
+    
+    // Create Mock Order
+    const newOrder = {
+        id: 'KSN-' + Math.floor(100000 + Math.random() * 900000),
+        date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+        items: [...state.cart],
+        subtotal: state.cart.reduce((a, b) => a + (b.price * b.qty), 0),
+        total: state.cart.reduce((a, b) => a + (b.price * b.qty), 0) * 1.02 + 500, // +2% Fee + 500 Logistics
+        buyer: {
+            name: currentUser.name || 'Neeraj Kudale',
+            address: 'Plot No 45, Ind. Area',
+            city: 'Pune'
+        }
+    };
+
+    // Save
+    state.orderHistory.unshift(newOrder);
+    localStorage.setItem('kisan360_orders', JSON.stringify(state.orderHistory));
+    
+    // Clear Cart
+    state.cart = [];
+    updateCartCounter();
+    
+    // Go to Receipt
+    navigateTo('confirmation');
+}
+
 function initCheckout() {
     const totalEl = document.getElementById('checkoutTotal');
     if (totalEl) {
@@ -379,18 +500,42 @@ function initConfirmation() {
     const lastOrder = state.orderHistory[0];
     if (!lastOrder) return;
 
-    document.getElementById('confOrderId').innerText = lastOrder.id;
-    document.getElementById('confOrderTotal').innerText = '₹' + Math.round(lastOrder.total).toLocaleString();
-    
-    const summary = document.getElementById('confOrderSummary');
-    if (summary) {
-        summary.innerHTML = lastOrder.items.map(i => `
-            <div class="flex justify-between items-center">
-                <div><p class="font-bold text-slate-800">${i.name}</p><p class="text-[10px] text-slate-500">${i.qty} × ${i.unit}</p></div>
-                <span class="font-bold">₹${(i.price * i.qty).toLocaleString()}</span>
-            </div>
+    // Header & Meta
+    document.getElementById('receiptId').innerText = lastOrder.id;
+    document.getElementById('receiptDate').innerText = lastOrder.date;
+    document.getElementById('receiptName').innerText = lastOrder.buyer.name;
+    document.getElementById('receiptAddress').innerText = lastOrder.buyer.address;
+    document.getElementById('receiptCity').innerText = lastOrder.buyer.city;
+
+    // Items Table
+    const tbody = document.getElementById('receiptItems');
+    if (tbody) {
+        tbody.innerHTML = lastOrder.items.map(item => `
+            <tr>
+                <td class="py-4 border-b border-slate-50">
+                    <p class="font-bold">${item.name}</p>
+                    <p class="text-xs text-slate-500">${item.sub}</p>
+                </td>
+                <td class="py-4 border-b border-slate-50 text-center">${item.qty} ${item.unit}</td>
+                <td class="py-4 border-b border-slate-50 text-right">₹${item.price.toLocaleString()}</td>
+                <td class="py-4 border-b border-slate-50 text-right font-medium">₹${(item.price * item.qty).toLocaleString()}</td>
+            </tr>
         `).join('');
     }
+
+    // Totals
+    document.getElementById('receiptSubtotal').innerText = '₹' + lastOrder.subtotal.toLocaleString();
+    
+    // We recreate logic because we didn't store fees separately in order object (simplification fix)
+    const fee = lastOrder.subtotal * 0.02;
+    const logistics = lastOrder.total - lastOrder.subtotal - fee; // Reverse calc or fix storage
+    
+    // Actually best to rely on what was calculated during checkout
+    // For now re-calculating to display
+    document.getElementById('receiptFee').innerText = '₹' + Math.round(fee).toLocaleString();
+    document.getElementById('receiptLogistics').innerText = '₹' + Math.round(logistics).toLocaleString();
+    document.getElementById('receiptTotal').innerText = '₹' + Math.round(lastOrder.total).toLocaleString();
+    lucide.createIcons();
 }
 
 function initHistory() {
@@ -439,7 +584,7 @@ function initHistory() {
                         <i data-lucide="truck" class="w-4 h-4"></i>
                         <span class="text-xs font-bold"><span data-lang-key="buyer_shipped_to">${translations[currentLang].buyer_shipped_to}</span> ${order.buyer.city}</span>
                     </div>
-                    <button class="text-emerald-600 text-xs font-black uppercase tracking-widest hover:underline" data-lang-key="buyer_download_invoice">${translations[currentLang].buyer_download_invoice}</button>
+                    <button onclick="generateReceipt('${order.id}')" class="text-emerald-600 text-xs font-black uppercase tracking-widest hover:underline" data-lang-key="buyer_download_invoice">${translations[currentLang].buyer_download_invoice}</button>
                 </div>
             </div>
         `).join('');
