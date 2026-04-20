@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Last Minute Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --card: #13161e;
+    --card2: #181c26;
+    --border: #252a38;
+    --accent1: #e8b84b;
+    --accent2: #4be8b8;
+    --accent3: #e84b7a;
+    --accent4: #7a4be8;
+    --accent5: #4b9ce8;
+    --text: #dce3f0;
+    --muted: #7a86a0;
+    --tag-bg: #1e2333;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0d0f14 0%, #13161e 50%, #0a0d12 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 48px 32px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(232,184,75,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    border: 1px solid var(--accent1);
+    padding: 4px 14px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  h1 span { color: var(--accent1); }
+  .subtitle {
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 14px 12px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  nav a:hover { color: var(--text); border-bottom-color: var(--accent1); }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* CHAPTER CARD */
+  .chapter {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .chapter:nth-child(1) { animation-delay: 0.05s; }
+  .chapter:nth-child(2) { animation-delay: 0.1s; }
+  .chapter:nth-child(3) { animation-delay: 0.15s; }
+  .chapter:nth-child(4) { animation-delay: 0.2s; }
+
+  .ch-header {
+    padding: 24px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .ch-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent1);
+    border: 1px solid var(--accent1);
+    padding: 3px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+    letter-spacing: 1px;
+  }
+  .ch-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    flex: 1;
+  }
+  .ch-toggle {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.3s;
+  }
+  .chapter.collapsed .ch-toggle { transform: rotate(-90deg); }
+
+  .ch-body {
+    padding: 28px;
+    display: grid;
+    gap: 24px;
+    transition: all 0.3s;
+  }
+  .chapter.collapsed .ch-body {
+    display: none;
+  }
+
+  /* SECTIONS */
+  .section {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 22px 24px;
+    border-left: 3px solid var(--accent1);
+  }
+  .section.a2 { border-left-color: var(--accent2); }
+  .section.a3 { border-left-color: var(--accent3); }
+  .section.a4 { border-left-color: var(--accent4); }
+  .section.a5 { border-left-color: var(--accent5); }
+
+  .sec-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent1);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section.a2 .sec-title { color: var(--accent2); }
+  .section.a3 .sec-title { color: var(--accent3); }
+  .section.a4 .sec-title { color: var(--accent4); }
+  .section.a5 .sec-title { color: var(--accent5); }
+
+  /* Points */
+  .points { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .points li {
+    font-size: 14px;
+    color: var(--text);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.65;
+  }
+  .points li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent1);
+    font-weight: 700;
+  }
+  .section.a2 .points li::before { color: var(--accent2); }
+  .section.a3 .points li::before { color: var(--accent3); }
+  .section.a4 .points li::before { color: var(--accent4); }
+  .section.a5 .points li::before { color: var(--accent5); }
+
+  strong { color: #fff; font-weight: 700; }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: rgba(255,255,255,0.05);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--accent1);
+  }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin-top: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: rgba(255,255,255,0.04);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(37,42,56,0.5);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  /* FORMULA BOX */
+  .formula {
+    background: rgba(232,184,75,0.05);
+    border: 1px solid rgba(232,184,75,0.2);
+    border-radius: 3px;
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent1);
+    margin-top: 10px;
+    line-height: 1.8;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: rgba(75,232,184,0.05);
+    border: 1px solid rgba(75,232,184,0.2);
+    border-radius: 3px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--accent2);
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.7;
+  }
+  .callout.warn {
+    background: rgba(232,75,122,0.05);
+    border-color: rgba(232,75,122,0.2);
+    color: var(--accent3);
+  }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media(max-width:680px) { .grid2 { grid-template-columns: 1fr; } }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+  .badge.gold { background: rgba(232,184,75,0.15); color: var(--accent1); }
+  .badge.green { background: rgba(75,232,184,0.12); color: var(--accent2); }
+  .badge.red { background: rgba(232,75,122,0.12); color: var(--accent3); }
+
+  p.note {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+  p.note strong { color: var(--text); }
+
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 14px 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Last Minute Revision</div>
+  <h1>Operating <span>Systems</span></h1>
+  <p class="subtitle">Units 4A · 4B · 5 · 6 — Complete Quick Notes</p>
+</header>
+
+<nav>
+  <a href="#unit4a">Unit 4A — Deadlocks</a>
+  <a href="#unit4b">Unit 4B — Memory Mgmt</a>
+  <a href="#unit5">Unit 5 — Memory Alloc & VM</a>
+  <a href="#unit6">Unit 6 — File System</a>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════ UNIT 4A ═══════════════════════════════ -->
+<section class="chapter" id="unit4a">
+  <div class="ch-header" onclick="toggle(this)">
+    <span class="ch-num">UNIT 4A</span>
+    <span class="ch-title">Deadlocks</span>
+    <span class="ch-toggle">▾</span>
+  </div>
+  <div class="ch-body">
+
+    <div class="section">
+      <div class="sec-title">📌 What is a Deadlock?</div>
+      <ul class="points">
+        <li>A set of processes is <strong>deadlocked</strong> when every process in the set is waiting for an event that can only be caused by another process in the same set — and <strong>no process can ever proceed</strong>.</li>
+        <li>Resources can be <strong>physical</strong> (printers, tape drives, memory) or <strong>logical</strong> (files, semaphores, monitors).</li>
+        <li>Normal resource use sequence: <strong>Request → Use → Release</strong>.</li>
+        <li>System maintains a table recording whether each resource is free or allocated and to which process.</li>
+      </ul>
+    </div>
+
+    <div class="section a2">
+      <div class="sec-title">🔒 4 Necessary Conditions (Coffman Conditions)</div>
+      <p class="note">ALL four must hold simultaneously for a deadlock to occur.</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>#</th><th>Condition</th><th>Meaning</th></tr>
+          <tr><td><strong>1</strong></td><td><strong>Mutual Exclusion</strong></td><td>At least one resource held in non-sharable mode; only one process can use it at a time.</td></tr>
+          <tr><td><strong>2</strong></td><td><strong>Hold and Wait</strong></td><td>A process holds at least one resource and waits for additional resources held by others.</td></tr>
+          <tr><td><strong>3</strong></td><td><strong>No Preemption</strong></td><td>Resources cannot be forcibly taken; released only voluntarily after task completion.</td></tr>
+          <tr><td><strong>4</strong></td><td><strong>Circular Wait</strong></td><td>A circular chain P0→P1→…→Pn→P0 exists where each waits for a resource held by the next.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section a3">
+      <div class="sec-title">📊 Resource Allocation Graph (RAG)</div>
+      <ul class="points">
+        <li><strong>Vertices:</strong> Processes (circles) and Resources (rectangles with dots for instances).</li>
+        <li><strong>Request edge:</strong> Pi → Rj (process requesting resource — arrow FROM process TO resource).</li>
+        <li><strong>Assignment edge:</strong> Rj → Pi (resource assigned to process — arrow FROM resource TO process).</li>
+        <li><strong>No cycle in graph</strong> → <em>No deadlock</em>.</li>
+        <li><strong>Cycle exists, each resource has ONE instance</strong> → <em>Deadlock guaranteed</em> (necessary AND sufficient).</li>
+        <li><strong>Cycle exists, resources have MULTIPLE instances</strong> → Deadlock <em>may or may not</em> exist (only necessary condition).</li>
+      </ul>
+      <div class="callout">KEY: If P4 can release a resource and break the cycle → no deadlock. Cycle alone ≠ deadlock when multiple instances exist.</div>
+    </div>
+
+    <div class="section a4">
+      <div class="sec-title">🛡️ Deadlock Prevention (Attack each condition)</div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Condition to Break</th><th>Approach</th><th>Limitation</th></tr>
+          <tr><td>Mutual Exclusion</td><td>Make resources sharable (e.g., read-only files)</td><td>Not possible for inherently non-sharable resources</td></tr>
+          <tr><td>Hold and Wait</td><td>(1) Request ALL resources before starting OR (2) Release all before requesting more</td><td>Low resource utilization; starvation possible</td></tr>
+          <tr><td>No Preemption</td><td>If a process must wait, preempt its held resources; restart when all resources available</td><td>Only works for resources whose state can be saved (CPU regs, memory)</td></tr>
+          <tr><td>Circular Wait</td><td>Impose total ordering on resources; process must request in increasing F() order</td><td>Responsibility on developers; ordering may not match usage</td></tr>
+        </table>
+      </div>
+      <div class="formula">F(tape drive) = 1 | F(disk drive) = 5 | F(printer) = 12
+→ Must request tape before disk before printer</div>
+    </div>
+
+    <div class="section a5">
+      <div class="sec-title">🧭 Deadlock Avoidance — Safe State</div>
+      <ul class="points">
+        <li><strong>Safe State:</strong> System can allocate resources to each process in some order (safe sequence) and avoid deadlock.</li>
+        <li><strong>Safe sequence</strong> &lt;P1, P2, ..., Pn&gt;: for each Pi, its remaining requests can be satisfied by currently available resources PLUS resources held by all Pj (j &lt; i).</li>
+        <li>Safe state → NOT deadlocked. Deadlocked state → Unsafe. But <strong>not all unsafe states lead to deadlock</strong>.</li>
+        <li>Avoidance strategy: <strong>grant a request ONLY if the allocation leaves the system in a safe state</strong>.</li>
+      </ul>
+      <div class="callout warn">Unsafe state example: 12 tape drives, P0 needs 10 (has 5), P1 needs 4 (has 2), P2 needs 9 (has 2). At t0 = safe. If P2 gets 1 more → only 2 free → only P1 can complete → 4 free → P0 needs 5 more but only 4 → UNSAFE!</div>
+
+      <h3>Resource-Allocation Graph Algorithm (Single instance per resource)</h3>
+      <ul class="points">
+        <li>Adds a <strong>claim edge</strong> (dashed) Pi → Rj: process Pi <em>may</em> request Rj in future.</li>
+        <li>Claim edge converts to request edge when process actually requests.</li>
+        <li>Request granted only if converting request edge → assignment edge <strong>does NOT create a cycle</strong>.</li>
+        <li>Cycle detection requires O(n²) operations.</li>
+      </ul>
+
+      <h3>Banker's Algorithm (Multiple instances per resource)</h3>
+      <ul class="points">
+        <li>Each process must declare <strong>maximum need</strong> in advance.</li>
+        <li>On each request, simulate allocation; if resulting state is safe → grant; else → wait.</li>
+        <li>Uses: Available, Max, Allocation, Need = Max − Allocation matrices.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">🔧 Methods for Handling Deadlocks (3 Approaches)</div>
+      <ul class="points">
+        <li><strong>Prevention/Avoidance:</strong> Ensure system never enters deadlock state.</li>
+        <li><strong>Detection + Recovery:</strong> Allow deadlock, detect it, recover from it.</li>
+        <li><strong>Ignore (Ostrich Algorithm):</strong> Used by most OSes (UNIX, Windows). Left to application developer. Most practical for low-frequency deadlocks.</li>
+      </ul>
+    </div>
+
+    <div class="section a2">
+      <div class="sec-title">🚑 Recovery from Deadlock</div>
+      <div class="grid2">
+        <div>
+          <h3>Process Termination</h3>
+          <ul class="points">
+            <li><strong>Abort ALL deadlocked processes</strong> — breaks cycle; expensive (work lost).</li>
+            <li><strong>Abort ONE at a time</strong> — run detection after each abort; overhead heavy.</li>
+            <li>Selection criteria: priority, compute time, resources held, resources still needed, number of processes to terminate, interactive vs. batch.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Resource Preemption</h3>
+          <ul class="points">
+            <li><strong>Select victim</strong> — minimize cost (resources held, time consumed).</li>
+            <li><strong>Rollback</strong> — roll back to safe state; simplest = total rollback (abort & restart).</li>
+            <li><strong>Starvation</strong> — same process repeatedly picked as victim; solution: include rollback count in cost factor.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ UNIT 4B ═══════════════════════════════ -->
+<section class="chapter" id="unit4b">
+  <div class="ch-header" onclick="toggle(this)">
+    <span class="ch-num">UNIT 4B</span>
+    <span class="ch-title">Memory Management — Basic Concepts</span>
+    <span class="ch-toggle">▾</span>
+  </div>
+  <div class="ch-body">
+
+    <div class="section">
+      <div class="sec-title">🖥️ Basic Hardware</div>
+      <ul class="points">
+        <li>Only <strong>main memory</strong> and <strong>CPU registers</strong> are directly accessible by the CPU. Data not in memory must be moved there first.</li>
+        <li><strong>Cache memory</strong> buffers speed difference between CPU and main memory.</li>
+        <li>Each process has a separate memory space, protected by <strong>base</strong> and <strong>limit</strong> registers.</li>
+        <li><strong>Base register</strong> = smallest legal physical address. <strong>Limit register</strong> = size of the range.</li>
+        <li>CPU hardware compares every user-mode address with these registers; violation → trap (fatal error).</li>
+        <li>Only OS (in kernel mode) can load the base and limit registers (privileged instruction).</li>
+      </ul>
+      <div class="formula">Legal range: Base ≤ address ≤ Base + Limit
+Example: Base = 300040, Limit = 120900 → legal addresses: 300040 to 420939</div>
+    </div>
+
+    <div class="section a2">
+      <div class="sec-title">📍 Address Binding</div>
+      <p class="note">A program goes through stages before execution. Addresses change form at each stage:</p>
+      <ul class="points">
+        <li><strong>Source program</strong>: symbolic addresses (e.g., <code>count</code>)</li>
+        <li><strong>Compiler</strong>: relocatable addresses (e.g., "14 bytes from module start")</li>
+        <li><strong>Linker/Loader</strong>: absolute addresses (e.g., 74014)</li>
+      </ul>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Binding Time</th><th>When</th><th>Characteristic</th></tr>
+          <tr><td><strong>Compile Time</strong></td><td>If memory location known at compile time</td><td>Generates absolute code; must recompile if location changes. (MS-DOS .COM files)</td></tr>
+          <tr><td><strong>Load Time</strong></td><td>Location not known at compile time</td><td>Generates relocatable code; final binding at load time; just reload on address change</td></tr>
+          <tr><td><strong>Execution Time</strong></td><td>Process can move during execution</td><td>Binding delayed to runtime; needs MMU hardware. Used by most modern OSes</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section a3">
+      <div class="sec-title">🔄 Logical vs Physical Address Space</div>
+      <ul class="points">
+        <li><strong>Logical address (virtual address)</strong>: Generated by CPU. What program sees.</li>
+        <li><strong>Physical address</strong>: Seen by memory unit; loaded into memory address register.</li>
+        <li>Compile-time and load-time binding → logical = physical.</li>
+        <li>Execution-time binding → logical ≠ physical (they differ!).</li>
+        <li><strong>MMU (Memory Management Unit)</strong>: Hardware device that maps virtual → physical at runtime.</li>
+        <li>Base register = <strong>relocation register</strong>. Physical address = logical address + relocation register value.</li>
+        <li>User program NEVER sees real physical addresses; always works with logical addresses.</li>
+      </ul>
+      <div class="formula">Physical Address = Logical Address + Relocation Register
+Example: Base = 14000, Logical = 346 → Physical = 14346</div>
+    </div>
+
+    <div class="section a4">
+      <div class="sec-title">📦 Dynamic Loading</div>
+      <ul class="points">
+        <li>A routine is <strong>not loaded until it is called</strong>. All routines kept on disk in relocatable format.</li>
+        <li>Main program loads; when routine needed, relocatable linking loader loads it and updates address tables.</li>
+        <li><strong>Advantage:</strong> Unused routines never loaded → better memory utilization. Ideal for large programs with infrequently used error handlers.</li>
+        <li>Does NOT require special OS support — responsibility of programmer/user.</li>
+      </ul>
+    </div>
+
+    <div class="section a5">
+      <div class="sec-title">🔁 Swapping</div>
+      <ul class="points">
+        <li>A process can be <strong>swapped out</strong> to backing store (fast disk) and later <strong>swapped in</strong> for continued execution.</li>
+        <li>In round-robin scheduling: when quantum expires, memory manager swaps out finished process, swaps in next.</li>
+        <li><strong>Roll out, roll in</strong>: Priority-based variant — higher-priority process preempts lower-priority; lower swapped out, later restored.</li>
+        <li>Normally process swaps back to <strong>same memory space</strong> (if compile/load-time binding). With execution-time binding, can swap to different location.</li>
+        <li><strong>Backing store</strong>: Fast disk; must accommodate all memory images; system maintains a <strong>ready queue</strong>.</li>
+        <li>Standard swapping rarely used today — too slow. Modified versions used in UNIX (triggered by high memory load).</li>
+      </ul>
+      <div class="callout warn">Dispatcher checks if next process is in memory. If not and no free memory → swaps out a current process first, then loads desired process.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ UNIT 5 ═══════════════════════════════ -->
+<section class="chapter" id="unit5">
+  <div class="ch-header" onclick="toggle(this)">
+    <span class="ch-num">UNIT 5</span>
+    <span class="ch-title">Memory Allocation, Paging, Segmentation & Virtual Memory</span>
+    <span class="ch-toggle">▾</span>
+  </div>
+  <div class="ch-body">
+
+    <div class="section">
+      <div class="sec-title">🗂️ Contiguous Memory Allocation</div>
+      <ul class="points">
+        <li>Memory split into: <strong>OS partition</strong> + <strong>User process partition</strong>.</li>
+        <li>Each process occupies a <strong>single contiguous section</strong> of memory.</li>
+        <li><strong>Relocation register</strong>: smallest physical address. <strong>Limit register</strong>: range of logical addresses.</li>
+        <li>Every address checked: logical address must be &lt; limit; physical = logical + relocation.</li>
+      </ul>
+      <h3>Memory Allocation Strategies (for holes)</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Strategy</th><th>How it works</th><th>Leftover hole</th></tr>
+          <tr><td><strong>First Fit</strong></td><td>Allocate first hole big enough</td><td>Varies</td></tr>
+          <tr><td><strong>Next Fit</strong></td><td>Like first fit but starts from where last search left off</td><td>Varies</td></tr>
+          <tr><td><strong>Best Fit</strong></td><td>Allocate smallest hole that fits (must search all)</td><td>Smallest possible</td></tr>
+          <tr><td><strong>Worst Fit</strong></td><td>Allocate largest hole (must search all)</td><td>Largest possible</td></tr>
+        </table>
+      </div>
+      <div class="callout">First Fit and Best Fit are better than Worst Fit in time and storage. First Fit is generally faster than Best Fit.</div>
+    </div>
+
+    <div class="section a3">
+      <div class="sec-title">💥 Fragmentation</div>
+      <div class="grid2">
+        <div>
+          <h3>External Fragmentation</h3>
+          <ul class="points">
+            <li>Total memory space is enough but it is <strong>not contiguous</strong>.</li>
+            <li>Free space scattered in small holes between processes.</li>
+            <li>Suffered by: First Fit and Best Fit.</li>
+            <li><strong>Solution: Compaction</strong> — shuffle memory to combine all holes. Only possible with execution-time binding.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Internal Fragmentation</h3>
+          <ul class="points">
+            <li>Memory allocated to a process is <strong>slightly larger than requested</strong>.</li>
+            <li>Difference between allocated and actually needed = wasted space <em>inside</em> the partition.</li>
+            <li>Caused by: fixed block allocation (paging).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section a2">
+      <div class="sec-title">📄 Paging — Basic Method</div>
+      <ul class="points">
+        <li>Physical memory split into fixed-size blocks called <strong>frames</strong>. Logical memory split into same-size blocks called <strong>pages</strong>.</li>
+        <li>When process executes, its pages loaded into any available frames (non-contiguous OK!).</li>
+        <li>CPU generates: <strong>page number (p)</strong> + <strong>page offset (d)</strong>.</li>
+        <li><strong>Page table</strong>: maps page number → frame number (base address in physical memory).</li>
+        <li>Physical address = (frame number × page size) + offset.</li>
+        <li>Paging eliminates <strong>external fragmentation</strong> but may cause <strong>internal fragmentation</strong> (last frame may not be full).</li>
+        <li>Page size is power of 2 (typically 512B to 16MB) — makes translation easy.</li>
+      </ul>
+      <div class="formula">Logical address size = 2ᵐ bits, Page size = 2ⁿ
+→ High-order (m−n) bits = page number | Low-order n bits = page offset
+
+Example: Page size 4B, logical addr 13 → page 3 (=13÷4), offset 1 (=13%4)
+If page 3 → frame 2 → Physical = 2×4 + 1 = 9</div>
+
+      <h3>Frame Table</h3>
+      <ul class="points">
+        <li>OS maintains a <strong>frame table</strong>: one entry per physical frame, shows free/allocated and which process's page it holds.</li>
+        <li>OS keeps copy of page table for address translation and for CPU dispatcher to set hardware page table.</li>
+      </ul>
+    </div>
+
+    <div class="section a4">
+      <div class="sec-title">⚡ TLB — Translation Lookaside Buffer</div>
+      <ul class="points">
+        <li>Page table in main memory requires 2 memory accesses (page table + actual data) → slow!</li>
+        <li><strong>TLB</strong>: Small, fast associative cache. Stores subset of page table entries.</li>
+        <li>TLB search: Page number compared with ALL keys simultaneously.</li>
+        <li><strong>TLB Hit</strong>: Frame number immediately available → 1 memory access total.</li>
+        <li><strong>TLB Miss</strong>: Access page table in memory → get frame, then add (page#, frame#) to TLB → 2 memory accesses.</li>
+        <li>TLB typically holds 64–1024 entries. Replacement: LRU or random.</li>
+        <li><strong>Hit ratio</strong>: % of times page number found in TLB.</li>
+        <li><strong>ASID (Address Space ID)</strong>: Stored in TLB entries to identify processes; prevents wrong translations during context switch. Without ASID → flush TLB on every context switch.</li>
+      </ul>
+
+      <h3>Protection in Paging</h3>
+      <ul class="points">
+        <li>Each page table entry has <strong>protection bits</strong> (read-write / read-only) and a <strong>valid-invalid bit</strong>.</li>
+        <li>Valid bit = page in process's logical address space. Invalid = page not in address space (trap if accessed).</li>
+      </ul>
+    </div>
+
+    <div class="section a5">
+      <div class="sec-title">📏 Segmentation</div>
+      <ul class="points">
+        <li>Supports user's view of memory as a collection of <strong>variable-sized named segments</strong> (code, stack, heap, global data, etc.).</li>
+        <li>Logical address: <strong>&lt;segment-number s, offset d&gt;</strong></li>
+        <li><strong>Segment table</strong>: each entry has <strong>base</strong> (starting physical address) and <strong>limit</strong> (length of segment).</li>
+        <li>If d &lt; limit: physical address = base + d. Else: trap (addressing error).</li>
+        <li>Eliminates <strong>internal fragmentation</strong> but suffers from <strong>external fragmentation</strong>.</li>
+      </ul>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Segmentation</th><th>Paging</th></tr>
+          <tr><td>Variable-size segments</td><td>Fixed-size pages</td></tr>
+          <tr><td>Visible to user</td><td>Invisible to user</td></tr>
+          <tr><td>User/compiler divides</td><td>OS divides</td></tr>
+          <tr><td>Eliminates internal fragmentation</td><td>Eliminates external fragmentation</td></tr>
+          <tr><td>Suffers external fragmentation</td><td>Suffers internal fragmentation</td></tr>
+          <tr><td>Segment number + offset → physical</td><td>Page number + offset → physical</td></tr>
+          <tr><td>Slower</td><td>Faster</td></tr>
+          <tr><td>Segment table: limit + base fields</td><td>Page table: only base/index field</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">🌐 Virtual Memory — Background</div>
+      <ul class="points">
+        <li>Allows execution of processes <strong>not completely in memory</strong>. Programs can be larger than physical memory.</li>
+        <li>Abstracts main memory into a large uniform array of storage — separates logical from physical memory.</li>
+        <li>Benefits: Programs not constrained by physical memory size; more processes run simultaneously; less I/O needed.</li>
+        <li><strong>Virtual address space</strong>: starts at 0, contiguous — heap grows up, stack grows down. Space between = sparse (hole).</li>
+        <li>Virtual memory also enables <strong>shared libraries</strong>, <strong>shared memory between processes</strong>, and faster process creation via <code>fork()</code>.</li>
+      </ul>
+    </div>
+
+    <div class="section a2">
+      <div class="sec-title">📥 Demand Paging</div>
+      <ul class="points">
+        <li>Load pages <strong>only when needed</strong> (demanded). Pages never accessed → never loaded.</li>
+        <li>Uses a <strong>lazy swapper (pager)</strong> — never swaps a page in unless needed. Pager handles individual pages; swapper handles entire processes.</li>
+        <li>Uses <strong>valid-invalid bit</strong>: valid = page in memory; invalid = page on disk or not in address space.</li>
+        <li>Process runs normally until it accesses an invalid page → <strong>Page Fault!</strong></li>
+      </ul>
+      <h3>Page Fault Handling Steps</h3>
+      <ul class="points">
+        <li><strong>1.</strong> Check internal table (PCB) — valid or invalid reference?</li>
+        <li><strong>2.</strong> Invalid reference → terminate process. Valid but not in memory → continue.</li>
+        <li><strong>3.</strong> Find a free frame from free-frame list.</li>
+        <li><strong>4.</strong> Schedule disk read of desired page into new frame.</li>
+        <li><strong>5.</strong> When disk read complete → update page table (mark valid).</li>
+        <li><strong>6.</strong> Restart the instruction that caused the trap.</li>
+      </ul>
+      <div class="callout">Pure Demand Paging: Start process with NO pages in memory. Pages faulted in as needed. Theoretically valid; locality of reference makes it practical.</div>
+    </div>
+
+    <div class="section a3">
+      <div class="sec-title">🔄 Page Replacement</div>
+      <ul class="points">
+        <li>When a page fault occurs and NO free frame exists → need to replace an existing page.</li>
+        <li><strong>Modify (dirty) bit</strong>: If set, page has been modified → must write to disk before replacing. If not set → just overwrite (saves I/O).</li>
+        <li>Reference string evaluated to compare algorithms. Goal: minimize page faults.</li>
+      </ul>
+
+      <h3>FIFO Page Replacement <span class="badge gold">Simple</span></h3>
+      <ul class="points">
+        <li>Replace the page that has been in memory the <strong>longest</strong>.</li>
+        <li>Implemented with a queue; replace the head, insert new at tail.</li>
+        <li>For reference string <code>7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1</code> with 3 frames → <strong>15 page faults</strong>.</li>
+        <li><strong>Belady's Anomaly</strong>: MORE frames can lead to MORE page faults with FIFO (e.g., string 1,2,3,4,1,2,5,1,2,3,4,5 → 3 frames=9 faults, 4 frames=10 faults).</li>
+      </ul>
+
+      <h3>Optimal Page Replacement (OPT / MIN) <span class="badge green">Best</span></h3>
+      <ul class="points">
+        <li>Replace the page that will <strong>NOT be used for the longest time</strong> in the future.</li>
+        <li>Guarantees the <strong>lowest possible page fault rate</strong>. Never suffers Belady's anomaly.</li>
+        <li>Same reference string → <strong>9 page faults</strong>.</li>
+        <li>Impossible to implement in practice (requires future knowledge). Used as a benchmark.</li>
+      </ul>
+
+      <h3>LRU Page Replacement <span class="badge red">Most Used</span></h3>
+      <ul class="points">
+        <li>Replace the page that has <strong>not been used for the longest time</strong> (past approximates future).</li>
+        <li>Associates each page with the time of its last use.</li>
+        <li>Same reference string → <strong>12 page faults</strong> (between FIFO=15 and OPT=9).</li>
+        <li>Does NOT suffer from Belady's anomaly.</li>
+        <li>Implementation needs hardware assistance (counter or stack for each page).</li>
+      </ul>
+
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Algorithm</th><th>Basis</th><th>Faults (3 frames, same string)</th><th>Belady's Anomaly</th></tr>
+          <tr><td>FIFO</td><td>Time brought in (oldest)</td><td>15</td><td>Yes ⚠️</td></tr>
+          <tr><td>Optimal</td><td>Future usage</td><td>9</td><td>No ✓</td></tr>
+          <tr><td>LRU</td><td>Past usage (least recently used)</td><td>12</td><td>No ✓</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ UNIT 6 ═══════════════════════════════ -->
+<section class="chapter" id="unit6">
+  <div class="ch-header" onclick="toggle(this)">
+    <span class="ch-num">UNIT 6</span>
+    <span class="ch-title">File System Management</span>
+    <span class="ch-toggle">▾</span>
+  </div>
+  <div class="ch-body">
+
+    <div class="section">
+      <div class="sec-title">📁 File Concept</div>
+      <ul class="points">
+        <li>A <strong>file</strong> is a named collection of related information recorded on secondary storage. Smallest logical allotment of secondary storage.</li>
+        <li>Can represent programs (source/object) or data (numeric, text, binary).</li>
+        <li>Types by structure: text file, source file, object file, executable file.</li>
+      </ul>
+      <h3>File Attributes</h3>
+      <ul class="points">
+        <li><strong>Name</strong>: Only human-readable info. <strong>Identifier</strong>: unique number within file system.</li>
+        <li><strong>Type</strong>: needed for systems supporting different file types. <strong>Location</strong>: pointer to device and location on it.</li>
+        <li><strong>Size</strong>: current size in bytes/words/blocks. <strong>Protection</strong>: access-control info.</li>
+        <li><strong>Time, date, user ID</strong>: for creation, last modification, last use.</li>
+      </ul>
+    </div>
+
+    <div class="section a2">
+      <div class="sec-title">⚙️ File Operations (6 Basic)</div>
+      <ul class="points">
+        <li><strong>Create:</strong> Find space in file system + make directory entry.</li>
+        <li><strong>Write:</strong> System call with file name + info to write. System maintains <strong>write pointer</strong>.</li>
+        <li><strong>Read:</strong> System call with file name + memory location. System maintains <strong>read pointer</strong>.</li>
+        <li><strong>Reposition (Seek):</strong> Move current-file-position pointer to given value. No actual I/O needed.</li>
+        <li><strong>Delete:</strong> Find in directory, release file space, erase directory entry.</li>
+        <li><strong>Truncate:</strong> Erase content but keep attributes; reset length to 0, release space.</li>
+      </ul>
+      <div class="callout">open() system call: Searches directory, copies entry to open-file table, returns pointer (file descriptor) for subsequent I/O — avoids repeated directory searches.</div>
+      <p class="note">Open-file table info: <strong>File pointer</strong> (current position), <strong>File-open count</strong> (how many processes), <strong>Disk location</strong> (cached), <strong>Access rights</strong>.</p>
+      <p class="note"><strong>Mandatory locking</strong> (Windows): OS prevents access to locked file. <strong>Advisory locking</strong> (UNIX): Software must acquire lock manually.</p>
+    </div>
+
+    <div class="section a3">
+      <div class="sec-title">📂 File Types</div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>File Type</th><th>Usual Extension</th><th>Function</th></tr>
+          <tr><td>Executable</td><td>exe, com, bin</td><td>Ready-to-run machine language program</td></tr>
+          <tr><td>Object</td><td>obj, o</td><td>Compiled, machine language, not linked</td></tr>
+          <tr><td>Source code</td><td>c, cc, java, asm</td><td>Source code in various languages</td></tr>
+          <tr><td>Batch</td><td>bat, sh</td><td>Commands to interpreter</td></tr>
+          <tr><td>Markup</td><td>xml, html, tex</td><td>Textual data/documents</td></tr>
+          <tr><td>Archive</td><td>rar, zip, tar</td><td>Related files grouped, sometimes compressed</td></tr>
+          <tr><td>Multimedia</td><td>mpeg, mp3, avi</td><td>Binary audio/video information</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section a4">
+      <div class="sec-title">🔍 File Access Methods</div>
+      <div class="grid2">
+        <div>
+          <h3>Sequential Access</h3>
+          <ul class="points">
+            <li>Process data in order, one record after another.</li>
+            <li><strong>read next</strong>: reads next portion, advances file pointer.</li>
+            <li><strong>write next</strong>: appends to end, advances pointer.</li>
+            <li>Based on tape model. Most common access method.</li>
+            <li>Used by editors, compilers.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Direct Access (Relative)</h3>
+          <ul class="points">
+            <li>Fixed-length logical records; read/write in any order.</li>
+            <li>File = numbered sequence of blocks/records.</li>
+            <li>Based on disk model (random access).</li>
+            <li>Operations: <code>read n</code>, <code>write n</code>, or position to n + read next.</li>
+            <li>Uses <strong>relative block number</strong> (index from file start).</li>
+            <li>Great for databases.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Index Sequential Access (ISAM)</h3>
+      <ul class="points">
+        <li>Index file contains pointers to data blocks. Binary search on index → find block → sequential within block.</li>
+        <li>For large files: multilevel index (primary index → secondary index → data).</li>
+        <li>Allows both sequential and direct access.</li>
+      </ul>
+    </div>
+
+    <div class="section a5">
+      <div class="sec-title">🗃️ Directory Structure</div>
+
+      <h3>Storage Structure</h3>
+      <ul class="points">
+        <li>Disk divided into <strong>partitions/slices/volumes</strong>. Each can have its own file system.</li>
+        <li><strong>Volume</strong> = virtual disk. Contains a <strong>device directory / volume table of contents</strong> with info (name, location, size, type) for all files.</li>
+      </ul>
+
+      <h3>1. Single-Level Directory</h3>
+      <ul class="points">
+        <li>All files in ONE directory. Simple but limited.</li>
+        <li>Problems: All file names must be unique; difficult for multiple users; name collision inevitable.</li>
+      </ul>
+
+      <h3>2. Two-Level Directory</h3>
+      <ul class="points">
+        <li><strong>Master File Directory (MFD)</strong>: indexed by user name/account; points to each user's directory.</li>
+        <li><strong>User File Directory (UFD)</strong>: each user has their own. Different users can have files with the same name.</li>
+        <li>Path: <code>/username/filename</code>. Problem: isolation — users can't share files easily.</li>
+      </ul>
+
+      <h3>3. Tree-Structured Directory</h3>
+      <ul class="points">
+        <li>Arbitrary depth tree. Users create subdirectories. Most common structure.</li>
+        <li><strong>Absolute path</strong>: from root to file. <strong>Relative path</strong>: from current directory.</li>
+        <li>Each process has a <strong>current directory</strong>. Change with system call.</li>
+        <li>Directory deletion: MS-DOS (must be empty) vs UNIX <code>rm -r</code> (recursive delete).</li>
+        <li>One bit per directory entry: 0 = file, 1 = subdirectory.</li>
+      </ul>
+
+      <h3>4. Acyclic-Graph Directory</h3>
+      <ul class="points">
+        <li>Allows <strong>shared files/directories</strong> — same file can appear in two different directories.</li>
+        <li>Implemented via <strong>links</strong> (UNIX) — pointer (absolute/relative path) to actual file.</li>
+        <li>Shared file ≠ two copies. Changes by one user visible to all immediately.</li>
+        <li>Problem: <strong>dangling pointers</strong> if file deleted while links remain. Solution: reference counting (delete only when count = 0).</li>
+        <li>A file may have multiple absolute path names (aliasing problem).</li>
+      </ul>
+
+      <h3>5. General Graph Directory</h3>
+      <ul class="points">
+        <li>Acyclic graph + links → may create <strong>cycles</strong>.</li>
+        <li>Cycles make traversal complex (infinite loops). Solution: limit number of directories accessed in search.</li>
+        <li>Reference count may not reach 0 with cycles → need <strong>garbage collection</strong> (mark-and-sweep), but very time-consuming for disks.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="sec-title">🔐 Protection</div>
+      <h3>Types of Access</h3>
+      <ul class="points">
+        <li>Read, Write, Execute, Append, Delete, List.</li>
+        <li>Other operations (rename, copy, edit) often implemented using lower-level calls.</li>
+      </ul>
+      <h3>Access Control List (ACL)</h3>
+      <ul class="points">
+        <li>Associate each file with list of (user, access-type) pairs.</li>
+        <li>Problem: list can be very long. Solution: <strong>condensed ACL</strong> using three classes:</li>
+        <li><strong>Owner</strong> (creator), <strong>Group</strong> (sharing users), <strong>Universe</strong> (all others).</li>
+        <li>UNIX: 3 fields × 3 bits = 9 bits per file. <code>rwx rwx rwx</code> (owner, group, others).</li>
+        <li>Solaris: combines three-category with ACL (ACL for fine-grained, ACL takes precedence).</li>
+        <li>Windows (NTFS): ACL management via GUI.</li>
+      </ul>
+    </div>
+
+    <div class="section a2">
+      <div class="sec-title">💾 Disk Space Allocation Methods</div>
+
+      <h3>1. Contiguous Allocation <span class="badge gold">Simple</span></h3>
+      <ul class="points">
+        <li>Each file occupies a set of <strong>contiguous blocks</strong> on disk.</li>
+        <li>Directory entry stores: <strong>start block</strong> + <strong>length</strong> (in blocks).</li>
+        <li>File of n blocks starting at b: occupies blocks b, b+1, ..., b+n-1.</li>
+        <li>Supports both <strong>sequential</strong> and <strong>direct access</strong> efficiently (block i → access block b+i).</li>
+        <li><strong>Problems:</strong> External fragmentation; must know file size at creation; extending a file is difficult (adjacent space may be taken).</li>
+        <li>Strategies for free space: First Fit, Best Fit. Both suffer external fragmentation.</li>
+      </ul>
+
+      <h3>2. Linked Allocation <span class="badge green">Flexible</span></h3>
+      <ul class="points">
+        <li>Each file = <strong>linked list of disk blocks</strong>; blocks scattered anywhere on disk.</li>
+        <li>Directory stores: pointer to <strong>first</strong> and <strong>last</strong> block. Each block contains pointer to next.</li>
+        <li><strong>No external fragmentation</strong>. File size need not be declared. Files grow as long as free blocks available.</li>
+        <li><strong>Problems:</strong> Only efficient for sequential access (direct access requires traversal); pointer space overhead (4B per 512B block = 0.78%); reliability (corrupt pointer breaks chain).</li>
+        <li>Solution for pointer overhead: <strong>clusters</strong> (group blocks). Increases internal fragmentation.</li>
+        <li><strong>FAT (File Allocation Table)</strong>: Variation. Table at start of volume, one entry per block. Directory has first block number; FAT has chain of next blocks. Used by MS-DOS, OS/2. Improves random access but requires FAT caching.</li>
+      </ul>
+
+      <h3>3. Indexed Allocation <span class="badge red">Best for Direct</span></h3>
+      <ul class="points">
+        <li>All block pointers collected into one <strong>index block</strong> per file.</li>
+        <li>Directory stores address of the index block. ith entry in index block → ith block of file.</li>
+        <li>Supports <strong>direct access</strong> without external fragmentation.</li>
+        <li><strong>Problems:</strong> Index block takes space even for small files. Pointer overhead greater than linked allocation.</li>
+        <li>For very large files: multilevel index (linked index blocks or combined scheme).</li>
+      </ul>
+
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Method</th><th>Direct Access?</th><th>External Frag?</th><th>Internal Frag?</th><th>Size Declared?</th></tr>
+          <tr><td>Contiguous</td><td>✓ Efficient</td><td>Yes ⚠️</td><td>Possible</td><td>Must know at creation</td></tr>
+          <tr><td>Linked</td><td>Inefficient</td><td>No ✓</td><td>With clusters</td><td>Not needed</td></tr>
+          <tr><td>Indexed</td><td>✓ Efficient</td><td>No ✓</td><td>Small index block</td><td>Not needed</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="section a4">
+      <div class="sec-title">🗑️ Free Space Management</div>
+      <ul class="points">
+        <li>System maintains a <strong>free-space list</strong> of all unallocated disk blocks. Search when creating files; add when deleting.</li>
+      </ul>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Method</th><th>How it works</th><th>Advantage</th><th>Disadvantage</th></tr>
+          <tr><td><strong>Bit Vector (Bit Map)</strong></td><td>Each block = 1 bit. Free=1, Allocated=0. Scan for first non-zero word.</td><td>Simple; efficient (hardware bit ops); easy to find consecutive free blocks</td><td>Must keep entire vector in memory (impractical for huge disks)</td></tr>
+          <tr><td><strong>Linked List</strong></td><td>Link all free blocks; pointer to first free block stored on disk and cached in memory.</td><td>No wasted space; FAT incorporates this</td><td>Must traverse each block to find free list — slow (but rarely needed in full)</td></tr>
+          <tr><td><strong>Grouping</strong></td><td>First free block stores addresses of n free blocks. Last of n points to next group.</td><td>Can find large number of free blocks quickly</td><td>More complex than pure linked list</td></tr>
+          <tr><td><strong>Counting</strong></td><td>Store (first-free-block-address, count-of-consecutive-free-blocks) pairs.</td><td>Shorter list when contiguous blocks common (allocation + clustering)</td><td>Each entry needs more space than simple address</td></tr>
+        </table>
+      </div>
+      <div class="formula">Bit vector block number calculation:
+Block# = (bits per word × number of 0-value words) + offset of first 1-bit</div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<script>
+function toggle(header) {
+  const chapter = header.closest('.chapter');
+  chapter.classList.toggle('collapsed');
+}
+</script>
+
+</body>
+</html>
